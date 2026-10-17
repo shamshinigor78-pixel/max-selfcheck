@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'none';
+    script-src 'self' https://st.max.ru;
+    style-src 'self';
+    img-src 'self' data:;
+    font-src 'self';
+    connect-src 'none';
+    form-action 'none';
+    frame-ancestors 'none';
+    base-uri 'self';
+    object-src 'none';
+    upgrade-insecure-requests;
+  " />
+
+  <meta name="referrer" content="no-referrer" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Самодиагностика состояния</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <noscript>
+    <div style="padding:24px;text-align:center;font-family:sans-serif;">
+      Для работы приложения необходимо включить JavaScript.
+    </div>
+  </noscript>
+
+  <div id="app" hidden>
+    <!-- Экран приветствия -->
+    <section id="screen-start" class="screen active">
+      <div class="logo" aria-hidden="true">🧬</div>
+      <h1>Самодиагностика</h1>
+      <p class="subtitle" id="start-subtitle">Ответь на 13 вопросов и узнай, как сейчас чувствует твоё тело.</p>
+
+      <div class="privacy-note" role="note">
+        <strong>О приватности:</strong>
+        <ul>
+          <li>Ответы не сохраняются и никуда не передаются.</li>
+          <li>Данные исчезают при закрытии приложения.</li>
+          <li>Приложение не запрашивает доступ к камере, геолокации или контактам.</li>
+          <li>Если хотите сохранить результат — сделайте скриншот экрана после прохождения.</li>
+        </ul>
+      </div>
+
+      <button class="btn primary" id="btn-start" type="button">Начать</button>
+      <p class="hint">Это не медицинская диагностика. Результат носит ознакомительный характер.</p>
+    </section>
+
+    <!-- Экран вопроса -->
+    <section id="screen-question" class="screen">
+      <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress-wrap">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      <p class="progress-text"><span id="q-current">1</span> / <span id="q-total">13</span></p>
+      <h2 id="q-text">Вопрос</h2>
+      <div class="answers" id="answers"></div>
+    </section>
+
+    <!-- Экран результата -->
+    <section id="screen-result" class="screen">
+      <div class="result-icon" id="result-icon" aria-hidden="true"></div>
+      <h1 id="result-title">Результат</h1>
+      <p class="verdict" id="verdict"></p>
+
+      <div class="result-actions" id="result-actions"></div>
+
+      <p class="hint" id="result-hint"></p>
+
+      <button class="btn secondary" id="btn-restart" type="button">Пройти заново</button>
+      <button class="btn secondary" id="btn-close" type="button">Закрыть</button>
+    </section>
+  </div>
+
+  <script src="https://st.max.ru/js/max-web-app.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
