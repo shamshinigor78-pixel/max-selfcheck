@@ -20,36 +20,39 @@ html, body {
 }
 
 /* ============================================
-   ТЕМЫ
+   ТЁПЛАЯ ПАЛИТРА
    ============================================ */
 :root {
-  --bg: #ffffff;
-  --fg: #1a1a1a;
-  --muted: #8a8a8e;
-  --accent: #4a6cf7;
-  --accent-soft: #eef1fe;
-  --good: #22c55e;
-  --warn: #f59e0b;
-  --bad: #ef4444;
-  --border: #ececec;
-  --card-bg: #f8f8fa;
-  --note-bg: #fff8e6;
-  --note-border: #f0d89a;
-  --note-fg: #6b4e00;
+  --bg: #fbf9f6;
+  --fg: #2b2a28;
+  --muted: #8a8580;
+  --accent: #4a8f6f;
+  --accent-soft: #e8f0ea;
+  --good: #4a8f6f;
+  --warn: #d99a3c;
+  --bad: #c5543f;
+  --border: #ebe6df;
+  --card-bg: #f5f2ec;
+  --note-bg: #fdf6e3;
+  --note-border: #e8d9a8;
+  --note-fg: #7a5f1a;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #15161a;
-    --fg: #f0f0f2;
-    --muted: #9a9aa0;
-    --accent: #6b8afd;
-    --accent-soft: #1e2540;
-    --border: #2a2c33;
-    --card-bg: #1e2026;
-    --note-bg: #2a2410;
-    --note-border: #5a4a1a;
-    --note-fg: #f0d89a;
+    --bg: #1c1e1b;
+    --fg: #e8e6e2;
+    --muted: #9a9890;
+    --accent: #7ab88f;
+    --accent-soft: #253028;
+    --good: #7ab88f;
+    --warn: #e0b060;
+    --bad: #e07a5f;
+    --border: #33342f;
+    --card-bg: #24262a;
+    --note-bg: #2a2515;
+    --note-border: #5a4d20;
+    --note-fg: #e8d9a8;
   }
 }
 
@@ -76,8 +79,15 @@ body {
            calc(env(safe-area-inset-left, 0px) + 1.25rem);
 }
 
-.screen { display: none; }
-.screen.active { display: block; }
+/* ============================================
+   ЭКРАНЫ — ЖЁСТКОЕ СКРЫТИЕ
+   ============================================ */
+.screen {
+  display: none !important;
+}
+.screen.active {
+  display: block !important;
+}
 
 /* ============================================
    СТАРТОВЫЙ ЭКРАН
