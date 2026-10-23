@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Остеопластика | Телесно-фасциальная практика</title>
+  <title>Фасциальная практика Игоря Шамшина | Москва</title>
   <style>
     :root {
       --bg: #fbf9f6;
@@ -22,87 +22,159 @@
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
     }
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 40px 20px 80px;
-    }
+    .container { max-width: 700px; margin: 0 auto; padding: 40px 20px 80px; }
     
     /* Типографика */
-    h1 { font-size: 2rem; line-height: 1.2; margin-bottom: 20px; color: var(--fg); }
-    h2 { font-size: 1.5rem; margin: 40px 0 20px; color: var(--accent); }
+    h1 { font-size: 2.2rem; line-height: 1.2; margin-bottom: 20px; color: var(--fg); }
+    h2 { font-size: 1.6rem; margin: 50px 0 20px; color: var(--accent); line-height: 1.3; }
+    h3 { font-size: 1.2rem; margin-bottom: 10px; color: var(--fg); }
     p { font-size: 1.05rem; margin-bottom: 16px; color: #4a4845; }
     .highlight { font-weight: 600; color: var(--fg); }
+    .overline { text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; color: var(--accent); font-weight: 700; margin-bottom: 10px; display: block; }
 
-    /* Кнопка */
+    /* Кнопки */
     .btn {
-      display: block;
-      width: 100%;
-      background: var(--accent);
-      color: #fff;
-      text-align: center;
-      padding: 18px 20px;
-      border-radius: 12px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1.1rem;
-      margin: 30px 0;
-      transition: background 0.2s ease, transform 0.1s ease;
+      display: block; width: 100%; background: var(--accent); color: #fff;
+      text-align: center; padding: 18px 20px; border-radius: 12px;
+      text-decoration: none; font-weight: 600; font-size: 1.1rem;
+      margin: 30px 0 15px; transition: background 0.2s ease, transform 0.1s ease;
     }
     .btn:hover { background: var(--accent-hover); }
     .btn:active { transform: scale(0.98); }
+    .btn-note { text-align: center; font-size: 0.85rem; color: var(--muted); margin-bottom: 30px; }
 
     /* Карточки */
-    .card {
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 20px;
-    }
-    .card h3 { font-size: 1.2rem; margin-bottom: 10px; color: var(--fg); }
+    .card { background: var(--card-bg); border-radius: 16px; padding: 24px; margin-bottom: 20px; }
+    .card-icon { font-size: 2rem; margin-bottom: 10px; display: block; }
+
+    /* Таблица сравнения */
+    .compare-table { width: 100%; border-collapse: collapse; margin: 20px 0; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+    .compare-table th, .compare-table td { padding: 15px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+    .compare-table th { background: var(--card-bg); font-weight: 600; }
+    .compare-table tr:last-child td { border-bottom: none; }
+    .compare-table .col-bad { color: #a86a5a; }
+    .compare-table .col-good { color: var(--accent); font-weight: 500; }
     
-    /* Список */
+    /* Списки */
     ul { margin-bottom: 20px; padding-left: 20px; }
-    li { margin-bottom: 10px; font-size: 1.05rem; color: #4a4845; }
-    
+    li { margin-bottom: 12px; font-size: 1.05rem; color: #4a4845; }
+
+    /* Кейсы */
+    .case-card { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 20px; }
+    .case-img-placeholder { background: var(--card-bg); border-radius: 12px; height: 200px; display: flex; align-items: center; justify-content: center; color: var(--muted); margin-bottom: 15px; font-size: 0.9rem; }
+    .case-title { font-weight: 600; margin-bottom: 10px; color: var(--accent); }
+
     /* Подвал */
-    .footer { margin-top: 60px; text-align: center; font-size: 0.85rem; color: var(--muted); }
+    .footer { margin-top: 60px; padding-top: 30px; border-top: 1px solid var(--border); text-align: center; font-size: 0.9rem; color: var(--muted); }
   </style>
 </head>
 <body>
   <div class="container">
     
-    <h1>Верните телу легкость и свободу движений</h1>
-    <p>Если вы чувствуете скованность, усталость к вечеру или хотите улучшить осанку — это не значит, что вы больны. Это значит, что телу нужна бережная перезагрузка.</p>
-
-    <a href="tel:+79951149954" class="btn">Записаться на сеанс</a>
-
-    <h2>Что такое оздоровительная остеопластика?</h2>
-    <p>Это мягкая телесно-фасциальная практика. Мы работаем не только с мышцами, но и с глубокими структурами тела — фасциями, связками и костями черепа.</p>
+    <!-- Блок 1: Главный экран -->
+    <span class="overline">Тест пройден</span>
+    <h1>Верните телу природную легкость, симметрию и свободу движений за 2–3 сессии</h1>
+    <p>Авторская фасциальная практика в Москве от Игоря Шамшина. Бережное освобождение от зажимов, отеков и хронической усталости. Без боли, жестких скручиваний и медицинского вмешательства.</p>
     
-    <div class="card">
-      <h3>Это не классический массаж</h3>
-      <p>Массаж работает с поверхностными мышцами. Остеопластика — это тонкая настройка всего тела. Работа идет мягко, без боли и хруста, но затрагивает глубокие причины напряжения.</p>
+    <!-- Место для фото Игоря -->
+    <div class="case-img-placeholder" style="margin: 25px 0; height: 300px;">
+      [Здесь будет эстетичное фото Игоря в кабинете]
     </div>
 
-    <h2>Почему мне можно доверять?</h2>
-    <p>Забота о теле требует не только чутких рук, но и фундаментальных знаний.</p>
-    <ul>
-      <li><span class="highlight">Медицинское образование.</span> Я понимаю анатомию и физиологию человека не по картинкам.</li>
-      <li><span class="highlight">Профильное обучение.</span> Прошел специализированное обучение авторской методике остеопластики.</li>
-      <li><span class="highlight">Безопасность.</span> На сеансе мы исключаем любые риски, работая строго в рамках оздоровительной практики.</li>
-    </ul>
+    <!-- Замени ссылку в href на бота MAX, когда будет готов -->
+    <a href="https://max.ru/ВАШ_БОТ" class="btn">Забронировать сессию за 8 000 ₽</a>
+    <p class="btn-note">Для прошедших тест в MAX — гайд по экспресс-разгрузке шеи в подарок при записи сегодня.</p>
 
-    <h2>Как проходит сеанс?</h2>
-    <p>1. <span class="highlight">Диалог.</span> Обсуждаем ваши ощущения и запросы.</p>
-    <p>2. <span class="highlight">Работа с телом.</span> Мягкие, плавные движения, направленные на снятие напряжения и балансировку фасциальной сети.</p>
-    <p>3. <span class="highlight">Результат.</span> Вы уходите с ощущением легкости, правильной осанки и глубокого расслабления.</p>
+    <!-- Блок 2: Сравнение -->
+    <h2>Почему 1 сессия фасциальной практики эффективнее и выгоднее, чем целый курс обычного массажа?</h2>
+    <p>Когда у вас болит шея или тянет поясницу, первая мысль — записаться на классический массаж. Но почему после курса из 10 сеансов дискомфорт возвращается уже через неделю? Потому что массаж работает только с верхушкой айсберга — с мышцами. Игорь Шамшин работает с первопричиной.</p>
 
-    <a href="tel:+79951149954" class="btn">Записаться по телефону</a>
+    <table class="compare-table">
+      <tr>
+        <th>Критерий</th>
+        <th>Обычный массаж</th>
+        <th>У Игоря Шамшина</th>
+      </tr>
+      <tr>
+        <td><strong>Объект работы</strong></td>
+        <td class="col-bad">Растирание и разминание мышц. Эффект поверхностный.</td>
+        <td class="col-good">Глубокая ручная работа с фасциями (оболочками мышц), связками и швами черепа.</td>
+      </tr>
+      <tr>
+        <td><strong>Поиск первопричины</strong></td>
+        <td class="col-bad">Работа по шаблону: болит шея — мнем шею. Источник проблемы не ищут.</td>
+        <td class="col-good">Индивидуальный разбор. Если шею тянет из-за перекоса таза, Игорь расслабит таз, и шея пройдет сама.</td>
+      </tr>
+      <tr>
+        <td><strong>Длительность эффекта</strong></td>
+        <td class="col-bad">Облегчение на 2–3 дня. Мышцы быстро зажимаются обратно.</td>
+        <td class="col-good">Накопительный эффект. Тело перестраивает «архитектуру» и держит баланс месяцами.</td>
+      </tr>
+      <tr>
+        <td><strong>Ваши затраты</strong></td>
+        <td class="col-bad">Курс из 10–12 сеансов (каждый по 3 500–4 000 ₽) = до 48 000 ₽. Плюс 15–20 часов вашего времени на поездки.</td>
+        <td class="col-good">Всего 2–3 сессии (по 8 000 ₽) = 16 000 – 24 000 ₽. Вы экономите до 50% бюджета и тонну личного времени.</td>
+      </tr>
+    </table>
+
+    <p>Сессия у Игоря Шамшина стоит 8 000 рублей, потому что это штучная, ювелирная работа ручной сборки. Вы платите не за время, проведенное на кушетке, а за долгосрочный результат и свободу от вечного напряжения.</p>
+
+    <!-- Блок 3: Локации -->
+    <h2>Два пространства в Москве — выбирайте, где вам удобнее расслабиться</h2>
+    <p>Игорь Шамшин принимает в современных, стильных остео-коворкингах премиум-класса. Никакой больничной атмосферы, белых халатов, очередей и стресса. Только тишина, приватность и тотальный фокус на вашем теле.</p>
     
+    <div class="card">
+      <span class="card-icon">📍</span>
+      <h3>Центр: м. Китай-город</h3>
+      <p>Идеально для тех, кто хочет перезагрузиться в разгар рабочего дня или после офиса.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🌿</span>
+      <h3>Мягкий темп: м. Сокольники</h3>
+      <p>Удобная локация для спокойного визита в выходные или будни.</p>
+    </div>
+    <p>В каждом кабинете: анатомические кушетки, мягкий приглушенный свет, безупречная чистота и полная изоляция от городского шума.</p>
+
+    <!-- Блок 4: Результаты -->
+    <h2>Что меняется в вашей жизни и теле после 2–3 сессий?</h2>
+    <p>Фасциальная практика восстанавливает ось тела. Когда внутреннее напряжение уходит, органы и мышцы встают на свои природные места. Вот с какими результатами чаще всего выходят клиенты Игоря:</p>
+
+    <h3>✨ Лицо без отеков («Эффект свежести»)</h3>
+    <p>За счет освобождения фасций шеи и черепа восстанавливается лимфоток. Лицо «худеет», уходят утренние отеки под глазами, подтягивается овал лица без уколов косметолога.</p>
+
+    <h3>🦴 Свобода от сутулости</h3>
+    <p>Плечи раскрываются сами, грудная клетка приподнимается. Вам больше не нужно делать над собой усилие, чтобы «держать спину ровно» — телу становится комфортно сидеть и ходить прямо.</p>
+
+    <h3>🛡 Решение интимных проблем (Восстановление мышц тазового дна)</h3>
+    <p>Перекос таза часто приводит к слабости глубоких мышц. Игорь мягко возвращает кости таза в баланс. В результате уходит подтекание мочи при кашле, чихании или прыжках — проблема, с которой многие живут годами, решается за несколько сессий.</p>
+
+    <h3>🦵 Легкость в ногах</h3>
+    <p>Уходит вечная свинцовая тяжесть и вечерняя отечность ног. Вы снова можете много ходить и не чувствовать себя разбитым к концу дня.</p>
+
+    <!-- Блок 5: Кейсы -->
+    <h2>Реальные истории клиентов</h2>
+    
+    <div class="case-card">
+      <div class="case-img-placeholder">[Фото профиля: осанка до/после]</div>
+      <div class="case-title">Екатерина, 37 лет</div>
+      <p><strong>Жалобы:</strong> «Компьютерная шея», сутулость и вечные отеки лица.</p>
+      <p><strong>Результат:</strong> После 2 сессий у Игоря ушла привычка горбиться, визуально удлинилась шея, спали отеки. Бонус — лицо стало выглядеть на пару лет моложе.</p>
+    </div>
+
+    <div class="case-card">
+      <div class="case-img-placeholder">[Скриншот отзыва или эстетичный силуэт]</div>
+      <div class="case-title">Мария, 32 года (через год после родов)</div>
+      <p><strong>Жалобы:</strong> Тяжесть в ногах и деликатная проблема — подтекание мочи при чихании и смехе. Массаж спины и упражнения Кегеля не давали результата.</p>
+      <p><strong>Результат:</strong> После 3 сессий (работа с балансом таза и фасциями) проблема с подтеканием полностью ушла. Появилась легкость в ногах, улучшился сон.</p>
+    </div>
+
+    <!-- Финальный призыв -->
+    <a href="https://max.ru/ВАШ_БОТ" class="btn">Забронировать сессию</a>
+
+    <!-- Подвал -->
     <div class="footer">
       <p>Связь со мной: <a href="tel:+79951149954" style="color: var(--accent); text-decoration: none;">+7 (995) 114-99-54</a></p>
-      <p style="margin-top: 10px;">Напоминаю: остеопластика — это оздоровительная практика, а не медицинская диагностика или лечение.</p>
+      <p style="margin-top: 10px; font-size: 0.8rem;">Фасциальная практика — это оздоровительный метод. Она не заменяет медицинскую диагностику или лечение. При наличии острых состояний рекомендуется консультация врача.</p>
     </div>
 
   </div>
