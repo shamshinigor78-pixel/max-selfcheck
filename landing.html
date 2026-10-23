@@ -33,14 +33,23 @@
     .overline { text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; color: var(--accent); font-weight: 700; margin-bottom: 10px; display: block; }
 
     /* Кнопки */
+    .btn-group { display: flex; flex-direction: column; gap: 12px; margin: 30px 0 15px; }
+    
     .btn {
       display: block; width: 100%; background: var(--accent); color: #fff;
       text-align: center; padding: 18px 20px; border-radius: 12px;
       text-decoration: none; font-weight: 600; font-size: 1.1rem;
-      margin: 30px 0 15px; transition: background 0.2s ease, transform 0.1s ease;
+      transition: background 0.2s ease, transform 0.1s ease;
     }
     .btn:hover { background: var(--accent-hover); }
     .btn:active { transform: scale(0.98); }
+    
+    .btn-outline {
+      background: transparent; color: var(--accent);
+      border: 2px solid var(--accent);
+    }
+    .btn-outline:hover { background: var(--accent-soft); }
+
     .btn-note { text-align: center; font-size: 0.85rem; color: var(--muted); margin-bottom: 30px; }
 
     /* Карточки */
@@ -81,8 +90,11 @@
       [Здесь будет эстетичное фото Игоря в кабинете]
     </div>
 
-    <!-- Замени ссылку в href на бота MAX, когда будет готов -->
-    <a href="https://max.ru/ВАШ_БОТ" class="btn">Забронировать сессию за 8 000 ₽</a>
+    <!-- Кнопки записи (верхние) -->
+    <div class="btn-group">
+      <a href="https://max.ru/ВАШ_БОТ" class="btn">Написать в MAX</a>
+      <a href="tel:+79951149954" class="btn btn-outline">Позвонить</a>
+    </div>
     <p class="btn-note">Для прошедших тест в MAX — гайд по экспресс-разгрузке шеи в подарок при записи сегодня.</p>
 
     <!-- Блок 2: Сравнение -->
@@ -168,8 +180,11 @@
       <p><strong>Результат:</strong> После 3 сессий (работа с балансом таза и фасциями) проблема с подтеканием полностью ушла. Появилась легкость в ногах, улучшился сон.</p>
     </div>
 
-    <!-- Финальный призыв -->
-    <a href="https://max.ru/ВАШ_БОТ" class="btn">Забронировать сессию</a>
+    <!-- Кнопки записи (нижние) -->
+    <div class="btn-group">
+      <a href="https://max.ru/ВАШ_БОТ" class="btn">Написать в MAX</a>
+      <a href="tel:+79951149954" class="btn btn-outline">Позвонить</a>
+    </div>
 
     <!-- Подвал -->
     <div class="footer">
