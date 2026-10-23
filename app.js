@@ -26,7 +26,7 @@
   const LINKS = {
     maxChat: "#",                                 // TODO: ссылка на чат-бота MAX
     phone: "tel:+79951149954",
-    landing: "https://github.com/shamshinigor78-pixel/max-selfcheck/landing.html",
+    landing: "https://shamshinigor78-pixel.github.io/max-selfcheck/landing.html",
   };
 
   // ==== Вопросы ====
