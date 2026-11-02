@@ -1,16 +1,6 @@
 "use strict";
 
-/*
- * Безопасность:
- * - Никаких innerHTML / insertAdjacentHTML / outerHTML.
- * - Только textContent и createElement.
- * - Никаких сетевых запросов.
- * - Никакого localStorage / sessionStorage / IndexedDB.
- * - initDataUnsafe — только для отображения имени.
- */
-
 (function () {
-  // ==== MAX Bridge ====
   const webApp = (typeof window !== "undefined" && window.WebApp) ? window.WebApp : null;
   if (webApp && typeof webApp.ready === "function") {
     try { webApp.ready(); } catch (_) {}
@@ -22,48 +12,35 @@
     if (typeof raw === "string" && raw.length <= 64) userName = raw;
   }
 
-  // ==== Ссылки (замени когда будут готовы) ====
   const LINKS = {
-    maxChat: "#",                                 // TODO: ссылка на чат-бота MAX
+    maxChat: "#",
     phone: "tel:+79951149954",
-    landing: "https:/shamshinigor78-pixel.github.io/max-selfcheck/landing.html" 
+    landing: "https://ninigor78-pixel.github.io/max-selfcheck/landing.html" 
   };
 
-  // ==== Вопросы (15 штук, с мягкой UX-структурой) ====
   const QUESTIONS = [
-    // --- Блок 1: Знакомство и локализация ---
     { type: "osteo", profile: "neck", text: "Где вы чаще всего чувствуете дискомфорт?",
       options: ["Шея и плечи", "Поясница", "Грудной отдел", "Таз", "Всё тело"], weights: [4, 4, 3, 3, 3] },
     { type: "osteo", profile: "any", text: "Как бы вы описали эти ощущения?",
       options: ["Тупая, ноющая боль", "Чувство скованности", "Острая, стреляющая", "Жжение", "Дискомфорта нет"], weights: [4, 4, 5, 3, 1] },
     { type: "osteo", profile: "any", text: "Замечаете ли вы асимметрию? (например, лямка сумки спадает с одного плеча)",
       options: ["Нет", "Возможно", "Иногда", "Да", "Выраженная"], weights: [1, 2, 3, 4, 5] },
-
-    // --- Блок 2: Триггеры и Механика ---
     { type: "osteo", profile: "any", text: "Когда дискомфорт дает о себе знать чаще всего?",
       options: ["После долгого сидения", "Утром после сна", "При наклонах или поворотах", "После физической нагрузки", "Не усиливается"], weights: [4, 4, 4, 4, 1] },
     { type: "osteo", profile: "any", text: "Ухудшается ли состояние при смене погоды или в период стресса?",
       options: ["Никогда", "Редко", "Иногда", "Часто", "Постоянно"], weights: [1, 2, 3, 4, 5] },
-    
-    // --- Красный флаг (вплетен в логику механики) ---
     { type: "redflag", text: "Была ли у вас серьезная травма или ДТП в последние 3 месяца?",
       options: ["Нет", "Да"] }, 
-
-    // --- Блок 3: Функциональные тесты ---
     { type: "osteo", profile: "any", text: "Получается ли у вас коснуться руками пола, не сгибая ног?",
       options: ["Да, легко", "С небольшим усилием", "С трудом", "Почти нет", "Не могу"], weights: [1, 2, 3, 4, 5] },
     { type: "osteo", profile: "any", text: "Есть ли сложности с поворотом головы до конца или запрокидыванием назад?",
       options: ["Нет", "Небольшие", "Умеренные", "Заметные", "Сильные"], weights: [1, 2, 3, 4, 5] },
     { type: "osteo", profile: "any", text: "Возникает ли дискомфорт, когда вы поднимаете руки вверх?",
       options: ["Никогда", "Редко", "Иногда", "Часто", "Постоянно"], weights: [1, 2, 3, 4, 5] },
-
-    // --- Блок 4: Анамнез и образ жизни ---
     { type: "osteo", profile: "scar", text: "Были ли у вас операции или сильные травмы (даже давние), оставившие рубцы?",
       options: ["Нет", "Были, но не беспокоят", "Были, рубцы есть", "Были, чувствую натяжение", "Были недавно"], weights: [1, 3, 3, 4, 5] },
     { type: "osteo", profile: "any", text: "Какой у вас образ жизни?",
       options: ["Сидячая работа", "Физический труд", "Спорт", "Смешанный", "Малоподвижный"], weights: [4, 4, 2, 3, 4] },
-
-    // --- Блок 5: Красные флаги (Мягкая проверка на безопасность) ---
     { type: "redflag", text: "Беспокоит ли острая боль, которая не утихает в покое и мешает спать?",
       options: ["Нет", "Да"] },
     { type: "redflag", text: "Бывает ли у вас головокружение, потемнение в глазах или шум в ушах?",
@@ -75,15 +52,13 @@
   ];
 
   const TOTAL = QUESTIONS.length;
-  const OSTEO_THRESHOLD = 35; // % — выше этого → рекомендуется остеопластика
+  const OSTEO_THRESHOLD = 35;
 
-  // ==== Состояние ====
   let currentIndex = 0;
   let answers = new Array(TOTAL).fill(null);
   let locked = false;
   let chosenProfile = "general"; 
 
-  // ==== DOM ====
   function $(sel) { return document.querySelector(sel); }
   function el(tag, className, text) {
     const node = document.createElement(tag);
@@ -92,12 +67,7 @@
     return node;
   }
 
-  const screens = {
-    start: $("#screen-start"),
-    question: $("#screen-question"),
-    result: $("#screen-result")
-  };
-
+  const screens = { start: $("#screen-start"), question: $("#screen-question"), result: $("#screen-result") };
   const progressWrap = $("#progress-wrap");
   const progressBar = $("#progress-bar");
   const qCurrent = $("#q-current");
@@ -113,14 +83,11 @@
   qTotal.textContent = String(TOTAL);
 
   function showScreen(name) {
-    Object.keys(screens).forEach(function (key) {
-      screens[key].classList.remove("active");
-    });
+    Object.keys(screens).forEach(function (key) { screens[key].classList.remove("active"); });
     screens[name].classList.add("active");
     try { window.scrollTo(0, 0); } catch (_) {}
   }
 
-  // ==== Вопросы ====
   function renderQuestion() {
     const q = QUESTIONS[currentIndex];
     qCurrent.textContent = String(currentIndex + 1);
@@ -128,12 +95,9 @@
 
     const percent = Math.round((currentIndex / TOTAL) * 100);
     progressBar.style.width = percent + "%";
-    if (progressWrap && progressWrap.setAttribute) {
-      progressWrap.setAttribute("aria-valuenow", String(percent));
-    }
+    if (progressWrap && progressWrap.setAttribute) progressWrap.setAttribute("aria-valuenow", String(percent));
 
     answersBox.textContent = "";
-
     q.options.forEach(function (label, i) {
       const btn = el("button", "answer", label);
       btn.type = "button";
@@ -146,15 +110,12 @@
   function selectAnswer(optionIndex) {
     if (locked) return;
     locked = true;
-
     if (typeof optionIndex !== "number" || optionIndex < 0 || optionIndex >= QUESTIONS[currentIndex].options.length) {
-      locked = false;
-      return;
+      locked = false; return;
     }
 
     answers[currentIndex] = optionIndex;
 
-    // Определение профиля для "Приза"
     if (currentIndex === 0) {
       if (optionIndex === 0) chosenProfile = "neck";
       else if (optionIndex === 1) chosenProfile = "lower_back";
@@ -162,7 +123,6 @@
       else chosenProfile = "general";
     }
 
-    // Если выбран вариант с рубцами/натяжением, делаем акцент на профиле "scar"
     if (QUESTIONS[currentIndex].profile === "scar" && optionIndex >= 2) {
       if (chosenProfile === "general" || chosenProfile === "neck" || chosenProfile === "lower_back") {
         chosenProfile = "scar";
@@ -174,17 +134,11 @@
     if (buttons[optionIndex]) buttons[optionIndex].classList.add("selected");
 
     window.setTimeout(function () {
-      if (currentIndex < TOTAL - 1) {
-        currentIndex++;
-        renderQuestion();
-      } else {
-        showResult();
-      }
+      if (currentIndex < TOTAL - 1) { currentIndex++; renderQuestion(); } else { showResult(); }
       locked = false;
     }, 180);
   }
 
-  // ==== Логика оценки ====
   function evaluate() {
     let redFlagCount = 0;
     let sum = 0;
@@ -197,7 +151,6 @@
       if (q.type === "redflag") {
         if (safeIdx > 0) redFlagCount++;
       } else if (q.type === "osteo") {
-        // Не считаем первый вопрос (локализацию) в общую сумму напряжения
         if (i > 0) {
           sum += q.weights[safeIdx];
           max += 5;
@@ -214,7 +167,6 @@
     return { outcome: "normal", percent: percent };
   }
 
-  // ==== Хелперы для кнопок ====
   function createActionButton(text, href, style) {
     const a = el("a", "btn " + (style || "secondary"), text);
     a.href = href;
@@ -225,13 +177,10 @@
     const block = el("div", "action-block");
     block.appendChild(el("div", "action-title", title));
     if (hint) block.appendChild(el("div", "action-hint", hint));
-    buttons.forEach(function (b) {
-      block.appendChild(createActionButton(b.text, b.href, b.style));
-    });
+    buttons.forEach(function (b) { block.appendChild(createActionButton(b.text, b.href, b.style)); });
     return block;
   }
 
-  // ==== Тексты для "Призов" ====
   function getProfileText(profile) {
     if (profile === "neck") {
       return "Твой профиль: «Офисная шея». Судя по ответам, твое тело застряло в режиме работы за компьютером. Голова уходит вперед, а фасции шеи и груди сжимаются, чтобы удержать этот вес. Отсюда — тяжесть в голове и скованность. Наша задача — мягко раскрыть грудную клетку и вернуть шее свободу.";
@@ -246,7 +195,6 @@
     }
   }
 
-  // ==== Рендер результата ====
   function showResult() {
     const result = evaluate();
     const outcome = result.outcome;
@@ -264,7 +212,7 @@
 
       const body = el("div", "result-body", "Судя по вашим ответам, состояние тела в целом хорошее. Серьёзных сигналов, требующих внимания, не выявлено. Проходите опрос раз в 2–3 месяца, чтобы отслеживать динамику.");
       resultActions.appendChild(body);
-      resultHint.textContent = "Это не медицинская диагностика. Результат носит ознакомительный характер. Сделайте скриншот, если хотите сохранить его — после закрытия приложения он не сохранится.";
+      resultHint.textContent = "Это не медицинская диагностика. Результат носит ознакомительный характер. Сделайте скриншот, если хотите сохранить его.";
 
     } else if (outcome === "osteo") {
       resultIcon.textContent = "🌿";
@@ -274,7 +222,6 @@
       const body = el("div", "result-body", "Судя по ответам, есть зоны, где телу не хватает расслабления и легкости. Это не болезнь, а сигнал о том, что фасциальная система требует внимания. Это как раз то, с чем бережно работает оздоровительная остеопластика.");
       resultActions.appendChild(body);
 
-      // Блок с призом
       const prizeBox = el("div", "result-body");
       prizeBox.style.background = "var(--accent-soft)";
       prizeBox.style.padding = "20px";
@@ -285,7 +232,6 @@
       const prizeTitle = el("div", "action-title", "🎁 Твой персональный разбор");
       prizeTitle.style.color = "var(--accent)";
       prizeTitle.style.marginBottom = "10px";
-      
       const prizeText = el("div", "", getProfileText(chosenProfile));
       prizeText.style.fontSize = "0.95rem";
       
@@ -301,7 +247,7 @@
         warnBox.style.borderRadius = "12px";
         warnBox.style.fontSize = "0.9rem";
         warnBox.style.marginBottom = "20px";
-        warnBox.textContent = "Вы отметили один симптом, требующий наблюдения (травма, головокружение, онемение или острая боль). Рекомендую перед сеансом проконсультироваться с врачом.";
+        warnBox.textContent = "Вы отметили один симптом, требующий наблюдения. Рекомендую перед сеансом проконсультироваться с врачом.";
         resultActions.appendChild(warnBox);
       }
 
@@ -312,8 +258,7 @@
       resultActions.appendChild(createActionBlock("Хочу узнать о методике", "Что это, как проходит, кому подходит", [
         { text: "Подробнее на сайте", href: LINKS.landing, style: "secondary" }
       ]));
-      
-      resultHint.textContent = "Это не медицинская диагностика. Приложение не ставит диагноз и не назначает лечение. Решение о любом воздействии принимает специалист после консультации. Сделайте скриншот результата, если хотите его сохранить — после закрытия приложения он не сохранится.";
+      resultHint.textContent = "Это не медицинская диагностика. Приложение не ставит диагноз и не назначает лечение. Решение о любом воздействии принимает специалист после консультации. Сделайте скриншот результата, если хотите его сохранить.";
 
     } else {
       resultIcon.textContent = "⚠️";
@@ -322,13 +267,12 @@
 
       const body = el("div", "result-body", "Забота о теле начинается с безопасности. Некоторые из ваших ответов указывают на нюансы, с которыми сначала лучше обратиться к терапевту или неврологу. Это поможет исключить противопоказания. Если вам станет совсем нехорошо — обязательно позвоните 103.");
       resultActions.appendChild(body);
-      resultHint.textContent = "Это не медицинская диагностика. Решение о лечении принимает врач. Сделайте скриншот результата, если хотите его сохранить — после закрытия приложения он не сохранится.";
+      resultHint.textContent = "Это не медицинская диагностика. Решение о лечении принимает врач. Сделайте скриншот результата, если хотите его сохранить.";
     }
 
     showScreen("result");
   }
 
-  // ==== Кнопки ====
   $("#btn-start").addEventListener("click", function () {
     currentIndex = 0;
     answers = new Array(TOTAL).fill(null);
@@ -346,21 +290,23 @@
   $("#btn-close").addEventListener("click", function () {
     answers = new Array(TOTAL).fill(null);
     showScreen("start");
-
     if (webApp && typeof webApp.close === "function") {
       try { webApp.close(); } catch (_) {}
     }
   });
 
-  // Показ приложения
   const appRoot = $("#app");
   if (appRoot) appRoot.removeAttribute("hidden");
 
-  // Персонализация
   if (userName) {
     const startSubtitle = $("#start-subtitle");
     if (startSubtitle) {
-      startSubtitle.textContent = "Привет, " + userName + "! Ответь на " + TOTAL + " Ответь на 15 вопросов и найди скрытые точки напряжения в твоём теле" ;
+      startSubtitle.textContent = "Привет, " + userName + "! Ответь на " + TOTAL + " вопросов и найди скрытые точки напряжения в твоём теле.";
+    }
+  } else {
+    const startSubtitle = $("#start-subtitle");
+    if (startSubtitle) {
+      startSubtitle.textContent = "Ответь на " + TOTAL + " вопросов и найди скрытые точки напряжения в твоём теле.";
     }
   }
 })();
