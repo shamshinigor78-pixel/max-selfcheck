@@ -15,7 +15,7 @@
   const LINKS = {
     maxChat: "#",
     phone: "tel:+79951149954",
-    landing: "https://ninigor78-pixel.github.io/max-selfcheck/landing.html" 
+    landing: "https://shamshinigor78-pixel.github.io/max-selfcheck/landing.html" 
   };
 
   const QUESTIONS = [
