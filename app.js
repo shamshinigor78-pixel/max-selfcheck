@@ -360,7 +360,7 @@
   if (userName) {
     const startSubtitle = $("#start-subtitle");
     if (startSubtitle) {
-      startSubtitle.textContent = "Привет, " + userName + "! Ответь на " + TOTAL + " вопросов и узнай, как сейчас чувствует твоё тело.";
+      startSubtitle.textContent = "Привет, " + userName + "! Ответь на " + TOTAL + " Ответь на 15 вопросов и найди скрытые точки напряжения в твоём теле" ;
     }
   }
 })();
