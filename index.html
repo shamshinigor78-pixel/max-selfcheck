@@ -5,30 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
 
   <meta http-equiv="Content-Security-Policy" content="
-    default-src 'none';
-    script-src 'self' https://st.max.ru;
-    style-src 'self';
-    img-src 'self' data:;
-    font-src 'self';
-    connect-src 'none';
-    form-action 'none';
-    frame-ancestors 'none';
-    base-uri 'self';
-    object-src 'none';
-    upgrade-insecure-requests;
+    default-src 'none'; script-src 'self' https://st.max.ru; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; form-action 'none'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests;
   " />
 
   <meta name="referrer" content="no-referrer" />
   <meta name="robots" content="noindex, nofollow" />
   <meta name="color-scheme" content="light dark" />
-  <title>Самодиагностика состояния</title>
+  <title>Остеокоррекция | Самодиагностика</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <noscript>
-    <div style="padding:24px;text-align:center;font-family:sans-serif;">
-      Для работы приложения необходимо включить JavaScript.
-    </div>
+    <div style="padding:24px;text-align:center;font-family:sans-serif;">Для работы приложения необходимо включить JavaScript.</div>
   </noscript>
 
   <div id="app" hidden>
@@ -43,8 +31,8 @@
         <ul>
           <li>Ответы не сохраняются и никуда не передаются.</li>
           <li>Данные исчезают при закрытии приложения.</li>
-          <li>Приложение не запрашивает доступ к камере, геолокации или контактам.</li>
-          <li>Если хотите сохранить результат — сделайте скриншот экрана после прохождения.</li>
+          <li>Приложение не запрашивает доступ к камере или геолокации.</li>
+          <li>Если хотите сохранить результат — сделайте скриншот экрана.</li>
         </ul>
       </div>
 
@@ -57,7 +45,7 @@
       <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress-wrap">
         <div class="progress-bar" id="progress-bar"></div>
       </div>
-      <p class="progress-text"><span id="q-current">1</span> / <span id="q-total">13</span></p>
+      <p class="progress-text"><span id="q-current">1</span> / <span id="q-total">15</span></p>
       <h2 id="q-text">Вопрос</h2>
       <div class="answers" id="answers"></div>
     </section>
