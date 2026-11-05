@@ -1,24 +1,72 @@
 /* ============================================
    СБРОС И БАЗОВЫЕ НАСТРОЙКИ
    ============================================ */
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-html { font-size: 16px; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-html, body { overscroll-behavior: none; min-height: 100%; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+html, body {
+  overscroll-behavior: none;
+  min-height: 100%;
+}
 
 /* ============================================
-   ТЕМЫ
+   ТЕМЫ И ПЕРЕМЕННЫЕ
    ============================================ */
 :root {
-  --bg: #fbf9f6; --fg: #2b2a28; --muted: #8a8580; --accent: #4a8f6f; --accent-soft: #e8f0ea;
-  --good: #4a8f6f; --warn: #d99a3c; --bad: #c5543f; --border: #ebe6df; --card-bg: #f5f2ec;
-  --note-bg: #fdf6e3; --note-border: #e8d9a8; --note-fg: #7a5f1a;
+  --bg: #fbf9f6;
+  --fg: #2b2a28;
+  --muted: #8a8580;
+  --accent: #4a8f6f;
+  --accent-soft: #e8f0ea;
+  --good: #4a8f6f;
+  --warn: #d99a3c;
+  --bad: #c5543f;
+  --border: #ebe6df;
+  --card-bg: #f5f2ec;
+  --note-bg: #fdf6e3;
+  --note-border: #e8d9a8;
+  --note-fg: #7a5f1a;
+
+  /* Переменные для плашек результатов (светлая тема) */
+  --guide-bg: #fff8e6;
+  --guide-fg: #7a5f1a;
+  --guide-border: #f59e0b;
+  --warn-bg: #fef2f2;
+  --warn-fg: #991b1b;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #1c1e1b; --fg: #e8e6e2; --muted: #9a9890; --accent: #7ab88f; --accent-soft: #253028;
-    --good: #7ab88f; --warn: #e0b060; --bad: #e07a5f; --border: #33342f; --card-bg: #24262a;
-    --note-bg: #2a2515; --note-border: #5a4d20; --note-fg: #e8d9a8;
+    --bg: #1c1e1b;
+    --fg: #e8e6e2;
+    --muted: #9a9890;
+    --accent: #7ab88f;
+    --accent-soft: #253028;
+    --good: #7ab88f;
+    --warn: #e0b060;
+    --bad: #e07a5f;
+    --border: #33342f;
+    --card-bg: #24262a;
+    --note-bg: #2a2515;
+    --note-border: #5a4d20;
+    --note-fg: #e8d9a8;
+
+    /* Переменные для плашек результатов (тёмная тема) */
+    --guide-bg: #3a2f15;
+    --guide-fg: #fcebb6;
+    --guide-border: #b08d32;
+    --warn-bg: #3a1c1c;
+    --warn-fg: #fca5a5;
   }
 }
 
@@ -27,100 +75,258 @@ html, body { overscroll-behavior: none; min-height: 100%; }
    ============================================ */
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: var(--bg); color: var(--fg); min-height: 100vh; min-height: 100dvh;
-  display: flex; justify-content: center; transition: background-color .2s ease, color .2s ease;
+  background: var(--bg);
+  color: var(--fg);
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  transition: background-color .2s ease, color .2s ease;
 }
 
 #app {
-  width: 100%; max-width: 480px;
-  padding: calc(env(safe-area-inset-top, 0px) + 1.5rem) calc(env(safe-area-inset-right, 0px) + 1.25rem)
-           calc(env(safe-area-inset-bottom, 0px) + 2.5rem) calc(env(safe-area-inset-left, 0px) + 1.25rem);
+  width: 100%;
+  max-width: 480px;
+  padding: calc(env(safe-area-inset-top, 0px) + 1.5rem)
+           calc(env(safe-area-inset-right, 0px) + 1.25rem)
+           calc(env(safe-area-inset-bottom, 0px) + 2.5rem)
+           calc(env(safe-area-inset-left, 0px) + 1.25rem);
 }
 
-.screen { display: none !important; }
-.screen.active { display: block !important; }
+/* ============================================
+   ЭКРАНЫ — ЖЁСТКОЕ СКРЫТИЕ
+   ============================================ */
+.screen {
+  display: none !important;
+}
+.screen.active {
+  display: block !important;
+}
 
 /* ============================================
    СТАРТОВЫЙ ЭКРАН
    ============================================ */
-.logo { font-size: 3.5rem; text-align: center; margin: 1.5rem 0 1rem; line-height: 1; }
-h1 { font-size: 1.625rem; line-height: 1.2; text-align: center; margin-bottom: .625rem; overflow-wrap: break-word; }
-.subtitle { text-align: center; color: var(--muted); font-size: .9375rem; line-height: 1.5; margin-bottom: 1.25rem; overflow-wrap: break-word; }
-.hint { text-align: center; color: var(--muted); font-size: .75rem; margin-top: 1.25rem; line-height: 1.5; }
+.logo {
+  font-size: 3.5rem;
+  text-align: center;
+  margin: 1.5rem 0 1rem;
+  line-height: 1;
+}
+
+h1 {
+  font-size: 1.625rem;
+  line-height: 1.2;
+  text-align: center;
+  margin-bottom: .625rem;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.subtitle {
+  text-align: center;
+  color: var(--muted);
+  font-size: .9375rem;
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+  overflow-wrap: break-word;
+}
+
+.hint {
+  text-align: center;
+  color: var(--muted);
+  font-size: .75rem;
+  margin-top: 1.25rem;
+  line-height: 1.5;
+}
 
 .privacy-note {
-  background: var(--note-bg); border: 1px solid var(--note-border); border-radius: .75rem;
-  padding: .875rem 1rem; margin-bottom: 1.25rem; font-size: .8125rem; line-height: 1.5; color: var(--note-fg);
+  background: var(--note-bg);
+  border: 1px solid var(--note-border);
+  border-radius: .75rem;
+  padding: .875rem 1rem;
+  margin-bottom: 1.25rem;
+  font-size: .8125rem;
+  line-height: 1.5;
+  color: var(--note-fg);
 }
+
 .privacy-note strong { display: block; margin-bottom: .375rem; }
 .privacy-note ul { list-style: none; padding: 0; }
-.privacy-note li { padding-left: .875rem; position: relative; margin-bottom: .25rem; overflow-wrap: break-word; }
+.privacy-note li {
+  padding-left: .875rem;
+  position: relative;
+  margin-bottom: .25rem;
+  overflow-wrap: break-word;
+}
 .privacy-note li::before { content: "—"; position: absolute; left: 0; }
 
 /* ============================================
-   3D-КНОПКИ И ТАКТИЛЬНЫЙ ОТКЛИК
+   КНОПКИ (С ЭФФЕКТОМ ОБЪЕМА)
    ============================================ */
 .btn {
-  display: block; width: 100%; min-height: 2.75rem; padding: 1rem;
-  border: none; border-radius: .875rem; font-size: 1rem; font-weight: 600; font-family: inherit;
-  text-decoration: none; text-align: center; line-height: 1.2; cursor: pointer;
-  transition: all 0.1s ease;
+  display: block;
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 1rem;
+  border: none;
+  border-radius: .875rem;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: inherit;
+  text-decoration: none;
+  text-align: center;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: all .1s ease;
 }
-.btn.primary { 
-  background: var(--accent); color: #fff; 
-  box-shadow: 0 4px 0 #3b755a; /* Объемная тень снизу */
+
+.btn.primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 4px 0 #3b755a;
   transform: translateY(0);
 }
-.btn.primary:active { 
-  box-shadow: 0 0px 0 #3b755a; 
-  transform: translateY(4px); /* Эффект вдавливания */
+
+.btn.primary:active {
+  box-shadow: 0 0px 0 #3b755a;
+  transform: translateY(4px);
 }
-.btn.secondary { 
-  background: transparent; color: var(--muted); margin-top: .625rem; 
+
+.btn.secondary {
+  background: transparent;
+  color: var(--muted);
+  margin-top: .625rem;
   border: 1.5px solid var(--border);
 }
 
-.action-block .btn.secondary { margin-top: 0; color: var(--fg); background: var(--bg); }
+.action-block .btn.secondary {
+  margin-top: 0;
+  color: var(--fg);
+  background: var(--bg);
+}
+
 .action-block .btn.primary { margin-top: 0; }
 .action-block .btn + .btn { margin-top: .5rem; }
 
 /* ============================================
    ПРОГРЕСС
    ============================================ */
-.progress { height: .375rem; background: var(--border); border-radius: 999px; overflow: hidden; margin-bottom: .5rem; }
-.progress-bar { height: 100%; width: 0%; background: var(--accent); border-radius: 999px; transition: width .3s ease; }
-.progress-text { font-size: .8125rem; color: var(--muted); margin-bottom: 1.5rem; }
+.progress {
+  height: .375rem;
+  background: var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: .5rem;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  border-radius: 999px;
+  transition: width .3s ease;
+}
+
+.progress-text {
+  font-size: .8125rem;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
 
 /* ============================================
    ЭКРАН ВОПРОСА
    ============================================ */
-#q-text { font-size: 1.25rem; line-height: 1.4; text-align: left; margin-bottom: 1.5rem; overflow-wrap: break-word; hyphens: auto; }
+#q-text {
+  font-size: 1.25rem;
+  line-height: 1.4;
+  text-align: left;
+  margin-bottom: 1.5rem;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
 .answers { display: flex; flex-direction: column; gap: .625rem; }
 
 .answer {
-  display: block; width: 100%; min-height: 2.75rem; padding: 1rem;
-  border: 1.5px solid var(--border); border-radius: .875rem;
-  background: var(--bg); color: var(--fg); font-size: .9375rem; font-family: inherit;
-  text-align: left; cursor: pointer; transition: all .15s ease; overflow-wrap: break-word;
+  display: block;
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 1rem;
+  border: 1.5px solid var(--border);
+  border-radius: .875rem;
+  background: var(--bg);
+  color: var(--fg);
+  font-size: .9375rem;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: all .15s ease;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
+
 .answer:active { transform: scale(.98); }
-.answer.selected { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+
+.answer.selected {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+}
 
 /* ============================================
    ЭКРАН РЕЗУЛЬТАТА
    ============================================ */
-.result-icon { font-size: 3.5rem; text-align: center; margin: 1rem 0 .5rem; line-height: 1; }
-.verdict { text-align: center; font-size: 1rem; color: var(--muted); margin-bottom: 1.5rem; overflow-wrap: break-word; }
-.result-body { font-size: .9375rem; line-height: 1.55; margin-bottom: 1.25rem; overflow-wrap: break-word; }
+.result-icon {
+  font-size: 3.5rem;
+  text-align: center;
+  margin: 1rem 0 .5rem;
+  line-height: 1;
+}
+
+.verdict {
+  text-align: center;
+  font-size: 1rem;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+  overflow-wrap: break-word;
+}
+
+.result-body {
+  font-size: .9375rem;
+  line-height: 1.55;
+  margin-bottom: 1.25rem;
+  overflow-wrap: break-word;
+}
+
 .result-actions { margin-bottom: 1rem; }
 
-.action-block { background: var(--card-bg); border-radius: 1rem; padding: 1rem; margin-bottom: .75rem; }
+.action-block {
+  background: var(--card-bg);
+  border-radius: 1rem;
+  padding: 1rem;
+  margin-bottom: .75rem;
+}
+
 .action-block:last-child { margin-bottom: 0; }
-.action-title { font-size: .9375rem; font-weight: 600; margin-bottom: .25rem; line-height: 1.3; }
-.action-hint { font-size: .8125rem; color: var(--muted); margin-bottom: .75rem; line-height: 1.4; }
+
+.action-title {
+  font-size: .9375rem;
+  font-weight: 600;
+  margin-bottom: .25rem;
+  line-height: 1.3;
+}
+
+.action-hint {
+  font-size: .8125rem;
+  color: var(--muted);
+  margin-bottom: .75rem;
+  line-height: 1.4;
+}
 
 /* ============================================
-   АДАПТАЦИЯ
+   АДАПТАЦИЯ: УЗКИЕ ЭКРАНЫ
    ============================================ */
 @media (max-width: 360px) {
   html { font-size: 15px; }
@@ -129,16 +335,31 @@ h1 { font-size: 1.625rem; line-height: 1.2; text-align: center; margin-bottom: .
   .result-icon { font-size: 3rem; }
   #q-text { font-size: 1.125rem; }
   .answer { padding: .875rem; font-size: .875rem; }
+  .verdict { font-size: .9375rem; }
 }
+
+/* ============================================
+   АДАПТАЦИЯ: ПЛАНШЕТЫ
+   ============================================ */
 @media (min-width: 768px) {
-  #app { padding-top: calc(env(safe-area-inset-top, 0px) + 2.5rem); padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 3.75rem); }
+  #app {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 2.5rem);
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 3.75rem);
+  }
   h1 { font-size: 1.875rem; }
   .subtitle { font-size: 1rem; }
   #q-text { font-size: 1.375rem; }
   .answer { font-size: 1rem; padding: 1.125rem; }
 }
+
+/* ============================================
+   ЛАНДШАФТ
+   ============================================ */
 @media (max-height: 500px) and (orientation: landscape) {
-  #app { padding-top: calc(env(safe-area-inset-top, 0px) + .75rem); padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.5rem); }
+  #app {
+    padding-top: calc(env(safe-area-inset-top, 0px) + .75rem);
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.5rem);
+  }
   .logo { font-size: 2.5rem; margin: .5rem 0; }
   h1 { font-size: 1.25rem; margin-bottom: .375rem; }
   .result-icon { font-size: 2.5rem; margin: .5rem 0; }
@@ -151,7 +372,20 @@ h1 { font-size: 1.625rem; line-height: 1.2; text-align: center; margin-bottom: .
   .verdict { margin-bottom: 1rem; }
   .action-block { padding: .875rem; margin-bottom: .5rem; }
 }
+
+/* ============================================
+   ДОСТУПНОСТЬ
+   ============================================ */
 @media (prefers-reduced-motion: reduce) {
-  * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  * {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
 }
-.answer:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.answer:focus-visible,
+.btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
