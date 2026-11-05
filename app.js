@@ -12,7 +12,6 @@
     if (typeof raw === "string" && raw.length <= 64) userName = raw;
   }
 
-  // ВСТАВЛЕНА ССЫЛКА НА БОТА
   const LINKS = {
     maxChat: "https://max.ru/se14074027_bot",
     phone: "tel:+79951149954",
@@ -99,7 +98,6 @@
       btn.type = "button";
       if (answers[currentIndex] === i) btn.classList.add("selected");
       btn.addEventListener("click", function () { 
-        // ВИБРАЦИЯ ПРИ НАЖАТИИ (если поддерживается)
         if (navigator.vibrate) navigator.vibrate(10);
         selectAnswer(i); 
       });
@@ -248,20 +246,23 @@
       prizeBox.appendChild(prizeText);
       resultActions.appendChild(prizeBox);
 
+      // ИСПРАВЛЕННЫЙ БЛОК С ГАЙДОМ (используем CSS-переменные)
       const guideBox = el("div", "result-body");
-      guideBox.style.background = "#fff8e6";
+      guideBox.style.background = "var(--guide-bg)";
+      guideBox.style.color = "var(--guide-fg)";
       guideBox.style.padding = "15px";
       guideBox.style.borderRadius = "12px";
       guideBox.style.marginBottom = "20px";
-      guideBox.style.borderLeft = "4px solid #f59e0b";
+      guideBox.style.borderLeft = "4px solid var(--guide-border)";
       guideBox.style.fontSize = "0.9rem";
       guideBox.textContent = "🎁 Если хотите получить персональный видео-гайд по экспресс-разгрузке именно вашей зоны напряжения — напишите мне в MAX и пришлите скриншот этого результата. Отправлю методику бесплатно.";
       resultActions.appendChild(guideBox);
 
       if (result.warning) {
+        // ИСПРАВЛЕННЫЙ БЛОК ПРЕДУПРЕЖДЕНИЯ
         const warnBox = el("div", "result-body");
-        warnBox.style.background = "#fef2f2";
-        warnBox.style.color = "#991b1b";
+        warnBox.style.background = "var(--warn-bg)";
+        warnBox.style.color = "var(--warn-fg)";
         warnBox.style.padding = "15px";
         warnBox.style.borderRadius = "12px";
         warnBox.style.fontSize = "0.9rem";
