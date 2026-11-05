@@ -12,10 +12,11 @@
     if (typeof raw === "string" && raw.length <= 64) userName = raw;
   }
 
+  // ВСТАВЛЕНА ССЫЛКА НА БОТА
   const LINKS = {
-    maxChat: "#",
+    maxChat: "https://max.ru/se14074027_bot",
     phone: "tel:+79951149954",
-    landing: "https://shamshinigor78-pixel.github.io/max-selfcheck/landing.html" 
+    landing: "https://shamshinigor.github.io/max-selfcheck/landing.html" 
   };
 
   const QUESTIONS = [
@@ -29,8 +30,7 @@
       options: ["После долгого сидения", "Утром после сна", "При наклонах или поворотах", "После физической нагрузки", "Не усиливается"], weights: [4, 4, 4, 4, 1] },
     { type: "osteo", profile: "any", text: "Ухудшается ли состояние при смене погоды или в период стресса?",
       options: ["Никогда", "Редко", "Иногда", "Часто", "Постоянно"], weights: [1, 2, 3, 4, 5] },
-    { type: "redflag", text: "Была ли у вас серьезная травма или ДТП в последние 3 месяца?",
-      options: ["Нет", "Да"] }, 
+    { type: "redflag", text: "Была ли у вас серьезная травма или ДТП в последние 3 месяца?", options: ["Нет", "Да"] }, 
     { type: "osteo", profile: "any", text: "Получается ли у вас коснуться руками пола, не сгибая ног?",
       options: ["Да, легко", "С небольшим усилием", "С трудом", "Почти нет", "Не могу"], weights: [1, 2, 3, 4, 5] },
     { type: "osteo", profile: "any", text: "Есть ли сложности с поворотом головы до конца или запрокидыванием назад?",
@@ -41,14 +41,10 @@
       options: ["Нет", "Были, но не беспокоят", "Были, рубцы есть", "Были, чувствую натяжение", "Были недавно"], weights: [1, 3, 3, 4, 5] },
     { type: "osteo", profile: "any", text: "Какой у вас образ жизни?",
       options: ["Сидячая работа", "Физический труд", "Спорт", "Смешанный", "Малоподвижный"], weights: [4, 4, 2, 3, 4] },
-    { type: "redflag", text: "Беспокоит ли острая боль, которая не утихает в покое и мешает спать?",
-      options: ["Нет", "Да"] },
-    { type: "redflag", text: "Бывает ли у вас головокружение, потемнение в глазах или шум в ушах?",
-      options: ["Нет", "Да"] },
-    { type: "redflag", text: "Замечаете ли вы непривычное онемение или покалывание в руках/ногах?",
-      options: ["Нет", "Да"] },
-    { type: "redflag", text: "Беспокоит ли вас внезапная слабость в конечностях или необъяснимая потеря веса?",
-      options: ["Нет", "Да"] }
+    { type: "redflag", text: "Беспокоит ли острая боль, которая не утихает в покое и мешает спать?", options: ["Нет", "Да"] },
+    { type: "redflag", text: "Бывает ли у вас головокружение, потемнение в глазах или шум в ушах?", options: ["Нет", "Да"] },
+    { type: "redflag", text: "Замечаете ли вы непривычное онемение или покалывание в руках/ногах?", options: ["Нет", "Да"] },
+    { type: "redflag", text: "Беспокоит ли вас внезапная слабость в конечностях или необъяснимая потеря веса?", options: ["Нет", "Да"] }
   ];
 
   const TOTAL = QUESTIONS.length;
@@ -102,7 +98,11 @@
       const btn = el("button", "answer", label);
       btn.type = "button";
       if (answers[currentIndex] === i) btn.classList.add("selected");
-      btn.addEventListener("click", function () { selectAnswer(i); });
+      btn.addEventListener("click", function () { 
+        // ВИБРАЦИЯ ПРИ НАЖАТИИ (если поддерживается)
+        if (navigator.vibrate) navigator.vibrate(10);
+        selectAnswer(i); 
+      });
       answersBox.appendChild(btn);
     });
   }
@@ -170,28 +170,38 @@
   function createActionButton(text, href, style) {
     const a = el("a", "btn " + (style || "secondary"), text);
     a.href = href;
+    a.addEventListener("click", function() {
+      if (navigator.vibrate) navigator.vibrate(10);
+    });
     return a;
   }
 
-  function createActionBlock(title, hint, buttons) {
+  function createActionBlock(title, hint, buttons, footerText) {
     const block = el("div", "action-block");
     block.appendChild(el("div", "action-title", title));
     if (hint) block.appendChild(el("div", "action-hint", hint));
     buttons.forEach(function (b) { block.appendChild(createActionButton(b.text, b.href, b.style)); });
+    if (footerText) {
+      const footer = el("div", "action-hint", footerText);
+      footer.style.marginTop = "10px";
+      footer.style.marginBottom = "0";
+      footer.style.fontSize = "0.75rem";
+      block.appendChild(footer);
+    }
     return block;
   }
 
   function getProfileText(profile) {
     if (profile === "neck") {
-      return "Твой профиль: «Офисная шея». Судя по ответам, твое тело застряло в режиме работы за компьютером. Голова уходит вперед, а фасции шеи и груди сжимаются, чтобы удержать этот вес. Отсюда — тяжесть в голове и скованность. Наша задача — мягко раскрыть грудную клетку и вернуть шее свободу.";
+      return "Твой профиль: «Офисная шея». Судя по ответам, твое тело застряло в режиме работы за компьютером. Голова уходит вперед, а фасции шеи и груди сжимаются. Наша задача — мягко раскрыть грудную клетку и вернуть шее свободу.";
     } else if (profile === "lower_back") {
-      return "Твой профиль: «Зажатая поясница». Твои ответы указывают на напряжение в нижней части спины. Это может быть связано с долгим сидением, слабостью мышц кора или компенсацией после других нагрузок. Работа с фасциями таза и ног поможет снять эту нагрузку с поясницы.";
+      return "Твой профиль: «Зажатая поясница». Твои ответы указывают на напряжение в нижней части спины. Это может быть связано с долгим сидением или компенсацией после нагрузок. Работа с фасциями таза и ног поможет снять эту нагрузку.";
     } else if (profile === "pelvis") {
-      return "Твой профиль: «Перекос таза». Тело подает сигналы о том, что ось сместилась. Это часто происходит из-за привычки сидеть нога на ногу, носить тяжести на одном плече или из-за родов. Из-за этого одна сторона тела работает больше, отнимая энергию. Остеопластика помогает вернуть тазу баланс и симметрию.";
+      return "Твой профиль: «Перекос таза». Тело подает сигналы о том, что ось сместилась. Из-за этого одна сторона тела работает больше, отнимая энергию. Остеокоррекция помогает вернуть тазу баланс и симметрию.";
     } else if (profile === "scar") {
-      return "Твой профиль: «Скрытые спайки». Ты отметил наличие рубцов или операций. Рубец — это плотная ткань, которая может стягивать фасции, как тугая резинка, вызывая перекосы и напряжение в других частях тела. Мы можем бережно проработать эти натяжения, чтобы тело снова двигалось свободно.";
+      return "Твой профиль: «Скрытые спайки». Ты отметил наличие рубцов или операций. Рубец — это плотная ткань, которая может стягивать фасции, вызывая перекосы. Мы можем бережно проработать эти натяжения, чтобы тело снова двигалось свободно.";
     } else {
-      return "Твой профиль: «Внутренний марафон». Твоя нервная система долгое время находится в напряжении. Даже когда ты отдыхаешь, тело не может расслабиться до конца. Мышцы и фасции зажаты, как пружина. Наша задача — «выключить» этот режим выживания и перевести тело в режим глубокого покоя.";
+      return "Твой профиль: «Внутренний марафон». Твоя нервная система долго находится в напряжении. Мышцы и фасции зажаты, как пружина. Наша задача — перевести тело в режим глубокого покоя.";
     }
   }
 
@@ -209,17 +219,16 @@
       resultIcon.textContent = "✅";
       resultTitle.textContent = "Отличный баланс!";
       verdictEl.textContent = "Серьёзных сигналов не обнаружено";
-
-      const body = el("div", "result-body", "Судя по вашим ответам, состояние тела в целом хорошее. Серьёзных сигналов, требующих внимания, не выявлено. Проходите опрос раз в 2–3 месяца, чтобы отслеживать динамику.");
+      const body = el("div", "result-body", "Судя по вашим ответам, состояние тела в целом хорошее. Серьёзных сигналов не выявлено. Проходите опрос раз в 2–3 месяца, чтобы отслеживать динамику.");
       resultActions.appendChild(body);
-      resultHint.textContent = "Это не медицинская диагностика. Результат носит ознакомительный характер. Сделайте скриншот, если хотите сохранить его.";
+      resultHint.textContent = "Это не медицинская диагностика. Сделайте скриншот, если хотите сохранить результат.";
 
     } else if (outcome === "osteo") {
       resultIcon.textContent = "🌿";
-      resultTitle.textContent = "Твоему телу нужна перезагрузка";
+      resultTitle.textContent = "Твоему телу пора уделить больше внимания";
       verdictEl.textContent = "В целом всё хорошо, но есть сигналы напряжения";
 
-      const body = el("div", "result-body", "Судя по ответам, есть зоны, где телу не хватает расслабления и легкости. Это не болезнь, а сигнал о том, что фасциальная система требует внимания. Это как раз то, с чем бережно работает оздоровительная остеопластика.");
+      const body = el("div", "result-body", "Судя по ответам, есть зоны, где телу не хватает расслабления. Это не болезнь, а сигнал о том, что фасциальная система требует внимания. Это как раз то, с чем бережно работает оздоровительная остеокоррекция.");
       resultActions.appendChild(body);
 
       const prizeBox = el("div", "result-body");
@@ -239,10 +248,20 @@
       prizeBox.appendChild(prizeText);
       resultActions.appendChild(prizeBox);
 
+      const guideBox = el("div", "result-body");
+      guideBox.style.background = "#fff8e6";
+      guideBox.style.padding = "15px";
+      guideBox.style.borderRadius = "12px";
+      guideBox.style.marginBottom = "20px";
+      guideBox.style.borderLeft = "4px solid #f59e0b";
+      guideBox.style.fontSize = "0.9rem";
+      guideBox.textContent = "🎁 Если хотите получить персональный видео-гайд по экспресс-разгрузке именно вашей зоны напряжения — напишите мне в MAX и пришлите скриншот этого результата. Отправлю методику бесплатно.";
+      resultActions.appendChild(guideBox);
+
       if (result.warning) {
         const warnBox = el("div", "result-body");
-        warnBox.style.background = "#fff8e6";
-        warnBox.style.color = "#7a5f1a";
+        warnBox.style.background = "#fef2f2";
+        warnBox.style.color = "#991b1b";
         warnBox.style.padding = "15px";
         warnBox.style.borderRadius = "12px";
         warnBox.style.fontSize = "0.9rem";
@@ -251,14 +270,16 @@
         resultActions.appendChild(warnBox);
       }
 
-      resultActions.appendChild(createActionBlock("Хочу записаться на сеанс", "Отвечу на вопросы и подберу удобное время", [
-        { text: "Написать в MAX", href: LINKS.maxChat, style: "primary" },
-        { text: "Позвонить", href: LINKS.phone, style: "secondary" }
-      ]));
+      resultActions.appendChild(createActionBlock("Записаться на сеанс", "Отвечу на вопросы и подберу удобное время", [
+        { text: "Написать мне", href: LINKS.maxChat, style: "primary" },
+        { text: "Позвонить мне", href: LINKS.phone, style: "secondary" }
+      ], "Если я на сеансе, ответит электронный секретарь. Оставьте имя и цель звонка — я перезвоню."));
+
       resultActions.appendChild(createActionBlock("Хочу узнать о методике", "Что это, как проходит, кому подходит", [
         { text: "Подробнее на сайте", href: LINKS.landing, style: "secondary" }
       ]));
-      resultHint.textContent = "Это не медицинская диагностика. Приложение не ставит диагноз и не назначает лечение. Решение о любом воздействии принимает специалист после консультации. Сделайте скриншот результата, если хотите его сохранить.";
+      
+      resultHint.textContent = "Это не медицинская диагностика. Приложение не ставит диагноз и не назначает лечение. Сделайте скриншот результата, если хотите его сохранить.";
 
     } else {
       resultIcon.textContent = "⚠️";
@@ -298,14 +319,11 @@
   const appRoot = $("#app");
   if (appRoot) appRoot.removeAttribute("hidden");
 
-  if (userName) {
-    const startSubtitle = $("#start-subtitle");
-    if (startSubtitle) {
+  const startSubtitle = $("#start-subtitle");
+  if (startSubtitle) {
+    if (userName) {
       startSubtitle.textContent = "Привет, " + userName + "! Ответь на " + TOTAL + " вопросов и найди скрытые точки напряжения в твоём теле.";
-    }
-  } else {
-    const startSubtitle = $("#start-subtitle");
-    if (startSubtitle) {
+    } else {
       startSubtitle.textContent = "Ответь на " + TOTAL + " вопросов и найди скрытые точки напряжения в твоём теле.";
     }
   }
