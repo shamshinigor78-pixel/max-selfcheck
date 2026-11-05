@@ -12,10 +12,11 @@
     if (typeof raw === "string" && raw.length <= 64) userName = raw;
   }
 
+  // ОБНОВЛЕННЫЕ ССЫЛКИ
   const LINKS = {
     maxChat: "https://max.ru/se14074027_bot",
     phone: "tel:+79951149954",
-    landing: "https://shamshinigor.github.io/max-selfcheck/landing.html" 
+    landing: "https://shamshinigor78-pixel.github.io/max-selfcheck/landing.html" 
   };
 
   const QUESTIONS = [
@@ -246,7 +247,6 @@
       prizeBox.appendChild(prizeText);
       resultActions.appendChild(prizeBox);
 
-      // ИСПРАВЛЕННЫЙ БЛОК С ГАЙДОМ (используем CSS-переменные)
       const guideBox = el("div", "result-body");
       guideBox.style.background = "var(--guide-bg)";
       guideBox.style.color = "var(--guide-fg)";
@@ -259,7 +259,6 @@
       resultActions.appendChild(guideBox);
 
       if (result.warning) {
-        // ИСПРАВЛЕННЫЙ БЛОК ПРЕДУПРЕЖДЕНИЯ
         const warnBox = el("div", "result-body");
         warnBox.style.background = "var(--warn-bg)";
         warnBox.style.color = "var(--warn-fg)";
