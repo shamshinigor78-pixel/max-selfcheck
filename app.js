@@ -2,6 +2,8 @@
 
 (function () {
   const webApp = (typeof window !== "undefined" && window.WebApp) ? window.WebApp : null;
+  const isInsideMax = webApp !== null; // Проверяем, внутри ли MAX
+
   if (webApp && typeof webApp.ready === "function") {
     try { webApp.ready(); } catch (_) {}
   }
@@ -12,12 +14,31 @@
     if (typeof raw === "string" && raw.length <= 64) userName = raw;
   }
 
-  // ОБНОВЛЕННЫЕ ССЫЛКИ
-  const LINKS = {
-    maxChat: "https://max.ru/se14074027_bot",
-    phone: "tel:+79951149954",
-    landing: "https://shamshinigor78-pixel.github.io/max-selfcheck/landing.html" 
-  };
+  const LINKS = CONTENT.links;
+  const TEXT = CONTENT.app;
+  
+  // Подставляем тексты
+  document.getElementById("ui-start-title").textContent = TEXT.title;
+  document.getElementById("ui-start-hint").textContent = TEXT.hint;
+  document.getElementById("btn-start").textContent = TEXT.btnStart;
+  document.getElementById("btn-restart").textContent = TEXT.btnRestart;
+  document.getElementById("btn-close").textContent = TEXT.btnClose;
+  
+  const btnGoToMax = document.getElementById("btn-go-to-max");
+  btnGoToMax.textContent = TEXT.btnGoToMax;
+  btnGoToMax.href = LINKS.bot;
+
+  // Логика отображения кнопок в зависимости от среды
+  if (!isInsideMax) {
+    // Если мы в браузере:
+    document.getElementById("btn-close").style.display = "none"; // Скрываем "Закрыть"
+    btnGoToMax.style.display = "block"; // Показываем "Перейти в MAX"
+    
+    // Показываем подсказку на стартовом экране
+    const browserNote = document.getElementById("ui-browser-note");
+    browserNote.textContent = TEXT.browserNote;
+    browserNote.style.display = "block";
+  }
 
   const QUESTIONS = [
     { type: "osteo", profile: "neck", text: "Где вы чаще всего чувствуете дискомфорт?",
@@ -169,6 +190,7 @@
   function createActionButton(text, href, style) {
     const a = el("a", "btn " + (style || "secondary"), text);
     a.href = href;
+    a.target = "_blank";
     a.addEventListener("click", function() {
       if (navigator.vibrate) navigator.vibrate(10);
     });
@@ -216,19 +238,17 @@
 
     if (outcome === "normal") {
       resultIcon.textContent = "✅";
-      resultTitle.textContent = "Отличный баланс!";
-      verdictEl.textContent = "Серьёзных сигналов не обнаружено";
-      const body = el("div", "result-body", "Судя по вашим ответам, состояние тела в целом хорошее. Серьёзных сигналов не выявлено. Проходите опрос раз в 2–3 месяца, чтобы отслеживать динамику.");
-      resultActions.appendChild(body);
+      resultTitle.textContent = TEXT.normalTitle;
+      verdictEl.textContent = TEXT.normalVerdict;
+      resultActions.appendChild(el("div", "result-body", TEXT.normalBody));
       resultHint.textContent = "Это не медицинская диагностика. Сделайте скриншот, если хотите сохранить результат.";
 
     } else if (outcome === "osteo") {
       resultIcon.textContent = "🌿";
-      resultTitle.textContent = "Твоему телу пора уделить больше внимания";
-      verdictEl.textContent = "В целом всё хорошо, но есть сигналы напряжения";
+      resultTitle.textContent = TEXT.osteoTitle;
+      verdictEl.textContent = TEXT.osteoVerdict;
 
-      const body = el("div", "result-body", "Судя по ответам, есть зоны, где телу не хватает расслабления. Это не болезнь, а сигнал о том, что фасциальная система требует внимания. Это как раз то, с чем бережно работает оздоровительная остеокоррекция.");
-      resultActions.appendChild(body);
+      resultActions.appendChild(el("div", "result-body", TEXT.osteoBody));
 
       const prizeBox = el("div", "result-body");
       prizeBox.style.background = "var(--accent-soft)";
@@ -271,7 +291,7 @@
       }
 
       resultActions.appendChild(createActionBlock("Записаться на сеанс", "Отвечу на вопросы и подберу удобное время", [
-        { text: "Написать мне", href: LINKS.maxChat, style: "primary" },
+        { text: "Написать мне", href: LINKS.bot, style: "primary" },
         { text: "Позвонить мне", href: LINKS.phone, style: "secondary" }
       ], "Если я на сеансе, ответит электронный секретарь. Оставьте имя и цель звонка — я перезвоню."));
 
@@ -283,11 +303,9 @@
 
     } else {
       resultIcon.textContent = "⚠️";
-      resultTitle.textContent = "Лучше начать с врача";
-      verdictEl.textContent = "Есть нюансы, требующие внимания специалиста";
-
-      const body = el("div", "result-body", "Забота о теле начинается с безопасности. Некоторые из ваших ответов указывают на нюансы, с которыми сначала лучше обратиться к терапевту или неврологу. Это поможет исключить противопоказания. Если вам станет совсем нехорошо — обязательно позвоните 103.");
-      resultActions.appendChild(body);
+      resultTitle.textContent = TEXT.doctorTitle;
+      verdictEl.textContent = TEXT.doctorVerdict;
+      resultActions.appendChild(el("div", "result-body", TEXT.doctorBody));
       resultHint.textContent = "Это не медицинская диагностика. Решение о лечении принимает врач. Сделайте скриншот результата, если хотите его сохранить.";
     }
 
@@ -322,9 +340,9 @@
   const startSubtitle = $("#start-subtitle");
   if (startSubtitle) {
     if (userName) {
-      startSubtitle.textContent = "Привет, " + userName + "! Ответь на " + TOTAL + " вопросов и найди скрытые точки напряжения в твоём теле.";
+      startSubtitle.textContent = "Привет, " + userName + "! " + TEXT.subtitle;
     } else {
-      startSubtitle.textContent = "Ответь на " + TOTAL + " вопросов и найди скрытые точки напряжения в твоём теле.";
+      startSubtitle.textContent = TEXT.subtitle;
     }
   }
 })();
