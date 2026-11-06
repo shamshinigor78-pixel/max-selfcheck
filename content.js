@@ -1,63 +1,68 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://st.max.ru; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; form-action 'none'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests;" />
-  <meta name="referrer" content="no-referrer" />
-  <meta name="robots" content="noindex, nofollow" />
-  <meta name="color-scheme" content="light dark" />
-  <title>Самодиагностика</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <noscript><div style="padding:24px;text-align:center;font-family:sans-serif;">Для работы приложения необходимо включить JavaScript.</div></noscript>
+// ==========================================
+// ФАЙЛ С ТЕКСТАМИ (МЕНЯЙ ТОЛЬКО ТЕКСТ В КАВЫЧКАХ)
+// ==========================================
 
-  <div id="app" hidden>
-    <section id="screen-start" class="screen active">
-      <div class="logo" aria-hidden="true">🧬</div>
-      <h1 id="ui-start-title"></h1>
-      <p class="subtitle" id="ui-start-subtitle"></p>
-      
-      <div class="privacy-note" role="note">
-        <strong>О приватности:</strong>
-        <ul>
-          <li>Ответы не сохраняются и никуда не передаются.</li>
-          <li>Данные исчезают при закрытии приложения.</li>
-          <li>Приложение не запрашивает доступ к камере или геолокации.</li>
-          <li>Если хотите сохранить результат — сделайте скриншот экрана.</li>
-        </ul>
-      </div>
+const CONTENT = {
+  links: {
+    bot: "https://max.ru/se14074027_bot",
+    botTest: "https://max.ru/se14074027_bot?startapp=",
+    phone: "tel:+79951149954",
+    phoneText: "+7 (995) 114-99-54",
+    landing: "https://shamshinigor78-pixel.github.io/max-selfcheck/landing.html"
+  },
 
-      <button class="btn primary" id="btn-start" type="button"></button>
-      <p class="hint" id="ui-start-hint"></p>
-      <p class="hint" id="ui-browser-note" style="color: var(--accent); font-weight: 600; display: none;"></p>
-    </section>
+  app: {
+    title: "Самодиагностика",
+    subtitle: "Ответь на 15 вопросов и найди скрытые точки напряжения в твоём теле.",
+    btnStart: "Начать",
+    btnRestart: "Пройти заново",
+    btnClose: "Закрыть",
+    btnGoToMax: "Перейти в MAX",
+    hint: "Это не медицинская диагностика. Результат носит ознакомительный характер.",
+    browserNote: "Вы проходите тест в браузере. Чтобы получить гайд и связаться со мной, нажмите «Перейти в MAX» в конце.",
+    
+    normalTitle: "Отличный баланс!",
+    normalVerdict: "Серьёзных сигналов не обнаружено",
+    normalBody: "Судя по вашим ответам, состояние тела в целом хорошее. Серьёзных сигналов не выявлено. Проходите опрос раз в 2–3 месяца, чтобы отслеживать динамику.",
+    
+    osteoTitle: "Твоему телу пора уделить больше внимания",
+    osteoVerdict: "В целом всё хорошо, но есть сигналы напряжения",
+    osteoBody: "Судя по ответам, есть зоны, где телу не хватает расслабления. Это не болезнь, а сигнал о том, что фасциальная система требует внимания. Это как раз то, с чем бережно работает оздоровительная остеокоррекция.",
+    
+    doctorTitle: "Лучше начать с врача",
+    doctorVerdict: "Есть нюансы, требующие внимания специалиста",
+    doctorBody: "Забота о теле начинается с безопасности. Некоторые из ваших ответов указывают на нюансы, с которыми сначала лучше обратиться к терапевту или неврологу. Это поможет исключить противопоказания. Если вам станет совсем нехорошо — обязательно позвоните 103."
+  },
 
-    <section id="screen-question" class="screen">
-      <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress-wrap">
-        <div class="progress-bar" id="progress-bar"></div>
-      </div>
-      <p class="progress-text"><span id="q-current">1</span> / <span id="q-total">15</span></p>
-      <h2 id="q-text">Вопрос</h2>
-      <div class="answers" id="answers"></div>
-    </section>
-
-    <section id="screen-result" class="screen">
-      <div class="result-icon" id="result-icon" aria-hidden="true"></div>
-      <h1 id="result-title">Результат</h1>
-      <p class="verdict" id="verdict"></p>
-      <div class="result-actions" id="result-actions"></div>
-      <p class="hint" id="result-hint"></p>
-      
-      <button class="btn secondary" id="btn-restart" type="button"></button>
-      <button class="btn secondary" id="btn-close" type="button"></button>
-      <a class="btn primary" id="btn-go-to-max" href="#" target="_blank" style="display: none; margin-top: 10px;"></a>
-    </section>
-  </div>
-
-  <script src="https://st.max.ru/js/max-web-app.js"></script>
-  <script src="content.js"></script>
-  <script src="app.js"></script>
-</body>
-</html>
+  landing: {
+    heroTitle: "Верните телу природную легкость и свободу движений за 2–3 сеанса",
+    heroText: "Авторская мио-фасциальная практика от Игоря Шамшина. 20+ лет опыта в восстановительной медицине. Бережное освобождение от зажимов, отеков и хронической усталости. Без боли и жестких скручиваний.",
+    btnWrite: "Написать мне в MAX",
+    btnCall: "Позвонить мне",
+    btnTestAgain: "Пройти тест еще раз",
+    callNote: "Если я на сеансе, ответит электронный секретарь. Оставьте имя и цель звонка — я перезвоню.",
+    
+    compareTitle: "Почему 1 сеанс эффективнее, чем целый курс массажа?",
+    compareText: "Классический массаж работает с верхушкой айсберга — мышцами. Поэтому после курса из 10 сеансов дискомфорт часто возвращается. Игорь Шамшин работает с первопричиной.",
+    comparePrice: "Сеанс стоит 8 000 рублей, потому что это не конвейер (помять спинку, шейку), а тонкая работа по индивидуальной настройке вашего тела на легкость и свободу движения.",
+    
+    expertTitle: "Мой путь и экспертность",
+    expertText: "Забота о теле требует не только чутких рук, но и фундаментальных знаний.",
+    expertFooter: "Теперь я использую эти знания и опыт в мягкой мио-фасциальной практике, помогая возвращать легкость движений без боли.",
+    
+    resultsTitle: "Что меняется в жизни и теле после 2–3 сеансов?",
+    resultsText: "Когда внутреннее напряжение уходит, органы и мышцы встают на свои природные места.",
+    
+    locationsTitle: "Два пространства в Москве",
+    locationsText: "Прием проходит в современных бьюти-коворкингах премиум-класса. Уютно, комфортно, без очередей и больничной атмосферы.",
+    
+    giftTitle: "Подарок для тех, кто прошел тест",
+    giftText: "Мы выявили зоны вашего напряжения. Чтобы вы могли начать помогать себе уже сегодня, я дарю вам видео-гайд по остеопатической экспресс-разгрузке именно для вашей зоны (шея, поясница, грудной отдел или таз).",
+    giftSubtext: "Это мягкие и безопасные техники, которые я использую в своей практике.",
+    giftBtn: "Получить гайд в MAX",
+    giftNote: "Просто напишите мне слово «ГАЙД» и пришлите скриншот результата теста.",
+    
+    casesTitle: "Реальные истории клиентов",
+    footerDisclaimer: "Мио-фасциальная практика — это оздоровительный метод. Не заменяет медицинскую диагностику. При острых состояниях рекомендуется консультация врача."
+  }
+};
