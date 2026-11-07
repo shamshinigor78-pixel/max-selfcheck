@@ -22,16 +22,11 @@
   document.getElementById("btn-start").textContent = TEXT.btnStart;
   document.getElementById("btn-restart").textContent = TEXT.btnRestart;
   document.getElementById("btn-close").textContent = TEXT.btnClose;
-  
-  const btnGoToMax = document.getElementById("btn-go-to-max");
-  btnGoToMax.textContent = TEXT.btnGoToMax;
-  btnGoToMax.href = LINKS.bot;
 
   if (!isInsideMax) {
     document.getElementById("btn-close").style.display = "none"; 
-    btnGoToMax.style.display = "block"; 
     const browserNote = document.getElementById("ui-browser-note");
-    browserNote.textContent = TEXT.browserNote;
+    browserNote.textContent = "Вы проходите тест в браузере. В конце вы сможете выбрать, в каком мессенджере вам удобнее получить гайд и связаться со мной.";
     browserNote.style.display = "block";
   }
 
@@ -270,7 +265,7 @@
       guideBox.style.marginBottom = "20px";
       guideBox.style.borderLeft = "4px solid var(--guide-border)";
       guideBox.style.fontSize = "0.9rem";
-      guideBox.textContent = "🎁 Если хотите получить персональный гайд по экспресс-разгрузке именно вашей зоны напряжения — напишите мне в MAX и пришлите скриншот этого результата. Отправлю методику бесплатно.";
+      guideBox.textContent = "🎁 Если хотите получить персональный гайд по экспресс-разгрузке именно вашей зоны напряжения — напишите мне в удобный мессенджер и пришлите скриншот этого результата. Отправлю методику бесплатно.";
       resultActions.appendChild(guideBox);
 
       if (result.warning) {
@@ -285,11 +280,28 @@
         resultActions.appendChild(warnBox);
       }
 
-      resultActions.appendChild(createActionBlock("Записаться на сеанс", "Отвечу на вопросы и подберу удобное время", [
-        { text: "Написать мне", href: LINKS.bot, style: "primary" },
-        { text: "Позвонить мне", href: LINKS.phone, style: "secondary" }
-      ], "Если я на сеансе, ответит электронный секретарь. Оставьте имя и цель звонка — я перезвоню."));
+      // Блок с кнопками выбора (в браузере) или только MAX (внутри MAX)
+      const actionBlock = el("div", "action-block");
+      actionBlock.appendChild(el("div", "action-title", "Написать мне"));
+      actionBlock.appendChild(el("div", "action-hint", "Выберите удобный мессенджер:"));
 
+      if (isInsideMax) {
+        actionBlock.appendChild(createActionButton("Написать в MAX", LINKS.max, "primary"));
+      } else {
+        actionBlock.appendChild(createActionButton("Написать в MAX", LINKS.max, "primary"));
+        actionBlock.appendChild(createActionButton("Написать в Telegram", LINKS.tg, "secondary"));
+        actionBlock.appendChild(createActionButton("Написать в WhatsApp", LINKS.wa, "secondary"));
+      }
+
+      actionBlock.appendChild(createActionButton("Позвонить мне", LINKS.phone, "secondary"));
+      
+      const callHint = el("div", "action-hint", "Если я на сеансе, ответит электронный секретарь. Оставьте имя и цель звонка — я перезвоню.");
+      callHint.style.marginTop = "10px";
+      callHint.style.marginBottom = "0";
+      callHint.style.fontSize = "0.75rem";
+      actionBlock.appendChild(callHint);
+      resultActions.appendChild(actionBlock);
+      
       resultActions.appendChild(createActionBlock("Хочу узнать о методике", "Что это, как проходит, кому подходит", [
         { text: "Подробнее на сайте", href: LINKS.landing, style: "secondary" }
       ]));
