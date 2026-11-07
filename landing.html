@@ -99,10 +99,11 @@
 
       <div class="btn-group">
         <a href="#" id="ld-btn-write" class="btn btn-max">Написать в MAX</a>
+        <a href="#" id="ld-btn-tg" class="btn btn-tg">Написать в Telegram</a>
         <a href="#" id="ld-btn-wa" class="btn btn-wa">Написать в WhatsApp</a>
       </div>
       <div class="btn-group" style="margin-top: 0;">
-        <a href="#" id="ld-btn-call" class="btn btn-outline"></a>
+        <a href="#" id="ld-btn-call" class="btn btn-outline">Позвонить мне</a>
       </div>
       <p class="btn-note" id="ld-call-note"></p>
       
@@ -269,10 +270,11 @@
 
       <div class="btn-group" style="margin-top: 40px;">
         <a href="#" id="ld-btn-write2" class="btn btn-max">Написать в MAX</a>
+        <a href="#" id="ld-btn-tg2" class="btn btn-tg">Написать в Telegram</a>
         <a href="#" id="ld-btn-wa2" class="btn btn-wa">Написать в WhatsApp</a>
       </div>
       <div class="btn-group" style="margin-top: 0;">
-        <a href="#" id="ld-btn-call2" class="btn btn-outline"></a>
+        <a href="#" id="ld-btn-call2" class="btn btn-outline">Позвонить мне</a>
       </div>
       <p class="btn-note" id="ld-call-note2"></p>
 
@@ -323,11 +325,16 @@
         if (el) el.href = href;
       };
 
-      // Ссылки на кнопки
+      // Ссылки на кнопки (теперь везде MAX, TG и WA)
       setBtn("ld-btn-write", L.max);
       setBtn("ld-btn-write2", L.max);
+      
+      setBtn("ld-btn-tg", L.tg);
+      setBtn("ld-btn-tg2", L.tg);
+      
       setBtn("ld-btn-wa", L.wa);
       setBtn("ld-btn-wa2", L.wa);
+      
       setBtn("ld-btn-call", L.phone);
       setBtn("ld-btn-call2", L.phone);
       setBtn("ld-btn-test", L.test);
