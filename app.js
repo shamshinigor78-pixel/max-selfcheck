@@ -177,10 +177,19 @@
     return { outcome: "normal", percent: percent };
   }
 
-  function createActionButton(text, href, style) {
+  // Функция создания кнопки с кастомными цветами
+  function createActionButton(text, href, style, customBg, customShadow) {
     const a = el("a", "btn " + (style || "secondary"), text);
     a.href = href;
     a.target = "_blank";
+    
+    if (customBg) {
+      a.style.background = customBg;
+      a.style.color = "#fff";
+      a.style.boxShadow = "0 4px 0 " + (customShadow || "#000");
+      a.classList.remove("btn-secondary");
+    }
+    
     a.addEventListener("click", function() {
       if (navigator.vibrate) navigator.vibrate(10);
     });
@@ -191,7 +200,7 @@
     const block = el("div", "action-block");
     block.appendChild(el("div", "action-title", title));
     if (hint) block.appendChild(el("div", "action-hint", hint));
-    buttons.forEach(function (b) { block.appendChild(createActionButton(b.text, b.href, b.style)); });
+    buttons.forEach(function (b) { block.appendChild(createActionButton(b.text, b.href, b.style, b.bg, b.shadow)); });
     if (footerText) {
       const footer = el("div", "action-hint", footerText);
       footer.style.marginTop = "10px";
@@ -280,17 +289,18 @@
         resultActions.appendChild(warnBox);
       }
 
-      // Блок с кнопками выбора (в браузере) или только MAX (внутри MAX)
+      // Блок с кнопками выбора
       const actionBlock = el("div", "action-block");
       actionBlock.appendChild(el("div", "action-title", "Написать мне"));
       actionBlock.appendChild(el("div", "action-hint", "Выберите удобный мессенджер:"));
 
+      // Кнопки с кастомными цветами (Передаем фон и тень)
       if (isInsideMax) {
         actionBlock.appendChild(createActionButton("Написать в MAX", LINKS.max, "primary"));
       } else {
         actionBlock.appendChild(createActionButton("Написать в MAX", LINKS.max, "primary"));
-        actionBlock.appendChild(createActionButton("Написать в Telegram", LINKS.tg, "secondary"));
-        actionBlock.appendChild(createActionButton("Написать в WhatsApp", LINKS.wa, "secondary"));
+        actionBlock.appendChild(createActionButton("Написать в Telegram", LINKS.tg, "custom", "#229ED9", "#1A7CA8"));
+        actionBlock.appendChild(createActionButton("Написать в WhatsApp", LINKS.wa, "custom", "#25D366", "#128C7E"));
       }
 
       actionBlock.appendChild(createActionButton("Позвонить мне", LINKS.phone, "secondary"));
