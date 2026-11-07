@@ -2,7 +2,7 @@
 
 (function () {
   const webApp = (typeof window !== "undefined" && window.WebApp) ? window.WebApp : null;
-  const isInsideMax = webApp !== null; // Проверяем, внутри ли MAX
+  const isInsideMax = webApp !== null;
 
   if (webApp && typeof webApp.ready === "function") {
     try { webApp.ready(); } catch (_) {}
@@ -17,7 +17,6 @@
   const LINKS = CONTENT.links;
   const TEXT = CONTENT.app;
   
-  // Подставляем тексты
   document.getElementById("ui-start-title").textContent = TEXT.title;
   document.getElementById("ui-start-hint").textContent = TEXT.hint;
   document.getElementById("btn-start").textContent = TEXT.btnStart;
@@ -28,13 +27,9 @@
   btnGoToMax.textContent = TEXT.btnGoToMax;
   btnGoToMax.href = LINKS.bot;
 
-  // Логика отображения кнопок в зависимости от среды
   if (!isInsideMax) {
-    // Если мы в браузере:
-    document.getElementById("btn-close").style.display = "none"; // Скрываем "Закрыть"
-    btnGoToMax.style.display = "block"; // Показываем "Перейти в MAX"
-    
-    // Показываем подсказку на стартовом экране
+    document.getElementById("btn-close").style.display = "none"; 
+    btnGoToMax.style.display = "block"; 
     const browserNote = document.getElementById("ui-browser-note");
     browserNote.textContent = TEXT.browserNote;
     browserNote.style.display = "block";
@@ -275,7 +270,7 @@
       guideBox.style.marginBottom = "20px";
       guideBox.style.borderLeft = "4px solid var(--guide-border)";
       guideBox.style.fontSize = "0.9rem";
-      guideBox.textContent = "🎁 Если хотите получить персональный видео-гайд по экспресс-разгрузке именно вашей зоны напряжения — напишите мне в MAX и пришлите скриншот этого результата. Отправлю методику бесплатно.";
+      guideBox.textContent = "🎁 Если хотите получить персональный гайд по экспресс-разгрузке именно вашей зоны напряжения — напишите мне в MAX и пришлите скриншот этого результата. Отправлю методику бесплатно.";
       resultActions.appendChild(guideBox);
 
       if (result.warning) {
