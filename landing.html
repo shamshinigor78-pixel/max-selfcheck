@@ -24,11 +24,24 @@
     .overline { text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; color: var(--accent); font-weight: 700; margin-bottom: 10px; display: block; }
     
     .btn-group { display: flex; flex-direction: column; gap: 12px; margin: 30px 0 15px; }
-    .btn { display: flex; align-items: center; justify-content: center; width: 100%; padding: 18px 20px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: all 0.2s ease; cursor: pointer; }
-    .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 6px 0 var(--accent-hover); transform: translateY(0); }
-    .btn-primary:hover { background: var(--accent-hover); transform: translateY(2px); box-shadow: 0 4px 0 var(--accent-hover); }
-    .btn-primary:active { transform: translateY(6px); box-shadow: 0 0px 0 var(--accent-hover); }
+    .btn { display: flex; align-items: center; justify-content: center; width: 100%; padding: 18px 20px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: all 0.2s ease; cursor: pointer; border: none; color: #fff; }
     
+    /* MAX */
+    .btn-max { background: var(--accent); box-shadow: 0 6px 0 var(--accent-hover); }
+    .btn-max:hover { background: var(--accent-hover); transform: translateY(2px); box-shadow: 0 4px 0 var(--accent-hover); }
+    .btn-max:active { transform: translateY(6px); box-shadow: 0 0px 0 var(--accent-hover); }
+
+    /* Telegram */
+    .btn-tg { background: #229ED9; box-shadow: 0 6px 0 #1A7CA8; }
+    .btn-tg:hover { background: #1A7CA8; transform: translateY(2px); box-shadow: 0 4px 0 #1A7CA8; }
+    .btn-tg:active { transform: translateY(6px); box-shadow: 0 0px 0 #1A7CA8; }
+
+    /* WhatsApp */
+    .btn-wa { background: #25D366; box-shadow: 0 6px 0 #128C7E; }
+    .btn-wa:hover { background: #128C7E; transform: translateY(2px); box-shadow: 0 4px 0 #128C7E; }
+    .btn-wa:active { transform: translateY(6px); box-shadow: 0 0px 0 #128C7E; }
+    
+    /* Звонок */
     .btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); box-shadow: 0 6px 0 var(--accent-soft); transform: translateY(0); }
     .btn-outline:hover { background: var(--accent-soft); transform: translateY(2px); box-shadow: 0 4px 0 var(--accent-soft); }
     .btn-outline:active { transform: translateY(6px); box-shadow: 0 0px 0 var(--accent-soft); }
@@ -66,8 +79,8 @@
       .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
       .grid-4 { grid-template-columns: 1fr 1fr; }
       .compare-grid { grid-template-columns: 1fr 1fr; }
-      .btn-group { flex-direction: row; justify-content: center; }
-      .btn { width: auto; min-width: 250px; }
+      .btn-group { flex-direction: row; justify-content: center; flex-wrap: wrap; }
+      .btn { width: auto; min-width: 200px; }
     }
   </style>
 </head>
@@ -85,8 +98,8 @@
       </div>
 
       <div class="btn-group">
-        <a href="#" id="ld-btn-write" class="btn btn-primary"></a>
-        <a href="#" id="ld-btn-wa" class="btn btn-primary" style="background: #25D366; box-shadow: 0 6px 0 #128C7E;"></a>
+        <a href="#" id="ld-btn-write" class="btn btn-max">Написать в MAX</a>
+        <a href="#" id="ld-btn-wa" class="btn btn-wa">Написать в WhatsApp</a>
       </div>
       <div class="btn-group" style="margin-top: 0;">
         <a href="#" id="ld-btn-call" class="btn btn-outline"></a>
@@ -220,8 +233,8 @@
         <p style="font-size: 0.95rem; color: var(--muted);" id="ld-gift-subtext"></p>
         
         <div class="btn-group" style="margin-top: 20px;">
-          <a href="#" id="ld-btn-gift-tg" class="btn btn-primary">Получить гайд в Telegram</a>
-          <a href="#" id="ld-btn-gift-wa" class="btn btn-outline">Получить гайд в WhatsApp</a>
+          <a href="#" id="ld-btn-gift-tg" class="btn btn-tg">Получить гайд в Telegram</a>
+          <a href="#" id="ld-btn-gift-wa" class="btn btn-wa">Получить гайд в WhatsApp</a>
         </div>
         <p style="font-size: 0.85rem; margin-top: 10px; color: var(--muted);" id="ld-gift-note"></p>
       </div>
@@ -255,8 +268,8 @@
       </div>
 
       <div class="btn-group" style="margin-top: 40px;">
-        <a href="#" id="ld-btn-write2" class="btn btn-primary"></a>
-        <a href="#" id="ld-btn-wa2" class="btn btn-primary" style="background: #25D366; box-shadow: 0 6px 0 #128C7E;"></a>
+        <a href="#" id="ld-btn-write2" class="btn btn-max">Написать в MAX</a>
+        <a href="#" id="ld-btn-wa2" class="btn btn-wa">Написать в WhatsApp</a>
       </div>
       <div class="btn-group" style="margin-top: 0;">
         <a href="#" id="ld-btn-call2" class="btn btn-outline"></a>
@@ -282,7 +295,6 @@
       const C = CONTENT.landing;
       const L = CONTENT.links;
 
-      // Тексты
       document.getElementById("ld-hero-title").textContent = C.heroTitle;
       document.getElementById("ld-hero-text").textContent = C.heroText;
       document.getElementById("ld-call-note").textContent = C.callNote;
@@ -306,25 +318,23 @@
       document.getElementById("ld-cases-title").textContent = C.casesTitle;
       document.getElementById("ld-footer-disclaimer").textContent = C.footerDisclaimer;
 
-      // Кнопки (теперь ведут в TG и WA)
-      const setBtn = (id, text, href) => {
+      const setBtn = (id, href) => {
         const el = document.getElementById(id);
-        if (el) {
-          el.textContent = text;
-          el.href = href;
-        }
+        if (el) el.href = href;
       };
 
-      setBtn("ld-btn-write", C.btnWriteTg, L.tg);
-      setBtn("ld-btn-write2", C.btnWriteTg, L.tg);
-      setBtn("ld-btn-wa", C.btnWriteWa, L.wa);
-      setBtn("ld-btn-wa2", C.btnWriteWa, L.wa);
-      setBtn("ld-btn-call", C.btnCall, L.phone);
-      setBtn("ld-btn-call2", C.btnCall, L.phone);
-      setBtn("ld-btn-test", C.btnTestAgain, L.test);
+      // Ссылки на кнопки
+      setBtn("ld-btn-write", L.max);
+      setBtn("ld-btn-write2", L.max);
+      setBtn("ld-btn-wa", L.wa);
+      setBtn("ld-btn-wa2", L.wa);
+      setBtn("ld-btn-call", L.phone);
+      setBtn("ld-btn-call2", L.phone);
+      setBtn("ld-btn-test", L.test);
       
-      setBtn("ld-btn-gift-tg", "Получить гайд в Telegram", L.tg);
-      setBtn("ld-btn-gift-wa", "Получить гайд в WhatsApp", L.wa);
+      // Кнопки для гайда
+      setBtn("ld-btn-gift-tg", L.tg);
+      setBtn("ld-btn-gift-wa", L.wa);
       
       const footerPhone = document.getElementById("ld-footer-phone");
       if (footerPhone) {
