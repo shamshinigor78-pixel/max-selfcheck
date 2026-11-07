@@ -177,7 +177,6 @@
     return { outcome: "normal", percent: percent };
   }
 
-  // Функция создания кнопки с кастомными цветами
   function createActionButton(text, href, style, customBg, customShadow) {
     const a = el("a", "btn " + (style || "secondary"), text);
     a.href = href;
@@ -292,12 +291,11 @@
       // Блок с кнопками выбора
       const actionBlock = el("div", "action-block");
       actionBlock.appendChild(el("div", "action-title", "Написать мне"));
-      actionBlock.appendChild(el("div", "action-hint", "Выберите удобный мессенджер:"));
-
-      // Кнопки с кастомными цветами (Передаем фон и тень)
+      
       if (isInsideMax) {
         actionBlock.appendChild(createActionButton("Написать в MAX", LINKS.max, "primary"));
       } else {
+        actionBlock.appendChild(el("div", "action-hint", "Выберите удобный мессенджер:"));
         actionBlock.appendChild(createActionButton("Написать в MAX", LINKS.max, "primary"));
         actionBlock.appendChild(createActionButton("Написать в Telegram", LINKS.tg, "custom", "#229ED9", "#1A7CA8"));
         actionBlock.appendChild(createActionButton("Написать в WhatsApp", LINKS.wa, "custom", "#25D366", "#128C7E"));
@@ -312,7 +310,7 @@
       actionBlock.appendChild(callHint);
       resultActions.appendChild(actionBlock);
       
-      resultActions.appendChild(createActionBlock("Хочу узнать о методике", "Что это, как проходит, кому подходит", [
+      resultActions.appendChild(createActionBlock("Хочу узнать о методике", null, [
         { text: "Подробнее на сайте", href: LINKS.landing, style: "secondary" }
       ]));
       
