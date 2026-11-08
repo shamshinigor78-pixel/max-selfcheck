@@ -23,6 +23,7 @@
   document.getElementById("btn-restart").textContent = TEXT.btnRestart;
   document.getElementById("btn-close").textContent = TEXT.btnClose;
 
+  // Если мы в браузере, скрываем кнопку "Закрыть" и показываем подсказку
   if (!isInsideMax) {
     document.getElementById("btn-close").style.display = "none"; 
     const browserNote = document.getElementById("ui-browser-note");
@@ -288,19 +289,14 @@
         resultActions.appendChild(warnBox);
       }
 
-      // Блок с кнопками выбора
+      // Блок с кнопками выбора (ТЕПЕРЬ ВСЕГДА ПОКАЗЫВАЕМ ВСЕ ТРИ)
       const actionBlock = el("div", "action-block");
       actionBlock.appendChild(el("div", "action-title", "Написать мне"));
+      actionBlock.appendChild(el("div", "action-hint", "Выберите удобный мессенджер:"));
       
-      if (isInsideMax) {
-        actionBlock.appendChild(createActionButton("Написать в MAX", LINKS.max, "primary"));
-      } else {
-        actionBlock.appendChild(el("div", "action-hint", "Выберите удобный мессенджер:"));
-        actionBlock.appendChild(createActionButton("Написать в MAX", LINKS.max, "primary"));
-        actionBlock.appendChild(createActionButton("Написать в Telegram", LINKS.tg, "custom", "#229ED9", "#1A7CA8"));
-        actionBlock.appendChild(createActionButton("Написать в WhatsApp", LINKS.wa, "custom", "#25D366", "#128C7E"));
-      }
-
+      actionBlock.appendChild(createActionButton("Написать в MAX", LINKS.max, "primary"));
+      actionBlock.appendChild(createActionButton("Написать в Telegram", LINKS.tg, "custom", "#229ED9", "#1A7CA8"));
+      actionBlock.appendChild(createActionButton("Написать в WhatsApp", LINKS.wa, "custom", "#25D366", "#128C7E"));
       actionBlock.appendChild(createActionButton("Позвонить мне", LINKS.phone, "secondary"));
       
       const callHint = el("div", "action-hint", "Если я на сеансе, ответит электронный секретарь. Оставьте имя и цель звонка — я перезвоню.");
