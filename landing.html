@@ -233,7 +233,9 @@
         <p id="ld-gift-text"></p>
         <p style="font-size: 0.95rem; color: var(--muted);" id="ld-gift-subtext"></p>
         
+        <!-- Добавлена кнопка MAX -->
         <div class="btn-group" style="margin-top: 20px;">
+          <a href="#" id="ld-btn-gift-max" class="btn btn-max">Получить гайд в MAX</a>
           <a href="#" id="ld-btn-gift-tg" class="btn btn-tg">Получить гайд в Telegram</a>
           <a href="#" id="ld-btn-gift-wa" class="btn btn-wa">Получить гайд в WhatsApp</a>
         </div>
@@ -325,7 +327,7 @@
         if (el) el.href = href;
       };
 
-      // Ссылки на кнопки (теперь везде MAX, TG и WA)
+      // Ссылки на кнопки (верхние и нижние)
       setBtn("ld-btn-write", L.max);
       setBtn("ld-btn-write2", L.max);
       
@@ -339,7 +341,8 @@
       setBtn("ld-btn-call2", L.phone);
       setBtn("ld-btn-test", L.test);
       
-      // Кнопки для гайда
+      // Ссылки для кнопок подарка (теперь их три)
+      setBtn("ld-btn-gift-max", L.max);
       setBtn("ld-btn-gift-tg", L.tg);
       setBtn("ld-btn-gift-wa", L.wa);
       
