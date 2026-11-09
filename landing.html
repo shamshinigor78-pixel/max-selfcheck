@@ -3,13 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Мио-фасциальная практика Игоря Шамшина | Москва</title>
+  
+  <!-- 🚀 ДИНАМИЧЕСКОЕ SEO (заполняется из content.js) -->
+  <title id="seo-title">Загрузка...</title>
+  <meta name="description" id="seo-description" content="">
+  <meta property="og:title" id="seo-og-title" content="">
+  <meta property="og:description" id="seo-og-description" content="">
+  <meta property="og:image" id="seo-og-image" content="">
+
   <style>
     html { scroll-behavior: smooth; }
     :root {
       --bg-main: #fbf9f6; --bg-alt: #f2efe9; --fg: #2b2a28; --muted: #8a8580;
       --accent: #4a8f6f; --accent-hover: #3b755a; --accent-soft: #e8f0ea;
-      --card-bg: #ffffff; --border: #ebe6df; --radius: 16px;
+      --tg: #229ED9; --wa: #25D366; --card-bg: #ffffff; --border: #ebe6df; --radius: 16px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg-main); color: var(--fg); line-height: 1.6; -webkit-font-smoothing: antialiased; }
@@ -24,18 +31,15 @@
     
     .btn-group { display: flex; flex-direction: column; gap: 12px; margin: 30px 0 15px; }
     .btn { display: flex; align-items: center; justify-content: center; width: 100%; padding: 18px 20px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: all 0.2s ease; cursor: pointer; border: none; color: #fff; }
-    .btn-max { background: var(--accent); box-shadow: 0 6px 0 var(--accent-hover); }
-    .btn-max:hover { background: var(--accent-hover); transform: translateY(2px); box-shadow: 0 4px 0 var(--accent-hover); }
-    .btn-max:active { transform: translateY(6px); box-shadow: 0 0px 0 var(--accent-hover); }
-    .btn-tg { background: #229ED9; box-shadow: 0 6px 0 #1A7CA8; }
-    .btn-tg:hover { background: #1A7CA8; transform: translateY(2px); box-shadow: 0 4px 0 #1A7CA8; }
-    .btn-tg:active { transform: translateY(6px); box-shadow: 0 0px 0 #1A7CA8; }
-    .btn-wa { background: #25D366; box-shadow: 0 6px 0 #128C7E; }
-    .btn-wa:hover { background: #128C7E; transform: translateY(2px); box-shadow: 0 4px 0 #128C7E; }
-    .btn-wa:active { transform: translateY(6px); box-shadow: 0 0px 0 #128C7E; }
-    .btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); box-shadow: 0 6px 0 var(--accent-soft); transform: translateY(0); }
+    .btn-primary { background: var(--accent); box-shadow: 0 6px 0 var(--accent-hover); }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(2px); box-shadow: 0 4px 0 var(--accent-hover); }
+    .btn-primary:active { transform: translateY(6px); box-shadow: 0 0px 0 var(--accent-hover); }
+    .btn-tg { background: var(--tg); box-shadow: 0 6px 0 rgba(0,0,0,0.2); }
+    .btn-tg:hover { filter: brightness(0.9); transform: translateY(2px); box-shadow: 0 4px 0 rgba(0,0,0,0.2); }
+    .btn-wa { background: var(--wa); box-shadow: 0 6px 0 rgba(0,0,0,0.2); }
+    .btn-wa:hover { filter: brightness(0.9); transform: translateY(2px); box-shadow: 0 4px 0 rgba(0,0,0,0.2); }
+    .btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); box-shadow: 0 6px 0 var(--accent-soft); }
     .btn-outline:hover { background: var(--accent-soft); transform: translateY(2px); box-shadow: 0 4px 0 var(--accent-soft); }
-    .btn-outline:active { transform: translateY(6px); box-shadow: 0 0px 0 var(--accent-soft); }
     .btn-note { text-align: center; font-size: 0.85rem; color: var(--muted); margin-bottom: 20px; }
     
     .hero-img-container { width: 100%; height: 300px; border-radius: var(--radius); background: linear-gradient(135deg, #e8f0ea 0%, #d4e4d9 100%); margin: 25px 0; box-shadow: 0 8px 24px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; color: var(--accent); font-weight: 600; overflow: hidden; }
@@ -57,19 +61,16 @@
     .card { background: var(--card-bg); border-radius: var(--radius); padding: 24px; border: 1px solid var(--border); }
     .card-icon { font-size: 2rem; margin-bottom: 15px; display: block; }
     .card-result { background: var(--bg-main); padding: 20px; border-radius: 12px; border: 1px solid var(--border); }
-    
     .card-img { width: 100%; height: 180px; border-radius: 12px; object-fit: cover; margin-bottom: 15px; background: var(--bg-alt); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 0.9rem; }
     .card-img img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
     
     .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; font-size: 0.9rem; color: var(--muted); }
 
-    /* Стили для кнопок локаций и модального окна */
     .city-group { margin-bottom: 15px; }
     .city-name { font-weight: 600; color: var(--muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display: block; text-align: center; }
     .location-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px; }
     .location-btn { padding: 12px 20px; border-radius: 30px; border: 2px solid var(--accent); background: var(--bg-main); color: var(--accent); font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 8px; }
     .location-btn:hover { background: var(--accent-soft); transform: translateY(-2px); }
-    .location-btn:active { transform: translateY(0); }
 
     .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px; opacity: 0; transition: opacity 0.3s ease; }
     .modal-overlay.active { display: flex; opacity: 1; }
@@ -80,9 +81,14 @@
     .modal-img { width: 100%; height: 250px; border-radius: 12px; object-fit: cover; margin-bottom: 20px; background: var(--bg-alt); display: none; }
     .modal-title { font-size: 1.5rem; margin-bottom: 10px; padding-right: 30px; }
     .modal-text { font-size: 1rem; margin-bottom: 15px; }
-    
     .modal-price-box { background: var(--accent-soft); border-left: 4px solid var(--accent); padding: 10px 15px; border-radius: 8px; margin-bottom: 20px; font-weight: 600; font-size: 1.1rem; color: var(--fg); display: flex; align-items: center; gap: 10px; }
     .modal-price-box span { color: var(--accent); }
+
+    /* 🚀 Стили для формы заявки */
+    .lead-form { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+    .lead-form input { width: 100%; padding: 15px; border: 1px solid var(--border); border-radius: 10px; font-size: 1rem; font-family: inherit; background: var(--card-bg); }
+    .lead-form input:focus { outline: none; border-color: var(--accent); }
+    .lead-form .privacy { font-size: 0.75rem; color: var(--muted); text-align: center; margin-top: 5px; }
 
     @media (min-width: 768px) {
       .container { max-width: 900px; }
@@ -108,15 +114,17 @@
         <img src="igor.jpg" alt="Игорь Шамшин" onerror="this.style.display='none'; this.parentElement.innerHTML='<span>Фото специалиста</span>';">
       </div>
       
-      <div class="btn-group">
-        <a href="#" id="ld-btn-tg" class="btn btn-tg">Написать в Telegram</a>
-        <a href="#" id="ld-btn-wa" class="btn btn-wa">Написать в WhatsApp</a>
-        <a href="#" id="ld-btn-write" class="btn btn-max">Написать в MAX</a>
-      </div>
+      <div class="btn-group" id="main-messenger-buttons"></div>
       <div class="btn-group" style="margin-top: 0;">
         <a href="#" id="ld-btn-call" class="btn btn-outline">Позвонить мне</a>
       </div>
       <p class="btn-note" id="ld-call-note"></p>
+      
+      <!-- 🚀 Онлайн-запись -->
+      <div id="online-booking-section" style="text-align: center; margin-top: 25px; display: none;">
+        <a href="#" id="ld-btn-online-booking" class="btn btn-primary" style="display: inline-flex; width: auto; min-width: 280px; background: var(--accent);"></a>
+      </div>
+
       <div style="text-align: center; margin-top: 25px;">
         <a href="#" id="ld-btn-test" style="color: var(--accent); font-size: 0.95rem; text-decoration: underline;"></a>
       </div>
@@ -165,37 +173,22 @@
     <div class="container">
       <h2 id="ld-locations-title"></h2>
       <p id="ld-locations-text"></p>
-      
       <p style="text-align: center; margin-top: -10px; margin-bottom: 20px;">
-        <a href="#news-section" style="color: var(--accent); font-weight: 600; text-decoration: none; border-bottom: 1px dashed var(--accent);">
-          Ищете меня в другом городе? Смотреть анонсы гастролей ↓
-        </a>
+        <a href="#news-section" style="color: var(--accent); font-weight: 600; text-decoration: none; border-bottom: 1px dashed var(--accent);">Ищете меня в другом городе? Смотреть анонсы гастролей ↓</a>
       </p>
-
-      <!-- Сюда рендерятся кнопки локаций -->
       <div id="ld-locations-grid"></div>
     </div>
   </section>
 
-  <!-- БЛОК СТОИМОСТИ -->
   <section class="section section-alt" id="pricing-section">
     <div class="container">
       <h2 id="ld-pricing-title" style="text-align: center;"></h2>
-      
       <div class="card" style="max-width: 500px; margin: 0 auto; text-align: center; border: 2px solid var(--accent); padding: 30px 20px; background: var(--card-bg);">
         <h3 id="ld-pricing-name" style="font-size: 1.3rem; margin-bottom: 5px;"></h3>
         <p id="ld-pricing-duration" style="color: var(--muted); font-size: 0.95rem; margin-bottom: 20px;"></p>
-        
         <div id="ld-pricing-price" style="font-size: 2.5rem; font-weight: 700; color: var(--accent); margin-bottom: 20px;"></div>
-        
         <p id="ld-pricing-desc" style="font-size: 0.95rem; margin-bottom: 25px; color: var(--fg);"></p>
-        
-        <!-- ИСПРАВЛЕНО: Добавлены 3 кнопки мессенджеров -->
-        <div class="btn-group" style="margin-top: 0; justify-content: center;">
-          <a href="#" id="ld-btn-price-tg" class="btn btn-tg">Написать в Telegram</a>
-          <a href="#" id="ld-btn-price-wa" class="btn btn-wa">Написать в WhatsApp</a>
-          <a href="#" id="ld-btn-price-max" class="btn btn-max">Записаться в MAX</a>
-        </div>
+        <div class="btn-group" id="price-buttons" style="margin-top: 0; justify-content: center;"></div>
       </div>
     </div>
   </section>
@@ -207,12 +200,7 @@
         <h2 style="color: var(--accent); margin-bottom: 10px;" id="ld-gift-title"></h2>
         <p id="ld-gift-text"></p>
         <p style="font-size: 0.95rem; color: var(--muted);" id="ld-gift-subtext"></p>
-        
-        <div class="btn-group" style="margin-top: 20px;">
-          <a href="#" id="ld-btn-gift-tg" class="btn btn-tg">Получить гайд в Telegram</a>
-          <a href="#" id="ld-btn-gift-wa" class="btn btn-wa">Получить гайд в WhatsApp</a>
-          <a href="#" id="ld-btn-gift-max" class="btn btn-max">Получить гайд в MAX</a>
-        </div>
+        <div class="btn-group" id="gift-buttons" style="margin-top: 20px;"></div>
         <p style="font-size: 0.85rem; margin-top: 10px; color: var(--muted);" id="ld-gift-note"></p>
       </div>
     </div>
@@ -231,16 +219,24 @@
       <h2 id="ld-cases-title"></h2>
       <div class="grid-3" id="ld-cases-grid"></div>
       
-      <div class="btn-group" style="margin-top: 40px;">
-        <a href="#" id="ld-btn-tg2" class="btn btn-tg">Написать в Telegram</a>
-        <a href="#" id="ld-btn-wa2" class="btn btn-wa">Написать в WhatsApp</a>
-        <a href="#" id="ld-btn-write2" class="btn btn-max">Написать в MAX</a>
-      </div>
+      <div class="btn-group" style="margin-top: 40px;" id="footer-messenger-buttons"></div>
       <div class="btn-group" style="margin-top: 0;">
         <a href="#" id="ld-btn-call2" class="btn btn-outline">Позвонить мне</a>
       </div>
       <p class="btn-note" id="ld-call-note2"></p>
-      
+
+      <!-- 🚀 ФОРМА ЗАЯВКИ -->
+      <div id="lead-form-section" class="card" style="margin-top: 40px; display: none; border: 2px solid var(--accent);">
+        <h3 id="ld-lead-title" style="text-align: center;"></h3>
+        <p id="ld-lead-subtitle" style="text-align: center; margin-bottom: 20px;"></p>
+        <form class="lead-form" id="lead-form">
+          <input type="text" id="lead-name" placeholder="Ваше имя" required>
+          <input type="tel" id="lead-phone" placeholder="Ваш телефон" required>
+          <button type="submit" class="btn btn-primary" id="ld-lead-btn" style="width: 100%;"></button>
+          <p class="privacy" id="ld-lead-privacy"></p>
+        </form>
+      </div>
+
       <div class="footer">
         <p>Связь: <a href="#" id="ld-footer-phone" style="color: var(--accent); text-decoration: none;"></a></p>
         <p style="font-size: 0.8rem; margin-top: 10px;" id="ld-footer-disclaimer"></p>
@@ -248,19 +244,14 @@
     </div>
   </section>
 
-  <!-- МОДАЛЬНОЕ ОКНО -->
   <div class="modal-overlay" id="location-modal">
     <div class="modal-content">
       <button class="modal-close" id="modal-close-btn">✕</button>
       <img id="modal-img" class="modal-img" src="" alt="Локация">
       <h3 id="modal-title" class="modal-title"></h3>
       <p id="modal-text" class="modal-text"></p>
-      
-      <div class="modal-price-box">
-        <span>💰 Стоимость:</span> <span id="modal-price"></span>
-      </div>
-      
-      <a href="#" id="modal-map-btn" class="btn btn-max" target="_blank" style="display: block;">Построить маршрут</a>
+      <div class="modal-price-box"><span>💰 Стоимость:</span> <span id="modal-price"></span></div>
+      <a href="#" id="modal-map-btn" class="btn btn-primary" target="_blank" style="display: block;">Построить маршрут</a>
     </div>
   </div>
 
@@ -268,11 +259,36 @@
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       if (typeof CONTENT === "undefined") return;
-
       const C = CONTENT.landing;
       const L = CONTENT.links;
+      const T = CONTENT.theme;
+      const SEO = CONTENT.seo || {};
+      const ONLINE = CONTENT.onlineBooking || {};
+      const LEAD = CONTENT.leadForm || {};
 
-      // Заполнение текстов
+      // 🚀 ЗАПОЛНЯЕМ SEO
+      document.getElementById("seo-title").textContent = SEO.title || C.heroTitle;
+      document.getElementById("seo-description").setAttribute("content", SEO.description || C.heroText);
+      document.getElementById("seo-og-title").setAttribute("content", SEO.title || C.heroTitle);
+      document.getElementById("seo-og-description").setAttribute("content", SEO.description || C.heroText);
+      document.getElementById("seo-og-image").setAttribute("content", SEO.ogImage || "");
+
+      // 🚀 ВСТАВЛЯЕМ КОД АНАЛИТИКИ
+      if (CONTENT.analytics && CONTENT.analytics.yandexMetrika) {
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.innerHTML = CONTENT.analytics.yandexMetrika;
+        document.head.appendChild(script);
+      }
+
+      // 🎨 ЦВЕТА
+      document.documentElement.style.setProperty('--accent', T.primary);
+      document.documentElement.style.setProperty('--accent-hover', T.primaryHover);
+      document.documentElement.style.setProperty('--accent-soft', T.primary + '20');
+      document.documentElement.style.setProperty('--tg', T.tg);
+      document.documentElement.style.setProperty('--wa', T.wa);
+
+      // ТЕКСТЫ
       document.getElementById("ld-hero-title").textContent = C.heroTitle;
       document.getElementById("ld-hero-text").textContent = C.heroText;
       document.getElementById("ld-call-note").textContent = C.callNote;
@@ -299,6 +315,58 @@
       document.getElementById("ld-pricing-duration").textContent = C.pricingDuration;
       document.getElementById("ld-pricing-price").textContent = C.pricingPrice;
       document.getElementById("ld-pricing-desc").textContent = C.pricingDesc;
+      document.getElementById("ld-btn-test").textContent = C.btnTestAgain;
+      document.getElementById("ld-btn-test").href = L.test;
+      document.getElementById("ld-btn-call").href = L.phone;
+      document.getElementById("ld-btn-call2").href = L.phone;
+
+      // 🚀 ОНЛАЙН-ЗАПИСЬ
+      if (ONLINE.enabled && ONLINE.link) {
+        document.getElementById("online-booking-section").style.display = "block";
+        const btn = document.getElementById("ld-btn-online-booking");
+        btn.href = ONLINE.link;
+        btn.textContent = ONLINE.text;
+        btn.target = "_blank";
+      }
+
+      // 🚀 ФОРМА ЗАЯВКИ
+      if (LEAD.enabled) {
+        document.getElementById("lead-form-section").style.display = "block";
+        document.getElementById("ld-lead-title").textContent = LEAD.title;
+        document.getElementById("ld-lead-subtitle").textContent = LEAD.subtitle;
+        document.getElementById("ld-lead-btn").textContent = LEAD.btnText;
+        document.getElementById("ld-lead-privacy").textContent = LEAD.privacyText;
+
+        document.getElementById("lead-form").addEventListener("submit", function(e) {
+          e.preventDefault();
+          const name = document.getElementById("lead-name").value;
+          const phone = document.getElementById("lead-phone").value;
+          const text = `Заявка с сайта!%0AИмя: ${name}%0AТелефон: ${phone}`;
+          window.open(`https://t.me/${LEAD.tgUsername}?text=${text}`, "_blank");
+        });
+      }
+
+      // ДИНАМИЧЕСКИЕ КНОПКИ
+      const renderButtons = (containerId, buttons) => {
+        const container = document.getElementById(containerId);
+        container.innerHTML = "";
+        buttons.forEach(btn => {
+          const a = document.createElement("a");
+          a.href = btn.link;
+          a.target = "_blank";
+          a.textContent = btn.text;
+          if (btn.type === 'primary') a.className = "btn btn-primary";
+          else if (btn.type === 'tg') a.className = "btn btn-tg";
+          else if (btn.type === 'wa') a.className = "btn btn-wa";
+          else a.className = "btn btn-outline";
+          container.appendChild(a);
+        });
+      };
+
+      renderButtons("main-messenger-buttons", CONTENT.messengerButtons);
+      renderButtons("footer-messenger-buttons", CONTENT.messengerButtons);
+      renderButtons("price-buttons", CONTENT.priceButtons);
+      renderButtons("gift-buttons", CONTENT.messengerButtons);
 
       // Таблица
       document.getElementById("ld-compare-bad-title").textContent = C.compareBadTitle;
@@ -308,10 +376,10 @@
       const goodList = document.getElementById("ld-compare-good-list");
       C.compareGoodList.forEach(text => { const li = document.createElement("li"); li.textContent = text; goodList.appendChild(li); });
 
-      // Карточки (кроме локаций)
+      // Карточки
       const buildCard = (containerId, data, className) => {
         const container = document.getElementById(containerId);
-        container.innerHTML = ""; // Очистка
+        container.innerHTML = ""; 
         data.forEach(item => {
           const card = document.createElement("div");
           card.className = className;
@@ -337,7 +405,7 @@
       buildCard("ld-results-grid", C.resultsCards, "card-result");
       buildCard("ld-cases-grid", C.casesCards, "card");
 
-      // ЛОКАЦИИ (Модальное окно и кнопки)
+      // ЛОКАЦИИ
       const locationsContainer = document.getElementById("ld-locations-grid");
       locationsContainer.innerHTML = "";
       const cities = {};
@@ -350,10 +418,8 @@
         const groupDiv = document.createElement("div");
         groupDiv.className = "city-group";
         groupDiv.innerHTML = '<span class="city-name">' + city + '</span>';
-        
         const btnContainer = document.createElement("div");
         btnContainer.className = "location-buttons";
-
         cities[city].forEach(loc => {
           const btn = document.createElement("button");
           btn.className = "location-btn";
@@ -365,7 +431,6 @@
         locationsContainer.appendChild(groupDiv);
       }
 
-      // Модалка
       const modal = document.getElementById("location-modal");
       const modalImg = document.getElementById("modal-img");
       const modalTitle = document.getElementById("modal-title");
@@ -379,23 +444,11 @@
         modalText.textContent = loc.text;
         modalMapBtn.href = loc.mapLink;
         modalPrice.textContent = loc.price; 
-        
-        if (loc.img) {
-          modalImg.src = loc.img;
-          modalImg.style.display = "block";
-        } else {
-          modalImg.style.display = "none";
-        }
-        
+        if (loc.img) { modalImg.src = loc.img; modalImg.style.display = "block"; } else { modalImg.style.display = "none"; }
         modal.classList.add("active");
         document.body.style.overflow = "hidden";
       }
-
-      function closeModal() {
-        modal.classList.remove("active");
-        document.body.style.overflow = "";
-      }
-
+      function closeModal() { modal.classList.remove("active"); document.body.style.overflow = ""; }
       modalCloseBtn.onclick = closeModal;
       modal.onclick = (e) => { if (e.target === modal) closeModal(); };
 
@@ -414,23 +467,6 @@
         });
       }
 
-      // Ссылки
-      const setBtn = (id, href) => { const el = document.getElementById(id); if (el) el.href = href; };
-      setBtn("ld-btn-write", L.max); setBtn("ld-btn-write2", L.max);
-      setBtn("ld-btn-tg", L.tg); setBtn("ld-btn-tg2", L.tg);
-      setBtn("ld-btn-wa", L.wa); setBtn("ld-btn-wa2", L.wa);
-      setBtn("ld-btn-call", L.phone); setBtn("ld-btn-call2", L.phone);
-      setBtn("ld-btn-test", L.test);
-      
-      setBtn("ld-btn-gift-max", L.max);
-      setBtn("ld-btn-gift-tg", L.tg);
-      setBtn("ld-btn-gift-wa", L.wa);
-
-      // НОВЫЕ КНОПКИ В БЛОКЕ ЦЕНЫ
-      setBtn("ld-btn-price-max", L.max);
-      setBtn("ld-btn-price-tg", L.tg);
-      setBtn("ld-btn-price-wa", L.wa);
-      
       const footerPhone = document.getElementById("ld-footer-phone");
       if (footerPhone) { footerPhone.textContent = L.phoneText; footerPhone.href = L.phone; }
     });
