@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Мио-фасциальная практика Игоря Шамшина | Москва</title>
   <style>
+    html {
+      scroll-behavior: smooth;
+    }
     :root {
       --bg-main: #fbf9f6; --bg-alt: #f2efe9; --fg: #2b2a28; --muted: #8a8580;
       --accent: #4a8f6f; --accent-hover: #3b755a; --accent-soft: #e8f0ea;
@@ -12,11 +15,9 @@
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg-main); color: var(--fg); line-height: 1.6; -webkit-font-smoothing: antialiased; }
-    
     .section { padding: 60px 20px; width: 100%; display: flex; justify-content: center; }
     .section-alt { background-color: var(--bg-alt); }
     .container { width: 100%; max-width: 700px; }
-    
     h1 { font-size: 2.2rem; line-height: 1.2; margin-bottom: 20px; color: var(--fg); }
     h2 { font-size: 1.6rem; margin-bottom: 20px; color: var(--fg); line-height: 1.3; }
     h3 { font-size: 1.2rem; margin-bottom: 10px; color: var(--fg); }
@@ -25,27 +26,18 @@
     
     .btn-group { display: flex; flex-direction: column; gap: 12px; margin: 30px 0 15px; }
     .btn { display: flex; align-items: center; justify-content: center; width: 100%; padding: 18px 20px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: all 0.2s ease; cursor: pointer; border: none; color: #fff; }
-    
-    /* MAX */
     .btn-max { background: var(--accent); box-shadow: 0 6px 0 var(--accent-hover); }
     .btn-max:hover { background: var(--accent-hover); transform: translateY(2px); box-shadow: 0 4px 0 var(--accent-hover); }
     .btn-max:active { transform: translateY(6px); box-shadow: 0 0px 0 var(--accent-hover); }
-
-    /* Telegram */
     .btn-tg { background: #229ED9; box-shadow: 0 6px 0 #1A7CA8; }
     .btn-tg:hover { background: #1A7CA8; transform: translateY(2px); box-shadow: 0 4px 0 #1A7CA8; }
     .btn-tg:active { transform: translateY(6px); box-shadow: 0 0px 0 #1A7CA8; }
-
-    /* WhatsApp */
     .btn-wa { background: #25D366; box-shadow: 0 6px 0 #128C7E; }
     .btn-wa:hover { background: #128C7E; transform: translateY(2px); box-shadow: 0 4px 0 #128C7E; }
     .btn-wa:active { transform: translateY(6px); box-shadow: 0 0px 0 #128C7E; }
-    
-    /* Звонок */
     .btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); box-shadow: 0 6px 0 var(--accent-soft); transform: translateY(0); }
     .btn-outline:hover { background: var(--accent-soft); transform: translateY(2px); box-shadow: 0 4px 0 var(--accent-soft); }
     .btn-outline:active { transform: translateY(6px); box-shadow: 0 0px 0 var(--accent-soft); }
-    
     .btn-note { text-align: center; font-size: 0.85rem; color: var(--muted); margin-bottom: 20px; }
     
     .hero-img-container { width: 100%; height: 300px; border-radius: var(--radius); background: linear-gradient(135deg, #e8f0ea 0%, #d4e4d9 100%); margin: 25px 0; box-shadow: 0 8px 24px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; color: var(--accent); font-weight: 600; overflow: hidden; }
@@ -67,7 +59,8 @@
     .card { background: var(--card-bg); border-radius: var(--radius); padding: 24px; border: 1px solid var(--border); }
     .card-icon { font-size: 2rem; margin-bottom: 15px; display: block; }
     .card-result { background: var(--bg-main); padding: 20px; border-radius: 12px; border: 1px solid var(--border); }
-    .case-img { width: 100%; height: 200px; border-radius: 12px; object-fit: cover; margin-bottom: 15px; background: var(--bg-alt); }
+    .case-img { width: 100%; height: 200px; border-radius: 12px; object-fit: cover; margin-bottom: 15px; background: var(--bg-alt); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 0.9rem; }
+    .case-img img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
     
     .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; font-size: 0.9rem; color: var(--muted); }
 
@@ -86,145 +79,84 @@
 </head>
 <body>
 
-  <!-- ЭКРАН 1: Главный экран -->
   <section class="section">
     <div class="container">
       <span class="overline">Тест пройден</span>
       <h1 id="ld-hero-title"></h1>
       <p id="ld-hero-text"></p>
-      
       <div class="hero-img-container">
         <img src="igor.jpg" alt="Игорь Шамшин" onerror="this.style.display='none'; this.parentElement.innerHTML='<span>Фото специалиста</span>';">
       </div>
-
+      
       <div class="btn-group">
-        <a href="#" id="ld-btn-write" class="btn btn-max">Написать в MAX</a>
         <a href="#" id="ld-btn-tg" class="btn btn-tg">Написать в Telegram</a>
         <a href="#" id="ld-btn-wa" class="btn btn-wa">Написать в WhatsApp</a>
+        <a href="#" id="ld-btn-write" class="btn btn-max">Написать в MAX</a>
       </div>
       <div class="btn-group" style="margin-top: 0;">
         <a href="#" id="ld-btn-call" class="btn btn-outline">Позвонить мне</a>
       </div>
       <p class="btn-note" id="ld-call-note"></p>
-      
       <div style="text-align: center; margin-top: 25px;">
         <a href="#" id="ld-btn-test" style="color: var(--accent); font-size: 0.95rem; text-decoration: underline;"></a>
       </div>
     </div>
   </section>
 
-  <!-- ЭКРАН 2: Сравнение -->
   <section class="section section-alt">
     <div class="container">
       <h2 id="ld-compare-title"></h2>
       <p id="ld-compare-text"></p>
-
       <div class="compare-grid">
         <div class="compare-card bad">
-          <h4>Обычный массаж</h4>
-          <ul class="compare-list">
-            <li>Поверхностное разминание мышц</li>
-            <li>Болит шея — массируют шею (симптом, а не причина)</li>
-            <li>Облегчение на 2–3 дня</li>
-            <li>Нужен курс 10 сеансов (до 48 000 ₽ + время)</li>
-          </ul>
+          <h4 id="ld-compare-bad-title"></h4>
+          <ul class="compare-list" id="ld-compare-bad-list"></ul>
         </div>
         <div class="compare-card good">
-          <h4>У Игоря Шамшина</h4>
-          <ul class="compare-list">
-            <li>Глубокая работа с фасциями и связками</li>
-            <li>Ищет первопричину (шея может болеть из-за перекоса таза)</li>
-            <li>Накопительный эффект на месяцы</li>
-            <li>Всего 2–3 сеанса по 8 000 ₽ (экономия до 50%)</li>
-          </ul>
+          <h4 id="ld-compare-good-title"></h4>
+          <ul class="compare-list" id="ld-compare-good-list"></ul>
         </div>
       </div>
       <p style="text-align: center; margin-top: 20px;" id="ld-compare-price"></p>
     </div>
   </section>
 
-  <!-- ЭКРАН 3: Экспертность и Доверие -->
   <section class="section">
     <div class="container">
       <h2 id="ld-expert-title"></h2>
       <p id="ld-expert-text"></p>
-      
-      <div class="grid-3">
-        <div class="card">
-          <span class="card-icon">🏥</span>
-          <h3>Нейрохирургия и травмы</h3>
-          <p>Начинал путь в нейрохирургическом отделении, работал в клиниках пластической хирургии. Знаю изнутри, как формируются рубцы и как помочь телу после операций.</p>
-        </div>
-        <div class="card">
-          <span class="card-icon">🏆</span>
-          <h3>Спорт высоких достижений</h3>
-          <p>Имею опыт работы с профессиональными спортсменами (пауэрлифтерами, баскетболистами). Понимаю механику мощных нагрузок и восстановления.</p>
-        </div>
-        <div class="card">
-          <span class="card-icon">📜</span>
-          <h3>20+ лет в медицине</h3>
-          <p>Медицинское образование и более 20 лет опыта. Прошёл профильное обучение авторской методике остеокоррекции.</p>
-        </div>
-      </div>
-      
+      <div class="grid-3" id="ld-expert-grid"></div>
       <div class="card" style="margin-top: 20px; background: var(--accent-soft); border-color: var(--accent);">
         <h3 id="ld-trust-title"></h3>
         <p id="ld-trust-text" style="margin-bottom: 0;"></p>
       </div>
-      
       <p style="text-align: center; margin-top: 20px; font-style: italic;" id="ld-expert-footer"></p>
     </div>
   </section>
 
-  <!-- ЭКРАН 4: Результаты -->
   <section class="section section-alt">
     <div class="container">
       <h2 id="ld-results-title"></h2>
       <p id="ld-results-text"></p>
-
-      <div class="grid-4">
-        <div class="card-result">
-          <h3>✨ Лицо без отеков</h3>
-          <p>Освобождение фасций шеи и черепа восстанавливает лимфоток. Уходят утренние отеки, подтягивается овал лица.</p>
-        </div>
-        <div class="card-result">
-          <h3>🦴 Свобода от сутулости</h3>
-          <p>Плечи раскрываются сами. Вам больше не нужно делать усилие, чтобы держать спину ровно.</p>
-        </div>
-        <div class="card-result">
-          <h3>🛡 Интимное здоровье</h3>
-          <p>Мягкий возврат костей таза в баланс. Улучшается кровообращение, интимная активность и решаются деликатные проблемы.</p>
-        </div>
-        <div class="card-result">
-          <h3>🦵 Легкость в ногах</h3>
-          <p>Уходит свинцовая тяжесть и вечерняя отечность. Вы снова можете много ходить без усталости.</p>
-        </div>
-      </div>
+      <div class="grid-4" id="ld-results-grid"></div>
     </div>
   </section>
 
-  <!-- ЭКРАН 5: Локации -->
   <section class="section">
     <div class="container">
       <h2 id="ld-locations-title"></h2>
       <p id="ld-locations-text"></p>
       
-      <div class="grid-2">
-        <div class="card">
-          <span class="card-icon">📍</span>
-          <h3>м. Китай-город</h3>
-          <p>Идеально для перезагрузки в разгар рабочего дня или после офиса.</p>
-        </div>
-        <div class="card">
-          <span class="card-icon">🌿</span>
-          <h3>м. Сокольники</h3>
-          <p>Удобная локация для спокойного визита в выходные или будни.</p>
-        </div>
-      </div>
+      <p style="text-align: center; margin-top: -10px; margin-bottom: 20px;">
+        <a href="#news-section" style="color: var(--accent); font-weight: 600; text-decoration: none; border-bottom: 1px dashed var(--accent);">
+          Ищете меня в другом городе? Смотреть анонсы гастролей ↓
+        </a>
+      </p>
+
+      <div class="grid-2" id="ld-locations-grid"></div>
     </div>
   </section>
 
-  <!-- НОВЫЙ БЛОК: Подарок за тест -->
   <section class="section section-alt">
     <div class="container">
       <div class="card" style="border: 2px dashed var(--accent); background: var(--accent-soft); text-align: center; padding: 30px 20px;">
@@ -233,53 +165,40 @@
         <p id="ld-gift-text"></p>
         <p style="font-size: 0.95rem; color: var(--muted);" id="ld-gift-subtext"></p>
         
-        <!-- Добавлена кнопка MAX -->
         <div class="btn-group" style="margin-top: 20px;">
-          <a href="#" id="ld-btn-gift-max" class="btn btn-max">Получить гайд в MAX</a>
           <a href="#" id="ld-btn-gift-tg" class="btn btn-tg">Получить гайд в Telegram</a>
           <a href="#" id="ld-btn-gift-wa" class="btn btn-wa">Получить гайд в WhatsApp</a>
+          <a href="#" id="ld-btn-gift-max" class="btn btn-max">Получить гайд в MAX</a>
         </div>
         <p style="font-size: 0.85rem; margin-top: 10px; color: var(--muted);" id="ld-gift-note"></p>
       </div>
     </div>
   </section>
 
-  <!-- ЭКРАН 6: Кейсы и Финальный призыв -->
-  <section class="section">
+  <!-- НОВЫЙ БЛОК: НОВОСТИ -->
+  <section class="section" id="news-section" style="display: none;">
+    <div class="container">
+      <h2 id="ld-news-title"></h2>
+      <p id="ld-news-text"></p>
+      <div class="grid-3" id="ld-news-grid"></div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
     <div class="container">
       <h2 id="ld-cases-title"></h2>
+      <div class="grid-3" id="ld-cases-grid"></div>
       
-      <div class="grid-3">
-        <div class="card">
-          <div class="case-img"></div>
-          <h3>Екатерина, 37 лет</h3>
-          <p><strong>Жалобы:</strong> «Компьютерная шея», сутулость, отеки.</p>
-          <p><strong>Результат:</strong> После 2 сеансов ушла привычка горбиться, визуально удлинилась шея. Лицо стало свежее.</p>
-        </div>
-        <div class="card">
-          <div class="case-img"></div>
-          <h3>Мария, 32 года</h3>
-          <p><strong>Жалобы:</strong> Тяжесть в ногах, деликатная проблема.</p>
-          <p><strong>Результат:</strong> После 3 сеансов ушла тяжесть в ногах. Деликатная проблема ушла полностью. Бонусом — ушел лишний вес, и отпала необходимость в операции.</p>
-        </div>
-        <div class="card">
-          <div class="case-img"></div>
-          <h3>Василий</h3>
-          <p><strong>Жалобы:</strong> Сильное напряжение в спине, шее, плохой сон.</p>
-          <p><strong>Результат:</strong> После курса появилась легкость в теле, нормализовался сон.</p>
-        </div>
-      </div>
-
       <div class="btn-group" style="margin-top: 40px;">
-        <a href="#" id="ld-btn-write2" class="btn btn-max">Написать в MAX</a>
         <a href="#" id="ld-btn-tg2" class="btn btn-tg">Написать в Telegram</a>
         <a href="#" id="ld-btn-wa2" class="btn btn-wa">Написать в WhatsApp</a>
+        <a href="#" id="ld-btn-write2" class="btn btn-max">Написать в MAX</a>
       </div>
       <div class="btn-group" style="margin-top: 0;">
         <a href="#" id="ld-btn-call2" class="btn btn-outline">Позвонить мне</a>
       </div>
       <p class="btn-note" id="ld-call-note2"></p>
-
+      
       <div class="footer">
         <p>Связь: <a href="#" id="ld-footer-phone" style="color: var(--accent); text-decoration: none;"></a></p>
         <p style="font-size: 0.8rem; margin-top: 10px;" id="ld-footer-disclaimer"></p>
@@ -287,18 +206,15 @@
     </div>
   </section>
 
-  <!-- ПОДКЛЮЧАЕМ СКРИПТЫ -->
   <script src="content.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
-      if (typeof CONTENT === "undefined") {
-        console.error("Ошибка: content.js не загрузился!");
-        return;
-      }
+      if (typeof CONTENT === "undefined") return;
 
       const C = CONTENT.landing;
       const L = CONTENT.links;
 
+      // 1. Статичные тексты
       document.getElementById("ld-hero-title").textContent = C.heroTitle;
       document.getElementById("ld-hero-text").textContent = C.heroText;
       document.getElementById("ld-call-note").textContent = C.callNote;
@@ -322,35 +238,75 @@
       document.getElementById("ld-cases-title").textContent = C.casesTitle;
       document.getElementById("ld-footer-disclaimer").textContent = C.footerDisclaimer;
 
-      const setBtn = (id, href) => {
-        const el = document.getElementById(id);
-        if (el) el.href = href;
+      // 2. Таблица сравнения
+      document.getElementById("ld-compare-bad-title").textContent = C.compareBadTitle;
+      const badList = document.getElementById("ld-compare-bad-list");
+      C.compareBadList.forEach(text => { const li = document.createElement("li"); li.textContent = text; badList.appendChild(li); });
+
+      document.getElementById("ld-compare-good-title").textContent = C.compareGoodTitle;
+      const goodList = document.getElementById("ld-compare-good-list");
+      C.compareGoodList.forEach(text => { const li = document.createElement("li"); li.textContent = text; goodList.appendChild(li); });
+
+      // 3. Генерация карточек
+      const buildCard = (containerId, data, className) => {
+        const container = document.getElementById(containerId);
+        data.forEach(item => {
+          const card = document.createElement("div");
+          card.className = className;
+          let content = "";
+          if (item.icon) content += '<span class="card-icon">' + item.icon + '</span>';
+          if (item.title) content += '<h3>' + item.title + '</h3>';
+          if (item.text) content += '<p>' + item.text + '</p>';
+          
+          if (className === "card-result") {
+            content = '<h3>' + item.icon + ' ' + item.title + '</h3><p>' + item.text + '</p>';
+          }
+
+          if (item.complaints) content = '<p><strong>Жалобы:</strong> ' + item.complaints + '</p><p><strong>Результат:</strong> ' + item.result + '</p>';
+          if (className === "card" && item.complaints) {
+            let imgHtml = item.img ? '<div class="case-img"><img src="' + item.img + '" onerror="this.parentElement.innerHTML=\'Фото\'"></div>' : '<div class="case-img">Фото</div>';
+            content = imgHtml + '<h3>' + item.title + '</h3>' + content;
+          }
+          card.innerHTML = content;
+          container.appendChild(card);
+        });
       };
 
-      // Ссылки на кнопки (верхние и нижние)
-      setBtn("ld-btn-write", L.max);
-      setBtn("ld-btn-write2", L.max);
-      
-      setBtn("ld-btn-tg", L.tg);
-      setBtn("ld-btn-tg2", L.tg);
-      
-      setBtn("ld-btn-wa", L.wa);
-      setBtn("ld-btn-wa2", L.wa);
-      
-      setBtn("ld-btn-call", L.phone);
-      setBtn("ld-btn-call2", L.phone);
+      buildCard("ld-expert-grid", C.expertCards, "card");
+      buildCard("ld-results-grid", C.resultsCards, "card-result");
+      buildCard("ld-locations-grid", C.locationsCards, "card");
+      buildCard("ld-cases-grid", C.casesCards, "card");
+
+      // 4. Генерация новостей
+      if (C.newsCards && C.newsCards.length > 0) {
+        document.getElementById("ld-news-title").textContent = C.newsTitle;
+        document.getElementById("ld-news-text").textContent = C.newsText;
+        document.getElementById("news-section").style.display = "flex"; 
+        
+        const newsGrid = document.getElementById("ld-news-grid");
+        C.newsCards.forEach(function(item) {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = '<div style="font-size: 0.85rem; color: var(--muted); margin-bottom: 5px;">' + item.date + '</div>' +
+                           '<h3>' + item.title + '</h3>' +
+                           '<p>' + item.text + '</p>';
+          newsGrid.appendChild(card);
+        });
+      }
+
+      // 5. Ссылки
+      const setBtn = (id, href) => { const el = document.getElementById(id); if (el) el.href = href; };
+      setBtn("ld-btn-write", L.max); setBtn("ld-btn-write2", L.max);
+      setBtn("ld-btn-tg", L.tg); setBtn("ld-btn-tg2", L.tg);
+      setBtn("ld-btn-wa", L.wa); setBtn("ld-btn-wa2", L.wa);
+      setBtn("ld-btn-call", L.phone); setBtn("ld-btn-call2", L.phone);
       setBtn("ld-btn-test", L.test);
-      
-      // Ссылки для кнопок подарка (теперь их три)
       setBtn("ld-btn-gift-max", L.max);
       setBtn("ld-btn-gift-tg", L.tg);
       setBtn("ld-btn-gift-wa", L.wa);
       
       const footerPhone = document.getElementById("ld-footer-phone");
-      if (footerPhone) {
-        footerPhone.textContent = L.phoneText;
-        footerPhone.href = L.phone;
-      }
+      if (footerPhone) { footerPhone.textContent = L.phoneText; footerPhone.href = L.phone; }
     });
   </script>
 </body>
