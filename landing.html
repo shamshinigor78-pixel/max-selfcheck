@@ -81,7 +81,6 @@
     .modal-title { font-size: 1.5rem; margin-bottom: 10px; padding-right: 30px; }
     .modal-text { font-size: 1rem; margin-bottom: 15px; }
     
-    /* Красивая плашка для цены в модальном окне */
     .modal-price-box { background: var(--accent-soft); border-left: 4px solid var(--accent); padding: 10px 15px; border-radius: 8px; margin-bottom: 20px; font-weight: 600; font-size: 1.1rem; color: var(--fg); display: flex; align-items: center; gap: 10px; }
     .modal-price-box span { color: var(--accent); }
 
@@ -173,10 +172,12 @@
         </a>
       </p>
 
+      <!-- Сюда рендерятся кнопки локаций -->
       <div id="ld-locations-grid"></div>
     </div>
   </section>
 
+  <!-- БЛОК СТОИМОСТИ -->
   <section class="section section-alt" id="pricing-section">
     <div class="container">
       <h2 id="ld-pricing-title" style="text-align: center;"></h2>
@@ -189,7 +190,12 @@
         
         <p id="ld-pricing-desc" style="font-size: 0.95rem; margin-bottom: 25px; color: var(--fg);"></p>
         
-        <a href="#" id="ld-pricing-btn" class="btn btn-max" style="display: inline-flex; width: auto; min-width: 250px;">Записаться</a>
+        <!-- ИСПРАВЛЕНО: Добавлены 3 кнопки мессенджеров -->
+        <div class="btn-group" style="margin-top: 0; justify-content: center;">
+          <a href="#" id="ld-btn-price-tg" class="btn btn-tg">Написать в Telegram</a>
+          <a href="#" id="ld-btn-price-wa" class="btn btn-wa">Написать в WhatsApp</a>
+          <a href="#" id="ld-btn-price-max" class="btn btn-max">Записаться в MAX</a>
+        </div>
       </div>
     </div>
   </section>
@@ -250,7 +256,6 @@
       <h3 id="modal-title" class="modal-title"></h3>
       <p id="modal-text" class="modal-text"></p>
       
-      <!-- Плашка с ценой -->
       <div class="modal-price-box">
         <span>💰 Стоимость:</span> <span id="modal-price"></span>
       </div>
@@ -267,6 +272,7 @@
       const C = CONTENT.landing;
       const L = CONTENT.links;
 
+      // Заполнение текстов
       document.getElementById("ld-hero-title").textContent = C.heroTitle;
       document.getElementById("ld-hero-text").textContent = C.heroText;
       document.getElementById("ld-call-note").textContent = C.callNote;
@@ -294,17 +300,18 @@
       document.getElementById("ld-pricing-price").textContent = C.pricingPrice;
       document.getElementById("ld-pricing-desc").textContent = C.pricingDesc;
 
+      // Таблица
       document.getElementById("ld-compare-bad-title").textContent = C.compareBadTitle;
       const badList = document.getElementById("ld-compare-bad-list");
       C.compareBadList.forEach(text => { const li = document.createElement("li"); li.textContent = text; badList.appendChild(li); });
-
       document.getElementById("ld-compare-good-title").textContent = C.compareGoodTitle;
       const goodList = document.getElementById("ld-compare-good-list");
       C.compareGoodList.forEach(text => { const li = document.createElement("li"); li.textContent = text; goodList.appendChild(li); });
 
-      // Карточки
+      // Карточки (кроме локаций)
       const buildCard = (containerId, data, className) => {
         const container = document.getElementById(containerId);
+        container.innerHTML = ""; // Очистка
         data.forEach(item => {
           const card = document.createElement("div");
           card.className = className;
@@ -330,8 +337,9 @@
       buildCard("ld-results-grid", C.resultsCards, "card-result");
       buildCard("ld-cases-grid", C.casesCards, "card");
 
-      // Локации (Кнопки)
+      // ЛОКАЦИИ (Модальное окно и кнопки)
       const locationsContainer = document.getElementById("ld-locations-grid");
+      locationsContainer.innerHTML = "";
       const cities = {};
       C.locationsCards.forEach((loc) => {
         if (!cities[loc.city]) cities[loc.city] = [];
@@ -353,12 +361,11 @@
           btn.onclick = () => openModal(loc);
           btnContainer.appendChild(btn);
         });
-
         groupDiv.appendChild(btnContainer);
         locationsContainer.appendChild(groupDiv);
       }
 
-      // Модальное окно
+      // Модалка
       const modal = document.getElementById("location-modal");
       const modalImg = document.getElementById("modal-img");
       const modalTitle = document.getElementById("modal-title");
@@ -371,7 +378,7 @@
         modalTitle.textContent = loc.title;
         modalText.textContent = loc.text;
         modalMapBtn.href = loc.mapLink;
-        modalPrice.textContent = loc.price; // Выводим цену
+        modalPrice.textContent = loc.price; 
         
         if (loc.img) {
           modalImg.src = loc.img;
@@ -398,6 +405,7 @@
         document.getElementById("ld-news-text").textContent = C.newsText;
         document.getElementById("news-section").style.display = "flex"; 
         const newsGrid = document.getElementById("ld-news-grid");
+        newsGrid.innerHTML = "";
         C.newsCards.forEach(function(item) {
           const card = document.createElement("div");
           card.className = "card";
@@ -413,10 +421,15 @@
       setBtn("ld-btn-wa", L.wa); setBtn("ld-btn-wa2", L.wa);
       setBtn("ld-btn-call", L.phone); setBtn("ld-btn-call2", L.phone);
       setBtn("ld-btn-test", L.test);
+      
       setBtn("ld-btn-gift-max", L.max);
       setBtn("ld-btn-gift-tg", L.tg);
       setBtn("ld-btn-gift-wa", L.wa);
-      setBtn("ld-pricing-btn", L.max);
+
+      // НОВЫЕ КНОПКИ В БЛОКЕ ЦЕНЫ
+      setBtn("ld-btn-price-max", L.max);
+      setBtn("ld-btn-price-tg", L.tg);
+      setBtn("ld-btn-price-wa", L.wa);
       
       const footerPhone = document.getElementById("ld-footer-phone");
       if (footerPhone) { footerPhone.textContent = L.phoneText; footerPhone.href = L.phone; }
