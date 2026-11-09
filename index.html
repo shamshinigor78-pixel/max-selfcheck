@@ -12,26 +12,19 @@
 </head>
 <body>
   <noscript><div style="padding:24px;text-align:center;font-family:sans-serif;">Для работы приложения необходимо включить JavaScript.</div></noscript>
-
   <div id="app" hidden>
     <section id="screen-start" class="screen active">
       <div class="logo" aria-hidden="true">🧬</div>
       <h1 id="ui-start-title"></h1>
-      <p class="subtitle" id="ui-start-subtitle"></p>
+      <p class="subtitle" id="start-subtitle"></p>
       <div class="privacy-note" role="note">
         <strong>О приватности:</strong>
-        <ul>
-          <li>Ответы не сохраняются и никуда не передаются.</li>
-          <li>Данные исчезают при закрытии приложения.</li>
-          <li>Приложение не запрашивает доступ к камере или геолокации.</li>
-          <li>Если хотите сохранить результат — сделайте скриншот экрана.</li>
-        </ul>
+        <ul id="privacy-list"></ul>
       </div>
       <button class="btn primary" id="btn-start" type="button"></button>
       <p class="hint" id="ui-start-hint"></p>
       <p class="hint" id="ui-browser-note" style="color: var(--accent); font-weight: 600; display: none;"></p>
     </section>
-
     <section id="screen-question" class="screen">
       <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress-wrap">
         <div class="progress-bar" id="progress-bar"></div>
@@ -40,7 +33,6 @@
       <h2 id="q-text">Вопрос</h2>
       <div class="answers" id="answers"></div>
     </section>
-
     <section id="screen-result" class="screen">
       <div class="result-icon" id="result-icon" aria-hidden="true"></div>
       <h1 id="result-title">Результат</h1>
@@ -51,7 +43,6 @@
       <button class="btn secondary" id="btn-close" type="button"></button>
     </section>
   </div>
-
   <script src="https://st.max.ru/js/max-web-app.js"></script>
   <script src="content.js"></script>
   <script src="app.js"></script>
