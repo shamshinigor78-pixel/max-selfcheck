@@ -17,7 +17,13 @@
   const LINKS = CONTENT.links;
   const TEXT = CONTENT.app;
   const SETTINGS = CONTENT.settings;
+  const THEME = CONTENT.theme || {};
   
+  if (THEME.primary) {
+    document.documentElement.style.setProperty('--accent', THEME.primary);
+    document.documentElement.style.setProperty('--accent-soft', THEME.primary + '20'); 
+  }
+
   document.getElementById("ui-start-title").textContent = TEXT.title;
   document.getElementById("ui-start-hint").textContent = TEXT.hint;
   document.getElementById("btn-start").textContent = TEXT.btnStart;
@@ -45,10 +51,7 @@
   const QUESTIONS = rawQuestions.map(function(q, index) {
     let safeWeights = q.weights;
     if (q.type === "osteo" && q.options.length !== safeWeights.length) {
-      console.warn("Внимание! В вопросе №" + (index + 1) + " количество вариантов (" + q.options.length + ") не совпадает с весами (" + safeWeights.length + ").");
-      safeWeights = q.options.map(function(_, i) {
-        return q.weights[i] !== undefined ? q.weights[i] : 3; 
-      });
+      safeWeights = q.options.map(function(_, i) { return q.weights[i] !== undefined ? q.weights[i] : 3; });
     } else if (q.type === "redflag") {
       safeWeights = [1, 5];
     }
@@ -56,7 +59,6 @@
   });
 
   const TOTAL = QUESTIONS.length;
-
   let currentIndex = 0;
   let answers = new Array(TOTAL).fill(null);
   let locked = false;
@@ -130,9 +132,7 @@
     }
 
     if (QUESTIONS[currentIndex].profile === "scar" && optionIndex >= 2) {
-      if (chosenProfile === "general" || chosenProfile === "neck" || chosenProfile === "lower_back") {
-        chosenProfile = "scar";
-      }
+      if (chosenProfile === "general" || chosenProfile === "neck" || chosenProfile === "lower_back") chosenProfile = "scar";
     }
 
     const buttons = answersBox.querySelectorAll(".answer");
@@ -184,19 +184,6 @@
     }
     a.addEventListener("click", function() { if (navigator.vibrate) navigator.vibrate(10); });
     return a;
-  }
-
-  function createActionBlock(title, hint, buttons, footerText) {
-    const block = el("div", "action-block");
-    block.appendChild(el("div", "action-title", title));
-    if (hint) block.appendChild(el("div", "action-hint", hint));
-    buttons.forEach(function (b) { block.appendChild(createActionButton(b.text, b.href, b.style, b.bg, b.shadow)); });
-    if (footerText) {
-      const footer = el("div", "action-hint", footerText);
-      footer.style.marginTop = "10px"; footer.style.marginBottom = "0"; footer.style.fontSize = "0.75rem";
-      block.appendChild(footer);
-    }
-    return block;
   }
 
   function getProfileText(profile) {
@@ -268,14 +255,21 @@
       const actionBlock = el("div", "action-block");
       actionBlock.appendChild(el("div", "action-title", TEXT.btnWriteTitle));
       
-      // Нейтральный порядок кнопок
       if (!isInsideMax || SETTINGS.showAllMessengersInsideMax) {
         actionBlock.appendChild(el("div", "action-hint", TEXT.btnWriteHint));
-        actionBlock.appendChild(createActionButton(TEXT.btnWriteTg, LINKS.tg, "custom", "#229ED9", "#1A7CA8"));
-        actionBlock.appendChild(createActionButton(TEXT.btnWriteWa, LINKS.wa, "custom", "#25D366", "#128C7E"));
-        actionBlock.appendChild(createActionButton(TEXT.btnWriteMax, LINKS.max, "primary"));
+        if (CONTENT.messengerButtons && CONTENT.messengerButtons.length > 0) {
+          CONTENT.messengerButtons.forEach(function(btn) {
+            let link = btn.link;
+            if (link === "https://t.me/ТВОЙ_НИК") link = LINKS.tg;
+            if (link === "https://wa.me/79951149954") link = LINKS.wa;
+            if (link === "https://max.ru/se14074027_bot") link = LINKS.max;
+            
+            let bg = btn.type === 'tg' ? THEME.tg : (btn.type === 'wa' ? THEME.wa : (btn.type === 'primary' ? THEME.primary : null));
+            actionBlock.appendChild(createActionButton(btn.text, link, btn.type, bg, bg ? bg.replace('#','#00') : null));
+          });
+        }
       } else {
-        actionBlock.appendChild(createActionButton(TEXT.btnWriteMax, LINKS.max, "primary"));
+        actionBlock.appendChild(createActionButton(TEXT.btnWriteMax || "Написать в MAX", LINKS.max, "primary"));
       }
 
       actionBlock.appendChild(createActionButton(TEXT.btnCall, LINKS.phone, "secondary"));
@@ -285,9 +279,11 @@
       actionBlock.appendChild(callHint);
       resultActions.appendChild(actionBlock);
 
-      resultActions.appendChild(createActionBlock(TEXT.methodTitle, null, [
-        { text: TEXT.methodBtn, href: LINKS.landing, style: "secondary" }
-      ]));
+      const methodBlock = el("div", "action-block");
+      methodBlock.appendChild(el("div", "action-title", TEXT.methodTitle));
+      methodBlock.appendChild(createActionButton(TEXT.methodBtn, LINKS.landing, "secondary"));
+      resultActions.appendChild(methodBlock);
+      
       resultHint.textContent = "Это не медицинская диагностика. Приложение не ставит диагноз и не назначает лечение. Сделайте скриншот результата, если хотите его сохранить.";
     } else {
       resultIcon.textContent = "⚠️";
@@ -296,6 +292,7 @@
       resultActions.appendChild(el("div", "result-body", TEXT.doctorBody));
       resultHint.textContent = "Это не медицинская диагностика. Решение о лечении принимает врач. Сделайте скриншот результата, если хотите его сохранить.";
     }
+
     showScreen("result");
   }
 
