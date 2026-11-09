@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Мио-фасциальная практика Игоря Шамшина | Москва</title>
   <style>
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
     :root {
       --bg-main: #fbf9f6; --bg-alt: #f2efe9; --fg: #2b2a28; --muted: #8a8580;
       --accent: #4a8f6f; --accent-hover: #3b755a; --accent-soft: #e8f0ea;
@@ -59,10 +57,33 @@
     .card { background: var(--card-bg); border-radius: var(--radius); padding: 24px; border: 1px solid var(--border); }
     .card-icon { font-size: 2rem; margin-bottom: 15px; display: block; }
     .card-result { background: var(--bg-main); padding: 20px; border-radius: 12px; border: 1px solid var(--border); }
-    .case-img { width: 100%; height: 200px; border-radius: 12px; object-fit: cover; margin-bottom: 15px; background: var(--bg-alt); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 0.9rem; }
-    .case-img img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+    
+    .card-img { width: 100%; height: 180px; border-radius: 12px; object-fit: cover; margin-bottom: 15px; background: var(--bg-alt); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 0.9rem; }
+    .card-img img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
     
     .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; font-size: 0.9rem; color: var(--muted); }
+
+    /* Стили для кнопок локаций и модального окна */
+    .city-group { margin-bottom: 15px; }
+    .city-name { font-weight: 600; color: var(--muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display: block; text-align: center; }
+    .location-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px; }
+    .location-btn { padding: 12px 20px; border-radius: 30px; border: 2px solid var(--accent); background: var(--bg-main); color: var(--accent); font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 8px; }
+    .location-btn:hover { background: var(--accent-soft); transform: translateY(-2px); }
+    .location-btn:active { transform: translateY(0); }
+
+    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px; opacity: 0; transition: opacity 0.3s ease; }
+    .modal-overlay.active { display: flex; opacity: 1; }
+    .modal-content { background: var(--bg-main); border-radius: var(--radius); max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; padding: 20px; transform: translateY(20px); transition: transform 0.3s ease; }
+    .modal-overlay.active .modal-content { transform: translateY(0); }
+    .modal-close { position: absolute; top: 15px; right: 15px; background: var(--card-bg); border: 1px solid var(--border); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.2rem; color: var(--fg); z-index: 10; }
+    .modal-close:hover { background: var(--accent-soft); color: var(--accent); }
+    .modal-img { width: 100%; height: 250px; border-radius: 12px; object-fit: cover; margin-bottom: 20px; background: var(--bg-alt); display: none; }
+    .modal-title { font-size: 1.5rem; margin-bottom: 10px; padding-right: 30px; }
+    .modal-text { font-size: 1rem; margin-bottom: 15px; }
+    
+    /* Красивая плашка для цены в модальном окне */
+    .modal-price-box { background: var(--accent-soft); border-left: 4px solid var(--accent); padding: 10px 15px; border-radius: 8px; margin-bottom: 20px; font-weight: 600; font-size: 1.1rem; color: var(--fg); display: flex; align-items: center; gap: 10px; }
+    .modal-price-box span { color: var(--accent); }
 
     @media (min-width: 768px) {
       .container { max-width: 900px; }
@@ -117,7 +138,6 @@
           <ul class="compare-list" id="ld-compare-good-list"></ul>
         </div>
       </div>
-      <p style="text-align: center; margin-top: 20px;" id="ld-compare-price"></p>
     </div>
   </section>
 
@@ -153,7 +173,24 @@
         </a>
       </p>
 
-      <div class="grid-2" id="ld-locations-grid"></div>
+      <div id="ld-locations-grid"></div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="pricing-section">
+    <div class="container">
+      <h2 id="ld-pricing-title" style="text-align: center;"></h2>
+      
+      <div class="card" style="max-width: 500px; margin: 0 auto; text-align: center; border: 2px solid var(--accent); padding: 30px 20px; background: var(--card-bg);">
+        <h3 id="ld-pricing-name" style="font-size: 1.3rem; margin-bottom: 5px;"></h3>
+        <p id="ld-pricing-duration" style="color: var(--muted); font-size: 0.95rem; margin-bottom: 20px;"></p>
+        
+        <div id="ld-pricing-price" style="font-size: 2.5rem; font-weight: 700; color: var(--accent); margin-bottom: 20px;"></div>
+        
+        <p id="ld-pricing-desc" style="font-size: 0.95rem; margin-bottom: 25px; color: var(--fg);"></p>
+        
+        <a href="#" id="ld-pricing-btn" class="btn btn-max" style="display: inline-flex; width: auto; min-width: 250px;">Записаться</a>
+      </div>
     </div>
   </section>
 
@@ -175,7 +212,6 @@
     </div>
   </section>
 
-  <!-- НОВЫЙ БЛОК: НОВОСТИ -->
   <section class="section" id="news-section" style="display: none;">
     <div class="container">
       <h2 id="ld-news-title"></h2>
@@ -206,6 +242,23 @@
     </div>
   </section>
 
+  <!-- МОДАЛЬНОЕ ОКНО -->
+  <div class="modal-overlay" id="location-modal">
+    <div class="modal-content">
+      <button class="modal-close" id="modal-close-btn">✕</button>
+      <img id="modal-img" class="modal-img" src="" alt="Локация">
+      <h3 id="modal-title" class="modal-title"></h3>
+      <p id="modal-text" class="modal-text"></p>
+      
+      <!-- Плашка с ценой -->
+      <div class="modal-price-box">
+        <span>💰 Стоимость:</span> <span id="modal-price"></span>
+      </div>
+      
+      <a href="#" id="modal-map-btn" class="btn btn-max" target="_blank" style="display: block;">Построить маршрут</a>
+    </div>
+  </div>
+
   <script src="content.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -214,14 +267,12 @@
       const C = CONTENT.landing;
       const L = CONTENT.links;
 
-      // 1. Статичные тексты
       document.getElementById("ld-hero-title").textContent = C.heroTitle;
       document.getElementById("ld-hero-text").textContent = C.heroText;
       document.getElementById("ld-call-note").textContent = C.callNote;
       document.getElementById("ld-call-note2").textContent = C.callNote;
       document.getElementById("ld-compare-title").textContent = C.compareTitle;
       document.getElementById("ld-compare-text").textContent = C.compareText;
-      document.getElementById("ld-compare-price").textContent = C.comparePrice;
       document.getElementById("ld-expert-title").textContent = C.expertTitle;
       document.getElementById("ld-expert-text").textContent = C.expertText;
       document.getElementById("ld-expert-footer").textContent = C.expertFooter;
@@ -237,8 +288,12 @@
       document.getElementById("ld-gift-note").textContent = C.giftNote;
       document.getElementById("ld-cases-title").textContent = C.casesTitle;
       document.getElementById("ld-footer-disclaimer").textContent = C.footerDisclaimer;
+      document.getElementById("ld-pricing-title").textContent = C.pricingTitle;
+      document.getElementById("ld-pricing-name").textContent = C.pricingName;
+      document.getElementById("ld-pricing-duration").textContent = C.pricingDuration;
+      document.getElementById("ld-pricing-price").textContent = C.pricingPrice;
+      document.getElementById("ld-pricing-desc").textContent = C.pricingDesc;
 
-      // 2. Таблица сравнения
       document.getElementById("ld-compare-bad-title").textContent = C.compareBadTitle;
       const badList = document.getElementById("ld-compare-bad-list");
       C.compareBadList.forEach(text => { const li = document.createElement("li"); li.textContent = text; badList.appendChild(li); });
@@ -247,25 +302,24 @@
       const goodList = document.getElementById("ld-compare-good-list");
       C.compareGoodList.forEach(text => { const li = document.createElement("li"); li.textContent = text; goodList.appendChild(li); });
 
-      // 3. Генерация карточек
+      // Карточки
       const buildCard = (containerId, data, className) => {
         const container = document.getElementById(containerId);
         data.forEach(item => {
           const card = document.createElement("div");
           card.className = className;
           let content = "";
-          if (item.icon) content += '<span class="card-icon">' + item.icon + '</span>';
-          if (item.title) content += '<h3>' + item.title + '</h3>';
-          if (item.text) content += '<p>' + item.text + '</p>';
-          
           if (className === "card-result") {
             content = '<h3>' + item.icon + ' ' + item.title + '</h3><p>' + item.text + '</p>';
-          }
-
-          if (item.complaints) content = '<p><strong>Жалобы:</strong> ' + item.complaints + '</p><p><strong>Результат:</strong> ' + item.result + '</p>';
-          if (className === "card" && item.complaints) {
-            let imgHtml = item.img ? '<div class="case-img"><img src="' + item.img + '" onerror="this.parentElement.innerHTML=\'Фото\'"></div>' : '<div class="case-img">Фото</div>';
-            content = imgHtml + '<h3>' + item.title + '</h3>' + content;
+          } else {
+            if (item.icon) content += '<span class="card-icon">' + item.icon + '</span>';
+            if (item.title) content += '<h3>' + item.title + '</h3>';
+            if (item.text) content += '<p>' + item.text + '</p>';
+            if (item.complaints) content = '<p><strong>Жалобы:</strong> ' + item.complaints + '</p><p><strong>Результат:</strong> ' + item.result + '</p>';
+            if (className === "card" && item.complaints) {
+              let imgHtml = item.img ? '<div class="card-img"><img src="' + item.img + '" onerror="this.parentElement.innerHTML=\'Фото\'"></div>' : '<div class="card-img">Фото</div>';
+              content = imgHtml + '<h3>' + item.title + '</h3>' + content;
+            }
           }
           card.innerHTML = content;
           container.appendChild(card);
@@ -274,27 +328,85 @@
 
       buildCard("ld-expert-grid", C.expertCards, "card");
       buildCard("ld-results-grid", C.resultsCards, "card-result");
-      buildCard("ld-locations-grid", C.locationsCards, "card");
       buildCard("ld-cases-grid", C.casesCards, "card");
 
-      // 4. Генерация новостей
+      // Локации (Кнопки)
+      const locationsContainer = document.getElementById("ld-locations-grid");
+      const cities = {};
+      C.locationsCards.forEach((loc) => {
+        if (!cities[loc.city]) cities[loc.city] = [];
+        cities[loc.city].push(loc);
+      });
+
+      for (const city in cities) {
+        const groupDiv = document.createElement("div");
+        groupDiv.className = "city-group";
+        groupDiv.innerHTML = '<span class="city-name">' + city + '</span>';
+        
+        const btnContainer = document.createElement("div");
+        btnContainer.className = "location-buttons";
+
+        cities[city].forEach(loc => {
+          const btn = document.createElement("button");
+          btn.className = "location-btn";
+          btn.innerHTML = '<span>' + loc.title + '</span>';
+          btn.onclick = () => openModal(loc);
+          btnContainer.appendChild(btn);
+        });
+
+        groupDiv.appendChild(btnContainer);
+        locationsContainer.appendChild(groupDiv);
+      }
+
+      // Модальное окно
+      const modal = document.getElementById("location-modal");
+      const modalImg = document.getElementById("modal-img");
+      const modalTitle = document.getElementById("modal-title");
+      const modalText = document.getElementById("modal-text");
+      const modalPrice = document.getElementById("modal-price");
+      const modalMapBtn = document.getElementById("modal-map-btn");
+      const modalCloseBtn = document.getElementById("modal-close-btn");
+
+      function openModal(loc) {
+        modalTitle.textContent = loc.title;
+        modalText.textContent = loc.text;
+        modalMapBtn.href = loc.mapLink;
+        modalPrice.textContent = loc.price; // Выводим цену
+        
+        if (loc.img) {
+          modalImg.src = loc.img;
+          modalImg.style.display = "block";
+        } else {
+          modalImg.style.display = "none";
+        }
+        
+        modal.classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeModal() {
+        modal.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+
+      modalCloseBtn.onclick = closeModal;
+      modal.onclick = (e) => { if (e.target === modal) closeModal(); };
+
+      // Новости
       if (C.newsCards && C.newsCards.length > 0) {
         document.getElementById("ld-news-title").textContent = C.newsTitle;
         document.getElementById("ld-news-text").textContent = C.newsText;
         document.getElementById("news-section").style.display = "flex"; 
-        
         const newsGrid = document.getElementById("ld-news-grid");
         C.newsCards.forEach(function(item) {
           const card = document.createElement("div");
           card.className = "card";
-          card.innerHTML = '<div style="font-size: 0.85rem; color: var(--muted); margin-bottom: 5px;">' + item.date + '</div>' +
-                           '<h3>' + item.title + '</h3>' +
-                           '<p>' + item.text + '</p>';
+          card.innerHTML = '<div style="font-size: 0.85rem; color: var(--muted); margin-bottom: 5px;">' + item.date + '</div><h3>' + item.title + '</h3><p>' + item.text + '</p>';
           newsGrid.appendChild(card);
         });
       }
 
-      // 5. Ссылки
+      // Ссылки
       const setBtn = (id, href) => { const el = document.getElementById(id); if (el) el.href = href; };
       setBtn("ld-btn-write", L.max); setBtn("ld-btn-write2", L.max);
       setBtn("ld-btn-tg", L.tg); setBtn("ld-btn-tg2", L.tg);
@@ -304,6 +416,7 @@
       setBtn("ld-btn-gift-max", L.max);
       setBtn("ld-btn-gift-tg", L.tg);
       setBtn("ld-btn-gift-wa", L.wa);
+      setBtn("ld-pricing-btn", L.max);
       
       const footerPhone = document.getElementById("ld-footer-phone");
       if (footerPhone) { footerPhone.textContent = L.phoneText; footerPhone.href = L.phone; }
