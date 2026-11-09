@@ -1,9 +1,233 @@
-"use strict";!function(){function t(t,e){return t[e]||t[e]}const e="undefined"!=typeof window&&window.WebApp?window.WebApp:null,o=null!==e;if(e&&"function"==typeof e.ready)try{e.ready()}catch(t){}let n="";if(e&&e.initDataUnsafe&&e.initDataUnsafe.user){const t=e.initDataUnsafe.user.first_name;"string"==typeof t&&t.length<=64&&(n=t)}const r=CONTENT.links,a=CONTENT.app,i=CONTENT.settings,c=CONTENT.theme||{};c.primary&&(document.documentElement.style.setProperty("--accent",c.primary),document.documentElement.style.setProperty("--accent-soft",c.primary+"20"));const s=document.getElementById("ui-start-title"),l=document.getElementById("ui-start-hint"),d=document.getElementById("btn-start"),u=document.getElementById("btn-restart"),p=document.getElementById("btn-close");s.textContent=a.title,l.textContent=a.hint,d.textContent=a.btnStart,u.textContent=a.btnRestart,p.textContent=a.btnClose;const g=document.getElementById("privacy-list");g&&(g.innerHTML="",a.privacyList.forEach((t=>{const e=document.createElement("li");e.textContent=t,g.appendChild(e)})));if(!o){document.getElementById("btn-close").style.display="none";const t=document.getElementById("ui-browser-note");t.textContent=a.browserNote,t.style.display="block"}const b=CONTENT.questions,_=b.map(((t,e)=>{let o=t.weights;return"osteo"===t.type&&t.options.length!==o.length?o=t.options.map(((e,o)=>void 0!==t.weights[o]?t.weights[o]:3)):"redflag"===t.type&&(o=[1,5]),{type:t.type,profile:t.profile||"any",text:t.text,options:t.options,weights:o}})),m=_.length;let y=0,f=new Array(m).fill(null),x=!1,h="general";function v(t){return document.querySelector(t)}const C={start:v("#screen-start"),question:v("#screen-question"),result:v("#screen-result")},w=v("#progress-wrap"),A=v("#progress-bar"),S=v("#q-current"),k=v("#q-total"),L=v("#q-text"),E=v("#answers"),T=v("#result-icon"),M=v("#result-title"),q=v("#verdict"),B=v("#result-actions"),N=v("#result-hint");function I(t,e,o){const n=document.createElement(t);return e&&(n.className=e),void 0!==o&&(n.textContent=String(o)),n}k.textContent=String(m);const P=()=>{Object.keys(C).forEach((t=>{C[t].classList.remove("active")})),C[name].classList.add("active");try{window.scrollTo(0,0)}catch(t){}};
-const O=(t)=>{Object.keys(C).forEach((e=>{C[e].classList.remove("active")})),C[t].classList.add("active");try{window.scrollTo(0,0)}catch(t){}};
-const R=()=>{const t=_[y];S.textContent=String(y+1),L.textContent=t.text;const e=Math.round(y/m*100);A.style.width=e+"%",w&&w.setAttribute&&w.setAttribute("aria-valuenow",String(e)),E.textContent="",t.options.forEach(((t,e)=>{const o=I("button","answer",t);o.type="button",f[y]===e&&o.classList.add("selected"),o.addEventListener("click",(()=>{navigator.vibrate&&navigator.vibrate(10),U(e)})),E.appendChild(o)}))};
-const U=(t)=>{if(x)return;if(x=!0,"number"!=typeof t||t<0||t>=_[y].options.length)return void(x=!1);f[y]=t,0===y&&(0===t?h="neck":1===t?h="lower_back":3===t?h="pelvis":h="general"),"scar"===_[y].profile&&t>=2&&("general"===h||"neck"===h||"lower_back"===h)&&(h="scar");const e=E.querySelectorAll(".answer");e.forEach((t=>{t.classList.remove("selected")})),e[t]&&e[t].classList.add("selected"),window.setTimeout((()=>{y<m-1?(y++,R()):j(),x=!1}),180)};
-const D=()=>{let t=0,e=0,o=0;return _.forEach(((n,r)=>{const a=f[r],i="number"==typeof a&&a>=0&&a<n.options.length?a:0;if("redflag"===n.type)i>0&&t++;else if("osteo"===n.type&&r>0){e+=n.weights[i],o+=Math.max(...n.weights)}})),{redFlags:t,percent:o>0?Math.round(e/o*100):0}};
-const F=(t,e,o,n,r)=>{const a=I("a","btn "+(o||"secondary"),t);return a.href=e,a.target="_blank",n&&(a.style.background=n,a.style.color="#fff",a.style.boxShadow="0 4px 0 "+(r||"#000"),a.classList.remove("btn-secondary")),a.addEventListener("click",(()=>{navigator.vibrate&&navigator.vibrate(10)})),a};
-const V=(t)=>{if("neck"===t)return"Твой профиль: «Офисная шея». Судя по ответам, твое тело застряло в режиме работы за компьютером. Голова уходит вперед, а фасции шеи и груди сжимаются. Наша задача — мягко раскрыть грудную клетку и вернуть шее свободу.";if("lower_back"===t)return"Твой профиль: «Зажатая поясница». Твои ответы указывают на напряжение в нижней части спины. Это может быть связано с долгим сидением или компенсацией после нагрузок. Работа с фасциями таза и ног поможет снять эту нагрузку.";if("pelvis"===t)return"Твой профиль: «Перекос таза». Тело подает сигналы о том, что ось сместилась. Из-за этого одна сторона тела работает больше, отнимая энергию. Остеокоррекция помогает вернуть тазу баланс и симметрию.";if("scar"===t)return"Твой профиль: «Скрытые спайки». Ты отметил наличие рубцов или операций. Рубец — это плотная ткань, которая может стягивать фасции, вызывая перекосы. Мы можем бережно проработать эти натяжения, чтобы тело снова двигалось свободно.";return"Твой профиль: «Внутренний марафон». Твоя нервная система долго находится в напряжении. Мышцы и фасции зажаты, как пружина. Наша задача — перевести тело в режим глубокого покоя."};
-const j=()=>{const t=D();B.textContent="",T.textContent="",M.textContent="",q.textContent="",N.textContent="";if(0===t.redFlags&&t.percent<i.osteoThreshold)T.textContent="✅",M.textContent=a.normalTitle,q.textContent=a.normalVerdict,B.appendChild(I("div","result-body",a.normalBody)),N.textContent="Это не медицинская диагностика. Сделайте скриншот, если хотите сохранить результат.";else if(0===t.redFlags||1===t.redFlags&&t.percent<i.osteoThreshold){T.textContent="🌿",M.textContent=a.osteoTitle,q.textContent=a.osteoVerdict,B.appendChild(I("div","result-body",a.osteoBody));const e=I("div","result-body");e.style.background="var(--accent-soft)",e.style.padding="20px",e.style.borderRadius="12px",e.style.marginBottom="20px",e.style.borderLeft="4px solid var(--accent)";const o=I("div","action-title","🎁 Твой персональный разбор");o.style.color="var(--accent)",o.style.marginBottom="10px";const n=I("div","",V(h));n.style.fontSize="0.95rem",e.appendChild(o),e.appendChild(n),B.appendChild(e);const r=I("div","result-body");if(r.style.background="var(--guide-bg)",r.style.color="var(--guide-fg)",r.style.padding="15px",r.style.borderRadius="12px",r.style.marginBottom="20px",r.style.borderLeft="4px solid var(--guide-border)",r.style.fontSize="0.9rem",r.textContent="🎁 Если хотите получить персональный гайд по экспресс-разгрузке именно вашей зоны напряжения — напишите мне в удобный мессенджер и пришлите скриншот этого результата. Отправлю методику бесплатно.",B.appendChild(r),1===t.redFlags){const t=I("div","result-body");t.style.background="var(--warn-bg)",t.style.color="var(--warn-fg)",t.style.padding="15px",t.style.borderRadius="12px",t.style.fontSize="0.9rem",t.style.marginBottom="20px",t.textContent="Вы отметили один симптом, требующий наблюдения. Рекомендую перед сеансом проконсультироваться с врачом.",B.appendChild(t)}const c=I("div","action-block");if(c.appendChild(I("div","action-title",a.btnWriteTitle)),!o||i.showAllMessengersInsideMax){c.appendChild(I("div","action-hint",a.btnWriteHint)),CONTENT.messengerButtons&&CONTENT.messengerButtons.length>0&&CONTENT.messengerButtons.forEach((t=>{let e=t.link;"https://t.me/ТВОЙ_НИК"===e&&(e=r.tg),"https://wa.me/79951149954"===e&&(e=r.wa),"https://max.ru/se14074027_bot"===e&&(e=r.max);let o="tg"===t.type?c.tg:"wa"===t.type?c.wa:"primary"===t.type?c.primary:null;c.appendChild(F(t.text,e,t.type,o,o?o.replace("#","#00"):null))}))}else c.appendChild(F(a.btnWriteMax||"Написать в MAX",r.max,"primary"));c.appendChild(F(a.btnCall,r.phone,"secondary"));const s=I("div","action-hint",a.callNote);s.style.marginTop="10px",s.style.marginBottom="0",s.style.fontSize="0.75rem",c.appendChild(s),B.appendChild(c);const l=I("div","action-block");l.appendChild(I("div","action-title",a.methodTitle)),l.appendChild(F(a.methodBtn,r.landing,"secondary")),B.appendChild(l),N.textContent="Это не медицинская диагностика. Приложение не ставит диагноз и не назначает лечение. Сделайте скриншот результата, если хотите его сохранить."}else{T.textContent="⚠️",M.textContent=a.doctorTitle,q.textContent=a.doctorVerdict,B.appendChild(I("div","result-body",a.doctorBody)),N.textContent="Это не медицинская диагностика. Решение о лечении принимает врач. Сделайте скриншот результата, если хотите его сохранить."}O("result")};
-document.getElementById("btn-start").addEventListener("click",(()=>{y=0,f=new Array(m).fill(null),h="general",R(),O("question")})),document.getElementById("btn-restart").addEventListener("click",(()=>{y=0,f=new Array(m).fill(null),O("start")})),document.getElementById("btn-close").addEventListener("click",(()=>{f=new Array(m).fill(null),O("start"),e&&"function"==typeof e.close&&e.close()}));const H=document.getElementById("app");H&&H.removeAttribute("hidden");const K=document.getElementById("start-subtitle");K&&(K.textContent=n?"Привет, "+n+"! "+a.subtitle:a.subtitle)}();
+"use strict";
+(function () {
+  const w = window.WebApp || null;
+  const isMax = w !== null;
+  if (w && typeof w.ready === "function") { try { w.ready(); } catch (_) {} }
+
+  const C = CONTENT, L = C.links, A = C.app, S = C.settings, T = C.theme || {};
+  
+  if (T.primary) {
+    document.documentElement.style.setProperty('--accent', T.primary);
+    document.documentElement.style.setProperty('--accent-soft', T.primary + '20');
+  }
+
+  let userName = "";
+  if (w && w.initDataUnsafe && w.initDataUnsafe.user) {
+    const n = w.initDataUnsafe.user.first_name;
+    if (typeof n === "string" && n.length <= 64) userName = n;
+  }
+
+  const $ = (s) => document.querySelector(s);
+  const el = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x !== undefined) e.textContent = x; return e; };
+
+  document.getElementById("ui-start-title").textContent = A.title;
+  document.getElementById("ui-start-hint").textContent = A.hint;
+  document.getElementById("btn-start").textContent = A.btnStart;
+  document.getElementById("btn-restart").textContent = A.btnRestart;
+  document.getElementById("btn-close").textContent = A.btnClose;
+
+  const pl = document.getElementById("privacy-list");
+  if (pl) {
+    pl.innerHTML = "";
+    A.privacyList.forEach(t => { const li = document.createElement("li"); li.textContent = t; pl.appendChild(li); });
+  }
+
+  if (!isMax) {
+    document.getElementById("btn-close").style.display = "none";
+    const bn = document.getElementById("ui-browser-note");
+    bn.textContent = A.browserNote;
+    bn.style.display = "block";
+  }
+
+  const Q = C.questions.map((q, i) => {
+    let w = q.weights;
+    if (q.type === "osteo" && q.options.length !== w.length) {
+      w = q.options.map((_, idx) => q.weights[idx] !== undefined ? q.weights[idx] : 3);
+    } else if (q.type === "redflag") {
+      w = [1, 5];
+    }
+    return { type: q.type, profile: q.profile || "any", text: q.text, options: q.options, weights: w };
+  });
+
+  const TOTAL = Q.length;
+  let idx = 0, ans = new Array(TOTAL).fill(null), lock = false, prof = "general";
+
+  const scr = { start: $("#screen-start"), question: $("#screen-question"), result: $("#screen-result") };
+  const pWrap = $("#progress-wrap"), pBar = $("#progress-bar"), qCur = $("#q-current"), qTot = $("#q-total");
+  const qTxt = $("#q-text"), ansBox = $("#answers"), resIcon = $("#result-icon"), resTitle = $("#result-title");
+  const verd = $("#verdict"), resAct = $("#result-actions"), resHint = $("#result-hint");
+
+  qTot.textContent = TOTAL;
+
+  const showScr = (n) => {
+    Object.keys(scr).forEach(k => scr[k].classList.remove("active"));
+    scr[n].classList.add("active");
+    window.scrollTo(0, 0);
+  };
+
+  const renderQ = () => {
+    const q = Q[idx];
+    qCur.textContent = idx + 1;
+    qTxt.textContent = q.text;
+    pBar.style.width = Math.round((idx / TOTAL) * 100) + "%";
+    if (pWrap) pWrap.setAttribute("aria-valuenow", Math.round((idx / TOTAL) * 100));
+    
+    ansBox.innerHTML = "";
+    q.options.forEach((opt, i) => {
+      const btn = el("button", "answer", opt);
+      btn.type = "button";
+      if (ans[idx] === i) btn.classList.add("selected");
+      btn.onclick = () => {
+        if (navigator.vibrate) navigator.vibrate(10);
+        selectAns(i);
+      };
+      ansBox.appendChild(btn);
+    });
+  };
+
+  const selectAns = (i) => {
+    if (lock) return;
+    lock = true;
+    if (typeof i !== "number" || i < 0 || i >= Q[idx].options.length) { lock = false; return; }
+    
+    ans[idx] = i;
+    if (idx === 0) {
+      if (i === 0) prof = "neck";
+      else if (i === 1) prof = "lower_back";
+      else if (i === 3) prof = "pelvis";
+      else prof = "general";
+    }
+    if (Q[idx].profile === "scar" && i >= 2) {
+      if (prof === "general" || prof === "neck" || prof === "lower_back") prof = "scar";
+    }
+
+    const btns = ansBox.querySelectorAll(".answer");
+    btns.forEach(b => b.classList.remove("selected"));
+    if (btns[i]) btns[i].classList.add("selected");
+
+    setTimeout(() => {
+      if (idx < TOTAL - 1) { idx++; renderQ(); } else { showRes(); }
+      lock = false;
+    }, 180);
+  };
+
+  const evalRes = () => {
+    let rf = 0, sum = 0, max = 0;
+    Q.forEach((q, i) => {
+      const a = ans[i], s = (typeof a === "number" && a >= 0 && a < q.options.length) ? a : 0;
+      if (q.type === "redflag") { if (s > 0) rf++; }
+      else if (q.type === "osteo" && i > 0) { sum += q.weights[s]; max += Math.max(...q.weights); }
+    });
+    const p = max > 0 ? Math.round((sum / max) * 100) : 0;
+    if (rf >= 2) return { out: "doc" };
+    if (rf === 1) return { out: "osteo", p, warn: true };
+    if (p >= S.osteoThreshold) return { out: "osteo", p, warn: false };
+    return { out: "norm", p };
+  };
+
+  const mkBtn = (txt, href, type, bg, sh) => {
+    const a = el("a", "btn " + (type || "secondary"), txt);
+    a.href = href;
+    a.target = "_blank";
+    if (bg) {
+      a.style.background = bg;
+      a.style.color = "#fff";
+      a.style.boxShadow = "0 4px 0 " + (sh || "#000");
+      a.classList.remove("btn-secondary");
+    }
+    a.onclick = () => { if (navigator.vibrate) navigator.vibrate(10); };
+    return a;
+  };
+
+  const getProfTxt = (p) => {
+    if (p === "neck") return "Твой профиль: «Офисная шея». Судя по ответам, твое тело застряло в режиме работы за компьютером. Голова уходит вперед, а фасции шеи и груди сжимаются. Наша задача — мягко раскрыть грудную клетку и вернуть шее свободу.";
+    if (p === "lower_back") return "Твой профиль: «Зажатая поясница». Твои ответы указывают на напряжение в нижней части спины. Это может быть связано с долгим сидением или компенсацией после нагрузок. Работа с фасциями таза и ног поможет снять эту нагрузку.";
+    if (p === "pelvis") return "Твой профиль: «Перекос таза». Тело подает сигналы о том, что ось сместилась. Из-за этого одна сторона тела работает больше, отнимая энергию. Остеокоррекция помогает вернуть тазу баланс и симметрию.";
+    if (p === "scar") return "Твой профиль: «Скрытые спайки». Ты отметил наличие рубцов или операций. Рубец — это плотная ткань, которая может стягивать фасции, вызывая перекосы. Мы можем бережно проработать эти натяжения, чтобы тело снова двигалось свободно.";
+    return "Твой профиль: «Внутренний марафон». Твоя нервная система долго находится в напряжении. Мышцы и фасции зажаты, как пружина. Наша задача — перевести тело в режим глубокого покоя.";
+  };
+
+  const showRes = () => {
+    const r = evalRes();
+    resAct.innerHTML = ""; resIcon.textContent = ""; resTitle.textContent = ""; verd.textContent = ""; resHint.textContent = "";
+
+    if (r.out === "norm") {
+      resIcon.textContent = "✅"; resTitle.textContent = A.normalTitle; verd.textContent = A.normalVerdict;
+      resAct.appendChild(el("div", "result-body", A.normalBody));
+      resHint.textContent = "Это не медицинская диагностика. Сделайте скриншот, если хотите сохранить результат.";
+    } else if (r.out === "osteo") {
+      resIcon.textContent = "🌿"; resTitle.textContent = A.osteoTitle; verd.textContent = A.osteoVerdict;
+      resAct.appendChild(el("div", "result-body", A.osteoBody));
+
+      const pBox = el("div", "result-body");
+      pBox.style.cssText = "background:var(--accent-soft);padding:20px;border-radius:12px;margin-bottom:20px;border-left:4px solid var(--accent)";
+      const pTitle = el("div", "action-title", "🎁 Твой персональный разбор");
+      pTitle.style.cssText = "color:var(--accent);margin-bottom:10px";
+      const pTxt = el("div", "", getProfTxt(prof));
+      pTxt.style.fontSize = "0.95rem";
+      pBox.appendChild(pTitle); pBox.appendChild(pTxt); resAct.appendChild(pBox);
+
+      const gBox = el("div", "result-body");
+      gBox.style.cssText = "background:var(--guide-bg);color:var(--guide-fg);padding:15px;border-radius:12px;margin-bottom:20px;border-left:4px solid var(--guide-border);font-size:0.9rem";
+      gBox.textContent = "🎁 Если хотите получить персональный гайд по экспресс-разгрузке именно вашей зоны напряжения — напишите мне в удобный мессенджер и пришлите скриншот этого результата. Отправлю методику бесплатно.";
+      resAct.appendChild(gBox);
+
+      if (r.warn) {
+        const wBox = el("div", "result-body");
+        wBox.style.cssText = "background:var(--warn-bg);color:var(--warn-fg);padding:15px;border-radius:12px;margin-bottom:20px;font-size:0.9rem";
+        wBox.textContent = "Вы отметили один симптом, требующий наблюдения. Рекомендую перед сеансом проконсультироваться с врачом.";
+        resAct.appendChild(wBox);
+      }
+
+      const aBlock = el("div", "action-block");
+      aBlock.appendChild(el("div", "action-title", A.btnWriteTitle));
+      
+      if (!isMax || S.showAllMessengersInsideMax) {
+        aBlock.appendChild(el("div", "action-hint", A.btnWriteHint));
+        if (C.messengerButtons && C.messengerButtons.length > 0) {
+          C.messengerButtons.forEach(b => {
+            let lnk = b.link;
+            if (lnk === "https://t.me/ТВОЙ_НИК") lnk = L.tg;
+            if (lnk === "https://wa.me/79951149954") lnk = L.wa;
+            if (lnk === "https://max.ru/se14074027_bot") lnk = L.max;
+            let bg = b.type === 'tg' ? T.tg : (b.type === 'wa' ? T.wa : (b.type === 'primary' ? T.primary : null));
+            aBlock.appendChild(mkBtn(b.text, lnk, b.type, bg, bg ? bg.replace('#','#00') : null));
+          });
+        }
+      } else {
+        aBlock.appendChild(mkBtn(A.btnWriteMax || "Написать в MAX", L.max, "primary"));
+      }
+
+      aBlock.appendChild(mkBtn(A.btnCall, L.phone, "secondary"));
+      const cHint = el("div", "action-hint", A.callNote);
+      cHint.style.cssText = "margin-top:10px;margin-bottom:0;font-size:0.75rem";
+      aBlock.appendChild(cHint);
+      resAct.appendChild(aBlock);
+
+      const mBlock = el("div", "action-block");
+      mBlock.appendChild(el("div", "action-title", A.methodTitle));
+      // 🚀 ЗДЕСЬ ПЕРЕДАЕТСЯ ССЫЛКА ИЗ CONTENT.JS
+      mBlock.appendChild(mkBtn(A.methodBtn, L.landing, "secondary"));
+      resAct.appendChild(mBlock);
+      
+      resHint.textContent = "Это не медицинская диагностика. Приложение не ставит диагноз и не назначает лечение. Сделайте скриншот результата, если хотите его сохранить.";
+    } else {
+      resIcon.textContent = "⚠️"; resTitle.textContent = A.doctorTitle; verd.textContent = A.doctorVerdict;
+      resAct.appendChild(el("div", "result-body", A.doctorBody));
+      resHint.textContent = "Это не медицинская диагностика. Решение о лечении принимает врач. Сделайте скриншот результата, если хотите его сохранить.";
+    }
+    showScr("result");
+  };
+
+  $("#btn-start").onclick = () => { idx = 0; ans.fill(null); prof = "general"; renderQ(); showScr("question"); };
+  $("#btn-restart").onclick = () => { idx = 0; ans.fill(null); showScr("start"); };
+  $("#btn-close").onclick = () => {
+    ans.fill(null); showScr("start");
+    if (w && typeof w.close === "function") { try { w.close(); } catch (_) {} }
+  };
+
+  const app = $("#app");
+  if (app) app.removeAttribute("hidden");
+  const sub = $("#start-subtitle");
+  if (sub) sub.textContent = userName ? "Привет, " + userName + "! " + A.subtitle : A.subtitle;
+})();
