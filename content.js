@@ -2,24 +2,18 @@ const CONTENT = {
   theme: { primary: "#4a8f6f", primaryHover: "#3b755a", tg: "#229ED9", wa: "#25D366" },
   seo: { title: "Игорь Шамшин | Мио-фасциальная остеокоррекция", description: "Авторская практика. 20+ лет опыта.", ogImage: "" },
   
-  // По умолчанию аналитика выключена
   analytics: { yandexMetrika: "", googleAnalytics: "" },
   onlineBooking: { enabled: false, text: "Записаться онлайн", link: "" },
   
-  // 🚀 МАСТЕР-ПОЛЗУНОК 152-ФЗ (По умолчанию ВЫКЛЮЧЕН)
   settings: { 
     dataCollectionEnabled: false, 
     showAllMessengersInsideMax: true, 
     osteoThreshold: 35,
-    showLocations: true, 
-    showGift: true, 
-    showNews: true, 
-    showCases: true, 
-    showPricing: true
+    showLocations: true, showGift: true, showNews: true, showCases: true, showPricing: true
   },
   
   leadForm: { 
-    enabled: true, // Сама форма включена, но не покажется, если выключен Мастер-ползунок
+    enabled: true, 
     title: "Остались вопросы?", 
     subtitle: "Оставьте имя и телефон — я свяжусь с вами.", 
     privacyText: "Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности.", 
