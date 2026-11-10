@@ -71,27 +71,19 @@
     .modal-text { font-size: 1rem; margin-bottom: 15px; }
     .modal-price-box { background: var(--accent-soft); border-left: 4px solid var(--accent); padding: 10px 15px; border-radius: 8px; margin-bottom: 20px; font-weight: 600; font-size: 1.1rem; color: var(--fg); display: flex; align-items: center; gap: 10px; }
     .modal-price-box span { color: var(--accent); }
-    
     .lead-form { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
     .lead-form input[type="text"], .lead-form input[type="tel"] { width: 100%; padding: 15px; border: 1px solid var(--border); border-radius: 10px; font-size: 1rem; font-family: inherit; background: var(--card-bg); }
     .lead-form input:focus { outline: none; border-color: var(--accent); }
-    
     .checkbox-row { display: flex; align-items: flex-start; gap: 10px; margin: 5px 0; }
     .checkbox-row input[type="checkbox"] { margin-top: 4px; width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer; flex-shrink: 0; }
     .checkbox-row label { font-size: 0.85rem; color: var(--muted); line-height: 1.4; cursor: pointer; }
     .checkbox-row label a { color: var(--accent); text-decoration: underline; }
-
     .cookie-banner { position: fixed; bottom: 20px; left: 20px; right: 20px; max-width: 600px; margin: 0 auto; background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 15px 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 2000; display: none; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: wrap; }
     .cookie-banner p { font-size: 0.85rem; margin: 0; color: var(--fg); flex: 1; min-width: 200px; }
     .cookie-banner button { background: var(--accent); color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.9rem; }
     .cookie-banner button:hover { background: var(--accent-hover); }
-
     .sticky-bottom { display: none; }
-    @media (max-width: 767px) {
-      .sticky-bottom { display: block; position: fixed; bottom: 0; left: 0; right: 0; background: #fff; padding: 10px 20px calc(10px + env(safe-area-inset-bottom)); box-shadow: 0 -4px 15px rgba(0,0,0,0.1); z-index: 999; text-align: center; }
-      .sticky-bottom .btn { padding: 12px; font-size: 1rem; }
-    }
-
+    @media (max-width: 767px) { .sticky-bottom { display: block; position: fixed; bottom: 0; left: 0; right: 0; background: #fff; padding: 10px 20px calc(10px + env(safe-area-inset-bottom)); box-shadow: 0 -4px 15px rgba(0,0,0,0.1); z-index: 999; text-align: center; } .sticky-bottom .btn { padding: 12px; font-size: 1rem; } }
     @media (min-width: 768px) { .container { max-width: 900px; } h1 { font-size: 2.8rem; } h2 { font-size: 2rem; } .grid-2 { grid-template-columns: 1fr 1fr; } .grid-3 { grid-template-columns: 1fr 1fr 1fr; } .grid-4 { grid-template-columns: 1fr 1fr; } .compare-grid { grid-template-columns: 1fr 1fr; } .btn-group { flex-direction: row; justify-content: center; flex-wrap: wrap; } .btn { width: auto; min-width: 200px; } }
   </style>
 </head>
@@ -105,7 +97,6 @@
   <section class="section section-alt" id="gift-section"><div class="container"><div class="card" style="border:2px dashed var(--accent);background:var(--accent-soft);text-align:center;padding:30px 20px"><span class="card-icon">🎁</span><h2 style="color:var(--accent);margin-bottom:10px" id="ld-gift-title"></h2><p id="ld-gift-text"></p><p style="font-size:.95rem;color:var(--muted)" id="ld-gift-subtext"></p><div class="btn-group" id="gift-buttons" style="margin-top:20px"></div><p style="font-size:.85rem;margin-top:10px;color:var(--muted)" id="ld-gift-note"></p></div></div></section>
   <section class="section" id="news-section" style="display:none"><div class="container"><h2 id="ld-news-title"></h2><p id="ld-news-text"></p><div class="grid-3" id="ld-news-grid"></div></div></section>
   <section class="section section-alt" id="cases-section"><div class="container"><h2 id="ld-cases-title"></h2><div class="grid-3" id="ld-cases-grid"></div><div class="btn-group" style="margin-top:40px" id="footer-messenger-buttons"></div><div class="btn-group" style="margin-top:0"><a href="#" id="ld-btn-call2" class="btn btn-outline">Позвонить мне</a></div><p class="btn-note" id="ld-call-note2"></p>
-  
   <div id="lead-form-section" class="card" style="margin-top:40px;display:none;border:2px solid var(--accent)">
     <h3 id="ld-lead-title" style="text-align:center"></h3>
     <p id="ld-lead-subtitle" style="text-align:center;margin-bottom:20px"></p>
@@ -124,21 +115,17 @@
       </div>
     </form>
   </div>
-  
   <div class="footer">
     <p>Связь: <a href="#" id="ld-footer-phone"></a></p>
     <p style="font-size:.8rem;margin-top:10px" id="ld-footer-disclaimer"></p>
     <p style="font-size:.8rem;margin-top:5px"><a href="#" id="ld-footer-privacy" target="_blank">Политика конфиденциальности</a></p>
   </div>
   </div></section>
-  
   <div class="sticky-bottom"><a href="#pricing-section" class="btn btn-primary">Записаться на сеанс</a></div>
-  
   <div class="cookie-banner" id="cookie-banner">
     <p>Мы используем файлы cookie для анализа трафика. Продолжая работу, вы соглашаетесь с этим.</p>
     <button onclick="acceptCookies()">Принять</button>
   </div>
-  
   <div class="modal-overlay" id="location-modal"><div class="modal-content"><button class="modal-close" id="modal-close-btn">✕</button><img id="modal-img" class="modal-img" src="" alt="Локация"><h3 id="modal-title" class="modal-title"></h3><p id="modal-text" class="modal-text"></p><div class="modal-price-box"><span>💰 Стоимость:</span> <span id="modal-price"></span></div><a href="#" id="modal-map-btn" class="btn btn-primary" target="_blank" style="display:block">Построить маршрут</a></div></div>
   
   <script src="content.js"></script>
@@ -149,25 +136,31 @@
       const e=document.getElementById("lead-name").value,o=document.getElementById("lead-phone").value;
       if(!e||!o) return alert("Заполните имя и телефон.");
       const n=`Заявка с сайта!\nИмя: ${e}\nТелефон: ${o}`,r=encodeURIComponent(n),a=CONTENT.leadForm;
+      
       if("telegram"===t) window.open(`https://t.me/${a.tgUsername}?text=${r}`,"_blank");
       else if("whatsapp"===t){const t=a.waPhone.replace(/[^0-9]/g,"");window.open(`https://wa.me/${t}?text=${r}`,"_blank")}
-      else if("max"===t) navigator.clipboard.writeText(n).then((()=>{alert("Данные скопированы! Вставьте их в чат (Ctrl+V)."),window.open(`https://max.ru/${a.maxBot}`,"_blank")})).catch((()=>{window.open(`https://max.ru/${a.maxBot}`,"_blank")}));
+      else if("max"===t) {
+        navigator.clipboard.writeText(n).then(()=>{
+          alert("Данные скопированы! Вставьте их в чат с ботом (Ctrl+V).");
+          window.open(`https://max.ru/${a.maxBot}`,"_blank");
+        }).catch(()=>{
+          prompt("Пожалуйста, скопируйте текст заявки и вставьте его в чат с ботом:", n);
+          window.open(`https://max.ru/${a.maxBot}`,"_blank");
+        });
+      }
     }
     
     document.addEventListener("DOMContentLoaded",(function(){
       if("undefined"==typeof CONTENT)return;
       const t=CONTENT.landing,e=CONTENT.links,o=CONTENT.theme,n=CONTENT.seo||{},r=CONTENT.onlineBooking||{},a=CONTENT.leadForm||{},i=CONTENT.analytics||{},S=CONTENT.settings;
       
-      // 🚀 ГЛАВНАЯ ПРОВЕРКА: Работает ли сбор данных?
       const isCollectionEnabled = S.dataCollectionEnabled === true;
-
-      // Умный Cookie-баннер
       const hasAnalytics = (i.yandexMetrika && i.yandexMetrika.trim() !== "") || (i.googleAnalytics && i.googleAnalytics.trim() !== "");
+      
       if (isCollectionEnabled && hasAnalytics && !localStorage.getItem('cookieAccepted')) {
         document.getElementById('cookie-banner').style.display = 'flex';
       }
 
-      // Ссылки на политику (показываем только если включен сбор)
       if (isCollectionEnabled && e.privacy) {
         document.getElementById('ld-lead-privacy-label').innerHTML = `Я согласен с <a href="${e.privacy}" target="_blank">политикой конфиденциальности</a>`;
         document.getElementById('ld-footer-privacy').href = e.privacy;
@@ -176,13 +169,11 @@
         document.getElementById('ld-footer-privacy').style.display = 'none';
       }
 
-      // Включение аналитики
       if (isCollectionEnabled) {
         if (i.yandexMetrika) { const script = document.createElement("script"); script.innerHTML = i.yandexMetrika; document.head.appendChild(script); }
         if (i.googleAnalytics) { const script = document.createElement("script"); script.innerHTML = i.googleAnalytics; document.head.appendChild(script); }
       }
 
-      // Тумблеры видимости блоков
       if(S.showLocations === false) document.getElementById("locations-section").style.display = "none";
       if(S.showPricing === false) document.getElementById("pricing-section").style.display = "none";
       if(S.showGift === false) document.getElementById("gift-section").style.display = "none";
@@ -192,7 +183,6 @@
       
       document.getElementById("seo-title").textContent=n.title||t.heroTitle,document.getElementById("seo-description").setAttribute("content",n.description||t.heroText),document.getElementById("seo-og-title").setAttribute("content",n.title||t.heroTitle),document.getElementById("seo-og-description").setAttribute("content",n.description||t.heroText),document.getElementById("seo-og-image").setAttribute("content",n.ogImage||""),document.documentElement.style.setProperty("--accent",o.primary),document.documentElement.style.setProperty("--accent-hover",o.primaryHover),document.documentElement.style.setProperty("--accent-soft",o.primary+"20"),document.documentElement.style.setProperty("--tg",o.tg),document.documentElement.style.setProperty("--wa",o.wa),document.getElementById("ld-hero-title").textContent=t.heroTitle,document.getElementById("ld-hero-text").textContent=t.heroText,document.getElementById("ld-call-note").textContent=t.callNote,document.getElementById("ld-call-note2").textContent=t.callNote,document.getElementById("ld-compare-title").textContent=t.compareTitle,document.getElementById("ld-compare-text").textContent=t.compareText,document.getElementById("ld-expert-title").textContent=t.expertTitle,document.getElementById("ld-expert-text").textContent=t.expertText,document.getElementById("ld-expert-footer").textContent=t.expertFooter,document.getElementById("ld-trust-title").textContent=t.trustTitle,document.getElementById("ld-trust-text").textContent=t.trustText,document.getElementById("ld-results-title").textContent=t.resultsTitle,document.getElementById("ld-results-text").textContent=t.resultsText,document.getElementById("ld-locations-title").textContent=t.locationsTitle,document.getElementById("ld-locations-text").textContent=t.locationsText,document.getElementById("ld-gift-title").textContent=t.giftTitle,document.getElementById("ld-gift-text").textContent=t.giftText,document.getElementById("ld-gift-subtext").textContent=t.giftSubtext,document.getElementById("ld-gift-note").textContent=t.giftNote,document.getElementById("ld-cases-title").textContent=t.casesTitle,document.getElementById("ld-footer-disclaimer").textContent=t.footerDisclaimer,document.getElementById("ld-pricing-title").textContent=t.pricingTitle,document.getElementById("ld-pricing-name").textContent=t.pricingName,document.getElementById("ld-pricing-duration").textContent=t.pricingDuration,document.getElementById("ld-pricing-price").textContent=t.pricingPrice,document.getElementById("ld-pricing-desc").textContent=t.pricingDesc,document.getElementById("ld-btn-test").textContent=t.btnTestAgain,document.getElementById("ld-btn-test").href=e.test,document.getElementById("ld-btn-call").href=e.phone,document.getElementById("ld-btn-call2").href=e.phone;
       
-      // Форма и Онлайн-запись (ТОЛЬКО если включен сбор данных)
       if (isCollectionEnabled) {
         if(r.enabled && r.link) {
           document.getElementById("online-booking-section").style.display = "block";
