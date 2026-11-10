@@ -56,6 +56,7 @@
   const pWrap = $("#progress-wrap"), pBar = $("#progress-bar"), qCur = $("#q-current"), qTot = $("#q-total");
   const qTxt = $("#q-text"), ansBox = $("#answers"), resIcon = $("#result-icon"), resTitle = $("#result-title");
   const verd = $("#verdict"), resAct = $("#result-actions"), resHint = $("#result-hint");
+  const btnBack = $("#btn-back");
 
   qTot.textContent = TOTAL;
 
@@ -72,6 +73,8 @@
     pBar.style.width = Math.round((idx / TOTAL) * 100) + "%";
     if (pWrap) pWrap.setAttribute("aria-valuenow", Math.round((idx / TOTAL) * 100));
     
+    if (btnBack) { btnBack.style.display = idx > 0 ? "block" : "none"; }
+
     ansBox.innerHTML = "";
     q.options.forEach((opt, i) => {
       const btn = el("button", "answer", opt);
@@ -85,8 +88,14 @@
     });
   };
 
+  if (btnBack) {
+    btnBack.onclick = () => {
+      if (idx > 0) { idx--; renderQ(); }
+    };
+  }
+
   const selectAns = (i) => {
-    if (lock) return;
+    if (lock) return; // 🛡️ Защита от двойного клика
     lock = true;
     if (typeof i !== "number" || i < 0 || i >= Q[idx].options.length) { lock = false; return; }
     
@@ -206,7 +215,6 @@
 
       const mBlock = el("div", "action-block");
       mBlock.appendChild(el("div", "action-title", A.methodTitle));
-      // 🚀 ЗДЕСЬ ПЕРЕДАЕТСЯ ССЫЛКА ИЗ CONTENT.JS
       mBlock.appendChild(mkBtn(A.methodBtn, L.landing, "secondary"));
       resAct.appendChild(mBlock);
       
