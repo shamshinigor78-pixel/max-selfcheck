@@ -19,15 +19,8 @@ html, body { overscroll-behavior: none; min-height: 100%; }
 
 body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--fg); min-height: 100vh; min-height: 100dvh; display: flex; justify-content: center; transition: background-color .2s ease, color .2s ease; }
 #app { width: 100%; max-width: 480px; padding: calc(env(safe-area-inset-top, 0px) + 1.5rem) calc(env(safe-area-inset-right, 0px) + 1.25rem) calc(env(safe-area-inset-bottom, 0px) + 2.5rem) calc(env(safe-area-inset-left, 0px) + 1.25rem); }
-.screen { display: none !important; position: relative; }
+.screen { display: none !important; }
 .screen.active { display: block !important; }
-
-.btn-back {
-  position: absolute; top: 0; left: 0; background: transparent; border: none;
-  color: var(--muted); font-size: 0.9rem; font-weight: 600; cursor: pointer; padding: 5px;
-  display: none; font-family: inherit;
-}
-.btn-back:hover { color: var(--accent); }
 
 .logo { font-size: 3.5rem; text-align: center; margin: 1.5rem 0 1rem; line-height: 1; }
 h1 { font-size: 1.625rem; line-height: 1.2; text-align: center; margin-bottom: .625rem; overflow-wrap: break-word; }
@@ -47,9 +40,24 @@ h1 { font-size: 1.625rem; line-height: 1.2; text-align: center; margin-bottom: .
 .action-block .btn.primary { margin-top: 0; }
 .action-block .btn + .btn { margin-top: .5rem; }
 
+.btn-back {
+  display: none;
+  background: transparent;
+  color: var(--muted);
+  border: none;
+  padding: 0.25rem 0;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  cursor: pointer;
+  font-weight: 500;
+}
+.btn-back:hover { color: var(--accent); }
+.btn-back:active { opacity: 0.7; }
+
 .progress { height: .375rem; background: var(--border); border-radius: 999px; overflow: hidden; margin-bottom: .5rem; }
 .progress-bar { height: 100%; width: 0%; background: var(--accent); border-radius: 999px; transition: width .3s ease; }
-.progress-text { font-size: .8125rem; color: var(--muted); margin-bottom: 1.5rem; text-align: right; }
+.progress-text { font-size: .8125rem; color: var(--muted); margin-bottom: 1.5rem; }
 
 #q-text { font-size: 1.25rem; line-height: 1.4; text-align: left; margin-bottom: 1.5rem; overflow-wrap: break-word; hyphens: auto; }
 .answers { display: flex; flex-direction: column; gap: .625rem; }
@@ -70,4 +78,4 @@ h1 { font-size: 1.625rem; line-height: 1.2; text-align: center; margin-bottom: .
 @media (min-width: 768px) { #app { padding-top: calc(env(safe-area-inset-top, 0px) + 2.5rem); padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 3.75rem); } h1 { font-size: 1.875rem; } .subtitle { font-size: 1rem; } #q-text { font-size: 1.375rem; } .answer { font-size: 1rem; padding: 1.125rem; } }
 @media (max-height: 500px) and (orientation: landscape) { #app { padding-top: calc(env(safe-area-inset-top, 0px) + .75rem); padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.5rem); } .logo { font-size: 2.5rem; margin: .5rem 0; } h1 { font-size: 1.25rem; margin-bottom: .375rem; } .result-icon { font-size: 2.5rem; margin: .5rem 0; } .subtitle { margin-bottom: .75rem; font-size: .875rem; } .privacy-note { padding: .625rem .75rem; font-size: .75rem; margin-bottom: .75rem; } .progress-text { margin-bottom: 1rem; } #q-text { font-size: 1.125rem; margin-bottom: 1rem; } .answers { gap: .5rem; } .answer { padding: .75rem; font-size: .875rem; } .verdict { margin-bottom: 1rem; } .action-block { padding: .875rem; margin-bottom: .5rem; } }
 @media (prefers-reduced-motion: reduce) { * { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
-.answer:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.answer:focus-visible, .btn:focus-visible, .btn-back:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
