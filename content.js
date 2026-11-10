@@ -1,4 +1,4 @@
-const CONTENT = {
+window.CONTENT = {
   version: "2.0.0",
 
   theme: { primary: "#4a8f6f", primaryHover: "#3b755a", tg: "#229ED9", wa: "#25D366" },
