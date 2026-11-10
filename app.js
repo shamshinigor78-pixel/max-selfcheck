@@ -8,11 +8,11 @@
   }
 
   const webApp = window.WebApp || null;
-  const isInsideMax = !!webApp;
-  if (webApp && typeof webApp.ready === "function") { try { webApp.ready(); } catch (_) {} }
+  const canUseOpenLink = !!(webApp && typeof webApp.openLink === "function" && typeof webApp.initData === "string" && webApp.initData.length > 0);
+  if (canUseOpenLink && typeof webApp.ready === "function") { try { webApp.ready(); } catch (_) {} }
 
   let userName = "";
-  if (webApp && webApp.initDataUnsafe && webApp.initDataUnsafe.user) {
+  if (canUseOpenLink && webApp.initDataUnsafe && webApp.initDataUnsafe.user) {
     const raw = webApp.initDataUnsafe.user.first_name;
     if (typeof raw === "string" && raw.length <= 64) userName = raw;
   }
@@ -23,7 +23,6 @@
   const QUESTIONS = (Array.isArray(C.questions) ? C.questions : []).map(normalizeQuestion);
   const TOTAL = QUESTIONS.length;
   const THRESHOLD = typeof SETTINGS.osteoThreshold === "number" ? SETTINGS.osteoThreshold : 35;
-  const SHOW_ALL = SETTINGS.showAllMessengersInsideMax !== false;
 
   if (!TOTAL) {
     document.body.innerHTML = '<p style="padding:24px;text-align:center;font-family:sans-serif;">Тест не настроен.</p>';
@@ -61,6 +60,15 @@
     return n;
   }
 
+  function openExternal(url) {
+    if (!url) return;
+    if (canUseOpenLink) {
+      try { webApp.openLink(url); return; } catch (_) {}
+    }
+    if (/^tel:|^mailto:/.test(url)) { window.location.href = url; return; }
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
+
   const screens = { start: $("#screen-start"), question: $("#screen-question"), result: $("#screen-result") };
   const progressWrap = $("#progress-wrap");
   const progressBar = $("#progress-bar");
@@ -74,10 +82,6 @@
   const resultActions = $("#result-actions");
   const resultHint = $("#result-hint");
   const btnBack = $("#btn-back");
-
-  if (!btnBack) {
-    console.warn("btn-back не найден в HTML — кнопка «Назад» не будет показана");
-  }
 
   qTotal.textContent = String(TOTAL);
 
@@ -96,16 +100,6 @@
       li.textContent = item;
       privacyUl.appendChild(li);
     });
-  }
-
-  if (!isInsideMax) {
-    const closeBtn = $("#btn-close");
-    if (closeBtn) closeBtn.style.display = "none";
-    const note = $("#ui-browser-note");
-    if (note && TEXT.browserNote) {
-      note.textContent = TEXT.browserNote;
-      note.style.display = "block";
-    }
   }
 
   function showScreen(name) {
@@ -197,15 +191,16 @@
     const a = el("a", "btn " + (style || "secondary"), label);
     a.href = href || "#";
     a.rel = "noopener noreferrer";
+    if (!/^tel:|^mailto:/.test(a.href)) a.target = "_blank";
     if (bg) {
       a.style.background = bg;
       a.style.color = "#fff";
       a.style.boxShadow = "0 4px 0 " + (shadow || "#000");
     }
     a.addEventListener("click", function (e) {
-      if (webApp && typeof webApp.openLink === "function" && href) {
+      if (canUseOpenLink && href) {
         e.preventDefault();
-        try { webApp.openLink(href); } catch (_) {}
+        openExternal(href);
       }
       if (navigator.vibrate) navigator.vibrate(10);
     });
@@ -213,11 +208,10 @@
   }
 
   function messengerList() {
-    const showOthers = !isInsideMax || SHOW_ALL;
     const list = [];
     if (LINKS.max) list.push({ label: TEXT.btnWriteMax || "Написать в MAX", href: LINKS.max, style: "primary" });
-    if (showOthers && LINKS.tg) list.push({ label: TEXT.btnWriteTg || "Написать в Telegram", href: LINKS.tg, style: "custom", bg: "#229ED9", shadow: "#1A7CA8" });
-    if (showOthers && LINKS.wa) list.push({ label: TEXT.btnWriteWa || "Написать в WhatsApp", href: LINKS.wa, style: "custom", bg: "#25D366", shadow: "#128C7E" });
+    if (LINKS.tg) list.push({ label: TEXT.btnWriteTg || "Написать в Telegram", href: LINKS.tg, style: "custom", bg: "#229ED9", shadow: "#1A7CA8" });
+    if (LINKS.wa) list.push({ label: TEXT.btnWriteWa || "Написать в WhatsApp", href: LINKS.wa, style: "custom", bg: "#25D366", shadow: "#128C7E" });
     return list;
   }
 
@@ -250,18 +244,18 @@
       prize.appendChild(pt);
       const map = TEXT.profiles || {};
       const pb = el("div", "", map[chosenProfile] || map.general || "");
-      pb.style.fontSize = "0.95rem";
+      pb.style.fontSize = "1rem";
       prize.appendChild(pb);
       resultActions.appendChild(prize);
 
       if (TEXT.guideBox) {
         const gb = el("div", "result-body", TEXT.guideBox);
-        gb.style.cssText = "background:var(--guide-bg);color:var(--guide-fg);padding:15px;border-radius:12px;margin-bottom:20px;border-left:4px solid var(--guide-border);font-size:0.9rem";
+        gb.style.cssText = "background:var(--guide-bg);color:var(--guide-fg);padding:15px;border-radius:12px;margin-bottom:20px;border-left:4px solid var(--guide-border);font-size:1rem";
         resultActions.appendChild(gb);
       }
       if (r.warning && TEXT.warningText) {
         const w = el("div", "result-body", TEXT.warningText);
-        w.style.cssText = "background:var(--warn-bg);color:var(--warn-fg);padding:15px;border-radius:12px;margin-bottom:20px;font-size:0.9rem";
+        w.style.cssText = "background:var(--warn-bg);color:var(--warn-fg);padding:15px;border-radius:12px;margin-bottom:20px;font-size:1rem";
         resultActions.appendChild(w);
       }
 
@@ -271,11 +265,11 @@
         block.appendChild(el("div", "action-title", TEXT.btnWriteTitle || "Написать мне"));
         if (TEXT.btnWriteHint) block.appendChild(el("div", "action-hint", TEXT.btnWriteHint));
         list.forEach(function (b) { block.appendChild(makeBtn(b.label, b.href, b.style, b.bg, b.shadow)); });
-        if (LINKS.phone && (!isInsideMax || SHOW_ALL)) {
+        if (LINKS.phone) {
           block.appendChild(makeBtn(TEXT.btnCall || "Позвонить мне", LINKS.phone, "secondary"));
           if (TEXT.callNote) {
             const cn = el("div", "action-hint", TEXT.callNote);
-            cn.style.cssText = "margin-top:10px;margin-bottom:0;font-size:0.75rem";
+            cn.style.cssText = "margin-top:10px;margin-bottom:0;font-size:0.85rem";
             block.appendChild(cn);
           }
         }
@@ -323,7 +317,9 @@
   if (closeBtn) closeBtn.addEventListener("click", function () {
     answers = new Array(TOTAL).fill(null);
     showScreen("start");
-    if (webApp && typeof webApp.close === "function") { try { webApp.close(); } catch (_) {} }
+    if (canUseOpenLink && typeof webApp.close === "function") {
+      try { webApp.close(); } catch (_) {}
+    }
   });
 
   const appRoot = $("#app");
