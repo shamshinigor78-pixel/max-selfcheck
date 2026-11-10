@@ -3,17 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title id="seo-title">Загрузка...</title>
-  <meta name="description" id="seo-description" content="">
-  <meta property="og:title" id="seo-og-title" content="">
-  <meta property="og:description" id="seo-og-description" content="">
-  <meta property="og:image" id="seo-og-image" content="">
+  <title>Мио-фасциальная практика Игоря Шамшина | Москва</title>
   <style>
-    html { scroll-behavior: smooth; }
-    :root { --bg-main: #fbf9f6; --bg-alt: #f2efe9; --fg: #2b2a28; --muted: #8a8580; --accent: #4a8f6f; --accent-hover: #3b755a; --accent-soft: #e8f0ea; --tg: #229ED9; --wa: #25D366; --card-bg: #ffffff; --border: #ebe6df; --radius: 16px; }
+    :root {
+      --bg-main: #fbf9f6; --bg-alt: #f2efe9; --fg: #2b2a28; --muted: #8a8580;
+      --accent: #4a8f6f; --accent-hover: #3b755a; --accent-soft: #e8f0ea;
+      --card-bg: #ffffff; --border: #ebe6df; --radius: 16px;
+    }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg-main); color: var(--fg); line-height: 1.6; -webkit-font-smoothing: antialiased; padding-bottom: 70px; }
-    @media (min-width: 768px) { body { padding-bottom: 0; } }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg-main); color: var(--fg); line-height: 1.6; -webkit-font-smoothing: antialiased; }
     .section { padding: 60px 20px; width: 100%; display: flex; justify-content: center; }
     .section-alt { background-color: var(--bg-alt); }
     .container { width: 100%; max-width: 700px; }
@@ -24,15 +22,18 @@
     .overline { text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; color: var(--accent); font-weight: 700; margin-bottom: 10px; display: block; }
     .btn-group { display: flex; flex-direction: column; gap: 12px; margin: 30px 0 15px; }
     .btn { display: flex; align-items: center; justify-content: center; width: 100%; padding: 18px 20px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: all 0.2s ease; cursor: pointer; border: none; color: #fff; }
-    .btn-primary { background: var(--accent); box-shadow: 0 6px 0 var(--accent-hover); }
-    .btn-primary:hover { background: var(--accent-hover); transform: translateY(2px); box-shadow: 0 4px 0 var(--accent-hover); }
-    .btn-primary:active { transform: translateY(6px); box-shadow: 0 0px 0 var(--accent-hover); }
-    .btn-tg { background: var(--tg); box-shadow: 0 6px 0 rgba(0,0,0,0.2); }
-    .btn-tg:hover { filter: brightness(0.9); transform: translateY(2px); box-shadow: 0 4px 0 rgba(0,0,0,0.2); }
-    .btn-wa { background: var(--wa); box-shadow: 0 6px 0 rgba(0,0,0,0.2); }
-    .btn-wa:hover { filter: brightness(0.9); transform: translateY(2px); box-shadow: 0 4px 0 rgba(0,0,0,0.2); }
+    .btn-max { background: var(--accent); box-shadow: 0 6px 0 var(--accent-hover); }
+    .btn-max:hover { background: var(--accent-hover); transform: translateY(2px); box-shadow: 0 4px 0 var(--accent-hover); }
+    .btn-max:active { transform: translateY(6px); box-shadow: 0 0 0 var(--accent-hover); }
+    .btn-tg { background: #229ED9; box-shadow: 0 6px 0 #1A7CA8; }
+    .btn-tg:hover { background: #1A7CA8; transform: translateY(2px); box-shadow: 0 4px 0 #1A7CA8; }
+    .btn-tg:active { transform: translateY(6px); box-shadow: 0 0 0 #1A7CA8; }
+    .btn-wa { background: #25D366; box-shadow: 0 6px 0 #128C7E; }
+    .btn-wa:hover { background: #128C7E; transform: translateY(2px); box-shadow: 0 4px 0 #128C7E; }
+    .btn-wa:active { transform: translateY(6px); box-shadow: 0 0 0 #128C7E; }
     .btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); box-shadow: 0 6px 0 var(--accent-soft); }
     .btn-outline:hover { background: var(--accent-soft); transform: translateY(2px); box-shadow: 0 4px 0 var(--accent-soft); }
+    .btn-outline:active { transform: translateY(6px); box-shadow: 0 0 0 var(--accent-soft); }
     .btn-note { text-align: center; font-size: 0.85rem; color: var(--muted); margin-bottom: 20px; }
     .hero-img-container { width: 100%; height: 300px; border-radius: var(--radius); background: linear-gradient(135deg, #e8f0ea 0%, #d4e4d9 100%); margin: 25px 0; box-shadow: 0 8px 24px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; color: var(--accent); font-weight: 600; overflow: hidden; }
     .hero-img-container img { width: 100%; height: 100%; object-fit: cover; }
@@ -51,170 +52,297 @@
     .card { background: var(--card-bg); border-radius: var(--radius); padding: 24px; border: 1px solid var(--border); }
     .card-icon { font-size: 2rem; margin-bottom: 15px; display: block; }
     .card-result { background: var(--bg-main); padding: 20px; border-radius: 12px; border: 1px solid var(--border); }
-    .card-img { width: 100%; height: 180px; border-radius: 12px; object-fit: cover; margin-bottom: 15px; background: var(--bg-alt); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 0.9rem; }
-    .card-img img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+    .case-img { width: 100%; height: 200px; border-radius: 12px; object-fit: cover; margin-bottom: 15px; background: var(--bg-alt); }
     .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; font-size: 0.9rem; color: var(--muted); }
-    .footer a { color: var(--muted); text-decoration: underline; }
-    .city-group { margin-bottom: 15px; }
-    .city-name { font-weight: 600; color: var(--muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display: block; text-align: center; }
-    .location-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px; }
-    .location-btn { padding: 12px 20px; border-radius: 30px; border: 2px solid var(--accent); background: var(--bg-main); color: var(--accent); font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 8px; }
-    .location-btn:hover { background: var(--accent-soft); transform: translateY(-2px); }
-    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px; opacity: 0; transition: opacity 0.3s ease; }
-    .modal-overlay.active { display: flex; opacity: 1; }
-    .modal-content { background: var(--bg-main); border-radius: var(--radius); max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; padding: 20px; transform: translateY(20px); transition: transform 0.3s ease; }
-    .modal-overlay.active .modal-content { transform: translateY(0); }
-    .modal-close { position: absolute; top: 15px; right: 15px; background: var(--card-bg); border: 1px solid var(--border); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.2rem; color: var(--fg); z-index: 10; }
-    .modal-close:hover { background: var(--accent-soft); color: var(--accent); }
-    .modal-img { width: 100%; height: 250px; border-radius: 12px; object-fit: cover; margin-bottom: 20px; background: var(--bg-alt); display: none; }
-    .modal-title { font-size: 1.5rem; margin-bottom: 10px; padding-right: 30px; }
-    .modal-text { font-size: 1rem; margin-bottom: 15px; }
-    .modal-price-box { background: var(--accent-soft); border-left: 4px solid var(--accent); padding: 10px 15px; border-radius: 8px; margin-bottom: 20px; font-weight: 600; font-size: 1.1rem; color: var(--fg); display: flex; align-items: center; gap: 10px; }
-    .modal-price-box span { color: var(--accent); }
-    .lead-form { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
-    .lead-form input[type="text"], .lead-form input[type="tel"] { width: 100%; padding: 15px; border: 1px solid var(--border); border-radius: 10px; font-size: 1rem; font-family: inherit; background: var(--card-bg); }
-    .lead-form input:focus { outline: none; border-color: var(--accent); }
-    .checkbox-row { display: flex; align-items: flex-start; gap: 10px; margin: 5px 0; }
-    .checkbox-row input[type="checkbox"] { margin-top: 4px; width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer; flex-shrink: 0; }
-    .checkbox-row label { font-size: 0.85rem; color: var(--muted); line-height: 1.4; cursor: pointer; }
-    .checkbox-row label a { color: var(--accent); text-decoration: underline; }
-    .cookie-banner { position: fixed; bottom: 20px; left: 20px; right: 20px; max-width: 600px; margin: 0 auto; background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 15px 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 2000; display: none; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: wrap; }
-    .cookie-banner p { font-size: 0.85rem; margin: 0; color: var(--fg); flex: 1; min-width: 200px; }
-    .cookie-banner button { background: var(--accent); color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.9rem; }
-    .cookie-banner button:hover { background: var(--accent-hover); }
-    .sticky-bottom { display: none; }
-    @media (max-width: 767px) { .sticky-bottom { display: block; position: fixed; bottom: 0; left: 0; right: 0; background: #fff; padding: 10px 20px calc(10px + env(safe-area-inset-bottom)); box-shadow: 0 -4px 15px rgba(0,0,0,0.1); z-index: 999; text-align: center; } .sticky-bottom .btn { padding: 12px; font-size: 1rem; } }
-    @media (min-width: 768px) { .container { max-width: 900px; } h1 { font-size: 2.8rem; } h2 { font-size: 2rem; } .grid-2 { grid-template-columns: 1fr 1fr; } .grid-3 { grid-template-columns: 1fr 1fr 1fr; } .grid-4 { grid-template-columns: 1fr 1fr; } .compare-grid { grid-template-columns: 1fr 1fr; } .btn-group { flex-direction: row; justify-content: center; flex-wrap: wrap; } .btn { width: auto; min-width: 200px; } }
+    @media (min-width: 768px) {
+      .container { max-width: 900px; }
+      h1 { font-size: 2.8rem; }
+      h2 { font-size: 2rem; }
+      .grid-2 { grid-template-columns: 1fr 1fr; }
+      .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+      .grid-4 { grid-template-columns: 1fr 1fr; }
+      .compare-grid { grid-template-columns: 1fr 1fr; }
+      .btn-group { flex-direction: row; justify-content: center; flex-wrap: wrap; }
+      .btn { width: auto; min-width: 200px; }
+    }
   </style>
 </head>
 <body>
-  <section class="section"><div class="container"><span class="overline">Тест пройден</span><h1 id="ld-hero-title"></h1><p id="ld-hero-text"></p><div class="hero-img-container"><img src="igor.jpg" alt="Игорь Шамшин" onerror="this.style.display='none';this.parentElement.innerHTML='<span>Фото специалиста</span>';"></div><div class="btn-group" id="main-messenger-buttons"></div><div class="btn-group" style="margin-top:0"><a href="#" id="ld-btn-call" class="btn btn-outline">Позвонить мне</a></div><p class="btn-note" id="ld-call-note"></p><div id="online-booking-section" style="text-align:center;margin-top:25px;display:none"><a href="#" id="ld-btn-online-booking" class="btn btn-primary" style="display:inline-flex;width:auto;min-width:280px"></a></div><div style="text-align:center;margin-top:25px"><a href="#" id="ld-btn-test" style="color:var(--accent);font-size:.95rem;text-decoration:underline"></a></div></div></section>
-  <section class="section section-alt"><div class="container"><h2 id="ld-compare-title"></h2><p id="ld-compare-text"></p><div class="compare-grid"><div class="compare-card bad"><h4 id="ld-compare-bad-title"></h4><ul class="compare-list" id="ld-compare-bad-list"></ul></div><div class="compare-card good"><h4 id="ld-compare-good-title"></h4><ul class="compare-list" id="ld-compare-good-list"></ul></div></div></div></section>
-  <section class="section"><div class="container"><h2 id="ld-expert-title"></h2><p id="ld-expert-text"></p><div class="grid-3" id="ld-expert-grid"></div><div class="card" style="margin-top:20px;background:var(--accent-soft);border-color:var(--accent)"><h3 id="ld-trust-title"></h3><p id="ld-trust-text" style="margin-bottom:0"></p></div><p style="text-align:center;margin-top:20px;font-style:italic" id="ld-expert-footer"></p></div></section>
-  <section class="section section-alt"><div class="container"><h2 id="ld-results-title"></h2><p id="ld-results-text"></p><div class="grid-4" id="ld-results-grid"></div></div></section>
-  <section class="section" id="locations-section"><div class="container"><h2 id="ld-locations-title"></h2><p id="ld-locations-text"></p><p style="text-align:center;margin-top:-10px;margin-bottom:20px"><a href="#news-section" style="color:var(--accent);font-weight:600;text-decoration:none;border-bottom:1px dashed var(--accent)">Ищете меня в другом городе? Смотреть анонсы гастролей ↓</a></p><div id="ld-locations-grid"></div></div></section>
-  <section class="section section-alt" id="pricing-section"><div class="container"><h2 id="ld-pricing-title" style="text-align:center"></h2><div class="card" style="max-width:500px;margin:0 auto;text-align:center;border:2px solid var(--accent);padding:30px 20px;background:var(--card-bg)"><h3 id="ld-pricing-name" style="font-size:1.3rem;margin-bottom:5px"></h3><p id="ld-pricing-duration" style="color:var(--muted);font-size:.95rem;margin-bottom:20px"></p><div id="ld-pricing-price" style="font-size:2.5rem;font-weight:700;color:var(--accent);margin-bottom:20px"></div><p id="ld-pricing-desc" style="font-size:.95rem;margin-bottom:25px;color:var(--fg)"></p><div class="btn-group" id="price-buttons" style="margin-top:0;justify-content:center"></div></div></div></section>
-  <section class="section section-alt" id="gift-section"><div class="container"><div class="card" style="border:2px dashed var(--accent);background:var(--accent-soft);text-align:center;padding:30px 20px"><span class="card-icon">🎁</span><h2 style="color:var(--accent);margin-bottom:10px" id="ld-gift-title"></h2><p id="ld-gift-text"></p><p style="font-size:.95rem;color:var(--muted)" id="ld-gift-subtext"></p><div class="btn-group" id="gift-buttons" style="margin-top:20px"></div><p style="font-size:.85rem;margin-top:10px;color:var(--muted)" id="ld-gift-note"></p></div></div></section>
-  <section class="section" id="news-section" style="display:none"><div class="container"><h2 id="ld-news-title"></h2><p id="ld-news-text"></p><div class="grid-3" id="ld-news-grid"></div></div></section>
-  <section class="section section-alt" id="cases-section"><div class="container"><h2 id="ld-cases-title"></h2><div class="grid-3" id="ld-cases-grid"></div><div class="btn-group" style="margin-top:40px" id="footer-messenger-buttons"></div><div class="btn-group" style="margin-top:0"><a href="#" id="ld-btn-call2" class="btn btn-outline">Позвонить мне</a></div><p class="btn-note" id="ld-call-note2"></p>
-  <div id="lead-form-section" class="card" style="margin-top:40px;display:none;border:2px solid var(--accent)">
-    <h3 id="ld-lead-title" style="text-align:center"></h3>
-    <p id="ld-lead-subtitle" style="text-align:center;margin-bottom:20px"></p>
-    <form class="lead-form" id="lead-form">
-      <input type="text" id="lead-name" placeholder="Ваше имя" required>
-      <input type="tel" id="lead-phone" placeholder="Ваш телефон" required>
-      <div class="checkbox-row">
-        <input type="checkbox" id="lead-agree" required>
-        <label for="lead-agree" id="ld-lead-privacy-label">Я согласен с политикой конфиденциальности</label>
+
+  <section class="section">
+    <div class="container">
+      <span class="overline">Тест пройден</span>
+      <h1 id="ld-hero-title"></h1>
+      <p id="ld-hero-text"></p>
+      <div class="hero-img-container">
+        <img src="igor.jpg" alt="Игорь Шамшин" onerror="this.style.display='none';this.parentElement.innerHTML='<span>Фото специалиста</span>';">
       </div>
-      <p style="text-align:center;margin:10px 0 5px;font-size:.9rem;color:var(--muted)">Куда отправить заявку?</p>
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <button type="button" class="btn btn-tg" onclick="sendLead('telegram')">Отправить в Telegram</button>
-        <button type="button" class="btn btn-wa" onclick="sendLead('whatsapp')">Отправить в WhatsApp</button>
-        <button type="button" class="btn btn-primary" onclick="sendLead('max')">Отправить в MAX</button>
+      <div class="btn-group" id="ld-btns-top"></div>
+      <div class="btn-group" style="margin-top:0;" id="ld-call-top"></div>
+      <p class="btn-note" id="ld-call-note"></p>
+      <div style="text-align:center;margin-top:25px;">
+        <a href="#" id="ld-btn-test" style="color:var(--accent);font-size:0.95rem;text-decoration:underline;"></a>
       </div>
-    </form>
-  </div>
-  <div class="footer">
-    <p>Связь: <a href="#" id="ld-footer-phone"></a></p>
-    <p style="font-size:.8rem;margin-top:10px" id="ld-footer-disclaimer"></p>
-    <p style="font-size:.8rem;margin-top:5px"><a href="#" id="ld-footer-privacy" target="_blank">Политика конфиденциальности</a></p>
-  </div>
-  </div></section>
-  <div class="sticky-bottom"><a href="#pricing-section" class="btn btn-primary">Записаться на сеанс</a></div>
-  <div class="cookie-banner" id="cookie-banner">
-    <p>Мы используем файлы cookie для анализа трафика. Продолжая работу, вы соглашаетесь с этим.</p>
-    <button onclick="acceptCookies()">Принять</button>
-  </div>
-  <div class="modal-overlay" id="location-modal"><div class="modal-content"><button class="modal-close" id="modal-close-btn">✕</button><img id="modal-img" class="modal-img" src="" alt="Локация"><h3 id="modal-title" class="modal-title"></h3><p id="modal-text" class="modal-text"></p><div class="modal-price-box"><span>💰 Стоимость:</span> <span id="modal-price"></span></div><a href="#" id="modal-map-btn" class="btn btn-primary" target="_blank" style="display:block">Построить маршрут</a></div></div>
-  
+    </div>
+  </section>
+
+  <section class="section section-alt" id="sec-compare">
+    <div class="container">
+      <h2 id="ld-compare-title"></h2>
+      <p id="ld-compare-text"></p>
+      <div class="compare-grid">
+        <div class="compare-card bad">
+          <h4 id="ld-compare-bad-title"></h4>
+          <ul class="compare-list" id="ld-compare-bad-list"></ul>
+        </div>
+        <div class="compare-card good">
+          <h4 id="ld-compare-good-title"></h4>
+          <ul class="compare-list" id="ld-compare-good-list"></ul>
+        </div>
+      </div>
+      <p style="text-align:center;margin-top:20px;" id="ld-compare-price"></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 id="ld-expert-title"></h2>
+      <p id="ld-expert-text"></p>
+      <div class="grid-3" id="ld-expert-cards"></div>
+      <div class="card" style="margin-top:20px;background:var(--accent-soft);border-color:var(--accent);">
+        <h3 id="ld-trust-title"></h3>
+        <p id="ld-trust-text" style="margin-bottom:0;"></p>
+      </div>
+      <p style="text-align:center;margin-top:20px;font-style:italic;" id="ld-expert-footer"></p>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <h2 id="ld-results-title"></h2>
+      <p id="ld-results-text"></p>
+      <div class="grid-4" id="ld-results-cards"></div>
+    </div>
+  </section>
+
+  <section class="section" id="sec-locations">
+    <div class="container">
+      <h2 id="ld-locations-title"></h2>
+      <p id="ld-locations-text"></p>
+      <div class="grid-2" id="ld-locations-cards"></div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="sec-pricing">
+    <div class="container">
+      <h2 id="ld-pricing-title"></h2>
+      <div class="card">
+        <h3 id="ld-pricing-name"></h3>
+        <p><strong id="ld-pricing-duration"></strong></p>
+        <p style="font-size:1.5rem;font-weight:700;color:var(--accent);" id="ld-pricing-price"></p>
+        <p id="ld-pricing-desc"></p>
+        <div class="btn-group" id="ld-price-buttons"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="sec-gift">
+    <div class="container">
+      <div class="card" style="border:2px dashed var(--accent);background:var(--accent-soft);text-align:center;padding:30px 20px;">
+        <span class="card-icon">🎁</span>
+        <h2 style="color:var(--accent);margin-bottom:10px;" id="ld-gift-title"></h2>
+        <p id="ld-gift-text"></p>
+        <p style="font-size:0.95rem;color:var(--muted);" id="ld-gift-subtext"></p>
+        <div class="btn-group" style="margin-top:20px;" id="ld-gift-btns"></div>
+        <p style="font-size:0.85rem;margin-top:10px;color:var(--muted);" id="ld-gift-note"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="sec-news" style="display:none;">
+    <div class="container">
+      <h2 id="ld-news-title"></h2>
+      <p id="ld-news-text"></p>
+      <div class="grid-3" id="ld-news-cards"></div>
+    </div>
+  </section>
+
+  <section class="section" id="sec-cases">
+    <div class="container">
+      <h2 id="ld-cases-title"></h2>
+      <div class="grid-3" id="ld-cases-cards"></div>
+      <div class="btn-group" style="margin-top:40px;" id="ld-btns-bottom"></div>
+      <div class="btn-group" style="margin-top:0;" id="ld-call-bottom"></div>
+      <p class="btn-note" id="ld-call-note2"></p>
+      <div class="footer">
+        <p>Связь: <a href="#" id="ld-footer-phone" style="color:var(--accent);text-decoration:none;"></a></p>
+        <p style="font-size:0.8rem;margin-top:10px;" id="ld-footer-disclaimer"></p>
+      </div>
+    </div>
+  </section>
+
   <script src="content.js"></script>
   <script>
-    function acceptCookies() { localStorage.setItem('cookieAccepted', 'true'); document.getElementById('cookie-banner').style.display = 'none'; }
-    function sendLead(t){
-      if(!document.getElementById("lead-agree").checked) return alert("Пожалуйста, подтвердите согласие на обработку данных.");
-      const e=document.getElementById("lead-name").value,o=document.getElementById("lead-phone").value;
-      if(!e||!o) return alert("Заполните имя и телефон.");
-      const n=`Заявка с сайта!\nИмя: ${e}\nТелефон: ${o}`,r=encodeURIComponent(n),a=CONTENT.leadForm;
-      
-      if("telegram"===t) window.open(`https://t.me/${a.tgUsername}?text=${r}`,"_blank");
-      else if("whatsapp"===t){const t=a.waPhone.replace(/[^0-9]/g,"");window.open(`https://wa.me/${t}?text=${r}`,"_blank")}
-      else if("max"===t) {
-        navigator.clipboard.writeText(n).then(()=>{
-          alert("Данные скопированы! Вставьте их в чат с ботом (Ctrl+V).");
-          window.open(`https://max.ru/${a.maxBot}`,"_blank");
-        }).catch(()=>{
-          prompt("Пожалуйста, скопируйте текст заявки и вставьте его в чат с ботом:", n);
-          window.open(`https://max.ru/${a.maxBot}`,"_blank");
-        });
-      }
+  document.addEventListener("DOMContentLoaded", function () {
+    if (typeof CONTENT === "undefined") { console.error("content.js не загрузился"); return; }
+
+    const C = CONTENT.landing || {};
+    const L = CONTENT.links || {};
+    const S = CONTENT.settings || {};
+
+    const $ = function (id) { return document.getElementById(id); };
+    const setText = function (id, v) { const e = $(id); if (e) e.textContent = v || ""; };
+    const show = function (id, cond) { const e = $(id); if (e) e.style.display = cond ? "" : "none"; };
+
+    function makeBtn(label, href, cls) {
+      if (!href) return null;
+      const a = document.createElement("a");
+      a.href = href; a.textContent = label; a.className = "btn " + cls;
+      a.target = "_blank"; a.rel = "noopener";
+      return a;
     }
-    
-    document.addEventListener("DOMContentLoaded",(function(){
-      if("undefined"==typeof CONTENT)return;
-      const t=CONTENT.landing,e=CONTENT.links,o=CONTENT.theme,n=CONTENT.seo||{},r=CONTENT.onlineBooking||{},a=CONTENT.leadForm||{},i=CONTENT.analytics||{},S=CONTENT.settings;
-      
-      const isCollectionEnabled = S.dataCollectionEnabled === true;
-      const hasAnalytics = (i.yandexMetrika && i.yandexMetrika.trim() !== "") || (i.googleAnalytics && i.googleAnalytics.trim() !== "");
-      
-      if (isCollectionEnabled && hasAnalytics && !localStorage.getItem('cookieAccepted')) {
-        document.getElementById('cookie-banner').style.display = 'flex';
-      }
+    function messengerButtons(container) {
+      if (!container) return;
+      container.innerHTML = "";
+      [ makeBtn(C.btnWriteMax || "Написать в MAX", L.max, "btn-max"),
+        makeBtn(C.btnWriteTg  || "Написать в Telegram", L.tg, "btn-tg"),
+        makeBtn(C.btnWriteWa  || "Написать в WhatsApp", L.wa, "btn-wa")
+      ].forEach(function (b) { if (b) container.appendChild(b); });
+    }
+    function callButton(container) {
+      if (!container) return;
+      container.innerHTML = "";
+      const b = makeBtn(C.btnCall || "Позвонить мне", L.phone, "btn-outline");
+      if (b) container.appendChild(b);
+    }
+    function fillList(ul, arr) {
+      if (!ul) return;
+      ul.innerHTML = "";
+      (arr || []).forEach(function (t) { const li = document.createElement("li"); li.textContent = t; ul.appendChild(li); });
+    }
+    function fillCards(container, arr, render, baseClass) {
+      if (!container) return;
+      container.innerHTML = "";
+      (arr || []).forEach(function (item) {
+        const card = document.createElement("div");
+        card.className = baseClass || "card";
+        render(item, card);
+        container.appendChild(card);
+      });
+    }
 
-      if (isCollectionEnabled && e.privacy) {
-        document.getElementById('ld-lead-privacy-label').innerHTML = `Я согласен с <a href="${e.privacy}" target="_blank">политикой конфиденциальности</a>`;
-        document.getElementById('ld-footer-privacy').href = e.privacy;
-        document.getElementById('ld-footer-privacy').style.display = 'block';
-      } else {
-        document.getElementById('ld-footer-privacy').style.display = 'none';
-      }
+    setText("ld-hero-title", C.heroTitle);
+    setText("ld-hero-text", C.heroText);
+    setText("ld-call-note", C.callNote);
+    setText("ld-call-note2", C.callNote);
 
-      if (isCollectionEnabled) {
-        if (i.yandexMetrika) { const script = document.createElement("script"); script.innerHTML = i.yandexMetrika; document.head.appendChild(script); }
-        if (i.googleAnalytics) { const script = document.createElement("script"); script.innerHTML = i.googleAnalytics; document.head.appendChild(script); }
-      }
+    messengerButtons($("ld-btns-top"));
+    messengerButtons($("ld-btns-bottom"));
+    callButton($("ld-call-top"));
+    callButton($("ld-call-bottom"));
 
-      if(S.showLocations === false) document.getElementById("locations-section").style.display = "none";
-      if(S.showPricing === false) document.getElementById("pricing-section").style.display = "none";
-      if(S.showGift === false) document.getElementById("gift-section").style.display = "none";
-      if(S.showCases === false) document.getElementById("cases-section").style.display = "none";
+    const testLink = $("ld-btn-test");
+    if (testLink) { testLink.href = L.test || "#"; testLink.textContent = C.btnTestAgain || "Пройти тест ещё раз"; }
 
-      const c=(t,e)=>{const o=document.getElementById(t);if(o)o.innerHTML="";e.forEach((t=>{const e=document.createElement("a");e.href=t.link,e.target="_blank",e.textContent=t.text,"primary"===t.type?e.className="btn btn-primary":"tg"===t.type?e.className="btn btn-tg":"wa"===t.type?e.className="btn btn-wa":e.className="btn btn-outline",o.appendChild(e)}))};
-      
-      document.getElementById("seo-title").textContent=n.title||t.heroTitle,document.getElementById("seo-description").setAttribute("content",n.description||t.heroText),document.getElementById("seo-og-title").setAttribute("content",n.title||t.heroTitle),document.getElementById("seo-og-description").setAttribute("content",n.description||t.heroText),document.getElementById("seo-og-image").setAttribute("content",n.ogImage||""),document.documentElement.style.setProperty("--accent",o.primary),document.documentElement.style.setProperty("--accent-hover",o.primaryHover),document.documentElement.style.setProperty("--accent-soft",o.primary+"20"),document.documentElement.style.setProperty("--tg",o.tg),document.documentElement.style.setProperty("--wa",o.wa),document.getElementById("ld-hero-title").textContent=t.heroTitle,document.getElementById("ld-hero-text").textContent=t.heroText,document.getElementById("ld-call-note").textContent=t.callNote,document.getElementById("ld-call-note2").textContent=t.callNote,document.getElementById("ld-compare-title").textContent=t.compareTitle,document.getElementById("ld-compare-text").textContent=t.compareText,document.getElementById("ld-expert-title").textContent=t.expertTitle,document.getElementById("ld-expert-text").textContent=t.expertText,document.getElementById("ld-expert-footer").textContent=t.expertFooter,document.getElementById("ld-trust-title").textContent=t.trustTitle,document.getElementById("ld-trust-text").textContent=t.trustText,document.getElementById("ld-results-title").textContent=t.resultsTitle,document.getElementById("ld-results-text").textContent=t.resultsText,document.getElementById("ld-locations-title").textContent=t.locationsTitle,document.getElementById("ld-locations-text").textContent=t.locationsText,document.getElementById("ld-gift-title").textContent=t.giftTitle,document.getElementById("ld-gift-text").textContent=t.giftText,document.getElementById("ld-gift-subtext").textContent=t.giftSubtext,document.getElementById("ld-gift-note").textContent=t.giftNote,document.getElementById("ld-cases-title").textContent=t.casesTitle,document.getElementById("ld-footer-disclaimer").textContent=t.footerDisclaimer,document.getElementById("ld-pricing-title").textContent=t.pricingTitle,document.getElementById("ld-pricing-name").textContent=t.pricingName,document.getElementById("ld-pricing-duration").textContent=t.pricingDuration,document.getElementById("ld-pricing-price").textContent=t.pricingPrice,document.getElementById("ld-pricing-desc").textContent=t.pricingDesc,document.getElementById("ld-btn-test").textContent=t.btnTestAgain,document.getElementById("ld-btn-test").href=e.test,document.getElementById("ld-btn-call").href=e.phone,document.getElementById("ld-btn-call2").href=e.phone;
-      
-      if (isCollectionEnabled) {
-        if(r.enabled && r.link) {
-          document.getElementById("online-booking-section").style.display = "block";
-          document.getElementById("ld-btn-online-booking").href = r.link;
-          document.getElementById("ld-btn-online-booking").textContent = r.text;
-        }
-        if(a.enabled) {
-          document.getElementById("lead-form-section").style.display = "block";
-          document.getElementById("ld-lead-title").textContent = a.title;
-          document.getElementById("ld-lead-subtitle").textContent = a.subtitle;
-        }
-      }
+    setText("ld-compare-title", C.compareTitle);
+    setText("ld-compare-text", C.compareText);
+    setText("ld-compare-price", C.comparePrice);
+    setText("ld-compare-bad-title", C.compareBadTitle);
+    setText("ld-compare-good-title", C.compareGoodTitle);
+    fillList($("ld-compare-bad-list"), C.compareBadList);
+    fillList($("ld-compare-good-list"), C.compareGoodList);
 
-      c("main-messenger-buttons",CONTENT.messengerButtons),c("footer-messenger-buttons",CONTENT.messengerButtons),c("price-buttons",CONTENT.priceButtons),c("gift-buttons",CONTENT.messengerButtons),document.getElementById("ld-compare-bad-title").textContent=t.compareBadTitle;
-      
-      const s=document.getElementById("ld-compare-bad-list");t.compareBadList.forEach((t=>{const e=document.createElement("li");e.textContent=t,s.appendChild(e)})),document.getElementById("ld-compare-good-title").textContent=t.compareGoodTitle;const l=document.getElementById("ld-compare-good-list");t.compareGoodList.forEach((t=>{const e=document.createElement("li");e.textContent=t,l.appendChild(e)}));
-      
-      const d=(t,e,o)=>{const n=document.getElementById(t);n.innerHTML="",e.forEach((t=>{const e=document.createElement("div");if(e.className=o,"card-result"===o)e.innerHTML="<h3>"+t.icon+" "+t.title+"</h3><p>"+t.text+"</p>";else{let n="";t.icon&&(n+='<span class="card-icon">'+t.icon+"</span>"),t.title&&(n+="<h3>"+t.title+"</h3>"),t.text&&(n+="<p>"+t.text+"</p>"),t.complaints&&(n="<p><strong>Жалобы:</strong> "+t.complaints+"</p><p><strong>Результат:</strong> "+t.result+"</p>"),"card"===o&&t.complaints&&(n=(t.img?'<div class="card-img"><img src="'+t.img+'" onerror="this.parentElement.innerHTML=\'Фото\'"></div>':'<div class="card-img">Фото</div>')+"<h3>"+t.title+"</h3>"+n),e.innerHTML=n}n.appendChild(e)}))};
-      
-      d("ld-expert-grid",t.expertCards,"card"),d("ld-results-grid",t.resultsCards,"card-result"),d("ld-cases-grid",t.casesCards,"card");
-      
-      const u=document.getElementById("ld-locations-grid");u.innerHTML="";const p={};t.locationsCards.forEach((t=>{p[t.city]||(p[t.city]=[]),p[t.city].push(t)}));for(const t in p){const e=document.createElement("div");e.className="city-group",e.innerHTML='<span class="city-name">'+t+"</span>";const o=document.createElement("div");o.className="location-buttons",p[t].forEach((t=>{const e=document.createElement("button");e.className="location-btn",e.innerHTML="<span>"+t.title+"</span>",e.onclick=()=>m(t),o.appendChild(e)})),e.appendChild(o),u.appendChild(e)}const b=document.getElementById("location-modal"),_=document.getElementById("modal-img"),m=(t)=>{document.getElementById("modal-title").textContent=t.title,document.getElementById("modal-text").textContent=t.text,document.getElementById("modal-map-btn").href=t.mapLink,document.getElementById("modal-price").textContent=t.price,t.img?(_.src=t.img,_.style.display="block"):_.style.display="none",b.classList.add("active"),document.body.style.overflow="hidden"};document.getElementById("modal-close-btn").onclick=()=>{b.classList.remove("active"),document.body.style.overflow=""},b.onclick=t=>{t.target===b&&(b.classList.remove("active"),document.body.style.overflow="")};
-      
-      if(t.newsCards&&t.newsCards.length>0&&S.showNews !== false){
-        document.getElementById("ld-news-title").textContent=t.newsTitle;
-        document.getElementById("ld-news-text").textContent=t.newsText;
-        document.getElementById("news-section").style.display="flex";
-        document.getElementById("ld-news-grid").innerHTML="";
-        t.newsCards.forEach((t=>{const e=document.createElement("div");e.className="card",e.innerHTML='<div style="font-size:.85rem;color:var(--muted);margin-bottom:5px">'+t.date+"</div><h3>"+t.title+"</h3><p>"+t.text+"</p>",document.getElementById("ld-news-grid").appendChild(e)}))
+    setText("ld-expert-title", C.expertTitle);
+    setText("ld-expert-text", C.expertText);
+    setText("ld-expert-footer", C.expertFooter);
+    setText("ld-trust-title", C.trustTitle);
+    setText("ld-trust-text", C.trustText);
+    fillCards($("ld-expert-cards"), C.expertCards, function (item, card) {
+      card.innerHTML = '<span class="card-icon">' + (item.icon || "✨") + '</span><h3></h3><p></p>';
+      card.querySelector("h3").textContent = item.title || "";
+      card.querySelector("p").textContent = item.text || "";
+    });
+
+    setText("ld-results-title", C.resultsTitle);
+    setText("ld-results-text", C.resultsText);
+    fillCards($("ld-results-cards"), C.resultsCards, function (item, card) {
+      card.innerHTML = "<h3></h3><p></p>";
+      card.querySelector("h3").textContent = (item.icon ? item.icon + " " : "") + (item.title || "");
+      card.querySelector("p").textContent = item.text || "";
+    }, "card-result");
+
+    show("sec-locations", S.showLocations !== false);
+    setText("ld-locations-title", C.locationsTitle);
+    setText("ld-locations-text", C.locationsText);
+    fillCards($("ld-locations-cards"), C.locationsCards, function (item, card) {
+      card.innerHTML = '<span class="card-icon">' + (item.icon || "📍") + '</span><h3></h3><p></p>';
+      card.querySelector("h3").textContent = item.title || "";
+      card.querySelector("p").textContent = item.text || "";
+    });
+
+    show("sec-pricing", S.showPricing !== false);
+    setText("ld-pricing-title", C.pricingTitle);
+    setText("ld-pricing-name", C.pricingName);
+    setText("ld-pricing-duration", C.pricingDuration);
+    setText("ld-pricing-price", C.pricingPrice);
+    setText("ld-pricing-desc", C.pricingDesc);
+    const priceBtns = $("ld-price-buttons");
+    if (priceBtns && Array.isArray(C.priceButtons)) {
+      priceBtns.innerHTML = "";
+      C.priceButtons.forEach(function (b) {
+        const cls = b.type === "primary" ? "btn-max" : (b.type === "tg" ? "btn-tg" : (b.type === "wa" ? "btn-wa" : "btn-outline"));
+        const a = makeBtn(b.text, b.link, cls);
+        if (a) priceBtns.appendChild(a);
+      });
+    }
+
+    show("sec-gift", S.showGift !== false);
+    setText("ld-gift-title", C.giftTitle);
+    setText("ld-gift-text", C.giftText);
+    setText("ld-gift-subtext", C.giftSubtext);
+    setText("ld-gift-note", C.giftNote);
+    const giftBox = $("ld-gift-btns");
+    if (giftBox) {
+      giftBox.innerHTML = "";
+      [ makeBtn(C.giftBtnMax || "Получить гайд в MAX", L.max, "btn-max"),
+        makeBtn(C.giftBtnTg  || "Получить гайд в Telegram", L.tg, "btn-tg"),
+        makeBtn(C.giftBtnWa  || "Получить гайд в WhatsApp", L.wa, "btn-wa")
+      ].forEach(function (b) { if (b) giftBox.appendChild(b); });
+    }
+
+    const hasNews = S.showNews && Array.isArray(C.newsCards) && C.newsCards.length > 0;
+    show("sec-news", hasNews);
+    if (hasNews) {
+      setText("ld-news-title", C.newsTitle);
+      setText("ld-news-text", C.newsText);
+      fillCards($("ld-news-cards"), C.newsCards, function (item, card) {
+        card.innerHTML = "<p style='font-size:0.85rem;color:var(--muted);margin-bottom:5px;'></p><h3></h3><p></p>";
+        card.children[0].textContent = item.date || "";
+        card.querySelector("h3").textContent = item.title || "";
+        card.querySelector("p:last-child").textContent = item.text || "";
+      });
+    }
+
+    show("sec-cases", S.showCases !== false);
+    setText("ld-cases-title", C.casesTitle);
+    fillCards($("ld-cases-cards"), C.casesCards, function (item, card) {
+      card.innerHTML = '<div class="case-img"></div><h3></h3><p><strong>Жалобы:</strong> <span></span></p><p><strong>Результат:</strong> <span></span></p>';
+      card.querySelector("h3").textContent = item.title || "";
+      const spans = card.querySelectorAll("p span");
+      if (spans[0]) spans[0].textContent = item.complaints || "";
+      if (spans[1]) spans[1].textContent = item.result || "";
+      if (item.img) {
+        const img = document.createElement("img");
+        img.src = item.img; img.className = "case-img"; img.alt = item.title || "";
+        img.onerror = function () { this.style.display = "none"; };
+        card.replaceChild(img, card.querySelector(".case-img"));
       }
-      
-      const y=document.getElementById("ld-footer-phone");y&&(y.textContent=e.phoneText,y.href=e.phone)}));
+    });
+
+    const fp = $("ld-footer-phone");
+    if (fp) { fp.textContent = L.phoneText || ""; fp.href = L.phone || "#"; }
+    setText("ld-footer-disclaimer", C.footerDisclaimer);
+  });
   </script>
 </body>
 </html>
