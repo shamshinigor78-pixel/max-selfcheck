@@ -40,20 +40,25 @@ h1 { font-size: 1.625rem; line-height: 1.2; text-align: center; margin-bottom: .
 .action-block .btn.primary { margin-top: 0; }
 .action-block .btn + .btn { margin-top: .5rem; }
 
+/* Кнопка «Назад» — заметная */
 .btn-back {
   display: none;
-  background: transparent;
-  color: var(--muted);
-  border: none;
-  padding: 0.25rem 0;
-  margin-bottom: 0.75rem;
-  font-size: 0.9rem;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border: 1.5px solid var(--accent);
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
   font-family: inherit;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 700;
+  border-radius: 0.6rem;
+  align-items: center;
+  gap: 0.25rem;
+  transition: all .15s ease;
 }
-.btn-back:hover { color: var(--accent); }
-.btn-back:active { opacity: 0.7; }
+.btn-back:hover { background: var(--accent); color: #fff; }
+.btn-back:active { transform: scale(0.97); }
 
 .progress { height: .375rem; background: var(--border); border-radius: 999px; overflow: hidden; margin-bottom: .5rem; }
 .progress-bar { height: 100%; width: 0%; background: var(--accent); border-radius: 999px; transition: width .3s ease; }
