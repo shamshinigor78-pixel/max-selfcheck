@@ -26,7 +26,7 @@
   const SHOW_ALL = SETTINGS.showAllMessengersInsideMax !== false;
 
   if (!TOTAL) {
-    document.body.innerHTML = '<p style="padding:24px;text-align:center;font-family:sans-serif;">Тест не настроен: добавьте вопросы в content.js.</p>';
+    document.body.innerHTML = '<p style="padding:24px;text-align:center;font-family:sans-serif;">Тест не настроен.</p>';
     return;
   }
 
@@ -42,11 +42,12 @@
       includeInScore: q.includeInScore !== false,
       text: q.text || "",
       options: opts.map(function (o) {
-        if (typeof o === "string") return { text: o, weight: 3, profile: null };
+        if (typeof o === "string") return { text: o, weight: 3, profile: null, redflag: false };
         return {
           text: o.text || "",
           weight: typeof o.weight === "number" ? o.weight : 3,
-          profile: o.profile || null
+          profile: o.profile || null,
+          redflag: !!o.redflag
         };
       })
     };
@@ -72,6 +73,11 @@
   const verdictEl = $("#verdict");
   const resultActions = $("#result-actions");
   const resultHint = $("#result-hint");
+  const btnBack = $("#btn-back");
+
+  if (!btnBack) {
+    console.warn("btn-back не найден в HTML — кнопка «Назад» не будет показана");
+  }
 
   qTotal.textContent = String(TOTAL);
 
@@ -116,6 +122,11 @@
     progressBar.style.width = percent + "%";
     if (progressWrap) progressWrap.setAttribute("aria-valuenow", String(percent));
 
+    if (btnBack) {
+      btnBack.textContent = TEXT.btnBack || "← Назад";
+      btnBack.style.display = "inline-flex";
+    }
+
     answersBox.textContent = "";
     q.options.forEach(function (opt, i) {
       const btn = el("button", "answer", opt.text);
@@ -150,6 +161,15 @@
     }, 180);
   }
 
+  function goBack() {
+    if (currentIndex > 0) {
+      currentIndex--;
+      renderQuestion();
+    } else {
+      showScreen("start");
+    }
+  }
+
   function evaluate() {
     let redFlagCount = 0, sum = 0, max = 0;
     QUESTIONS.forEach(function (q, i) {
@@ -157,18 +177,15 @@
       if (idx === null) return;
       const opt = q.options[idx];
       if (!opt) return;
-
       if (q.type === "redflag") {
-        if (idx > 0) redFlagCount++;
+        if (opt.redflag) redFlagCount++;
         return;
       }
       if (!q.includeInScore) return;
-
       sum += opt.weight;
       const localMax = q.options.reduce(function (m, o) { return Math.max(m, o.weight); }, 0);
       max += localMax;
     });
-
     const percent = max > 0 ? Math.round((sum / max) * 100) : 0;
     if (redFlagCount >= 2) return { outcome: "doctor" };
     if (redFlagCount === 1) return { outcome: "osteo", warning: true, percent: percent };
@@ -179,14 +196,19 @@
   function makeBtn(label, href, style, bg, shadow) {
     const a = el("a", "btn " + (style || "secondary"), label);
     a.href = href || "#";
-    a.target = "_blank";
-    a.rel = "noopener";
+    a.rel = "noopener noreferrer";
     if (bg) {
       a.style.background = bg;
       a.style.color = "#fff";
       a.style.boxShadow = "0 4px 0 " + (shadow || "#000");
     }
-    a.addEventListener("click", function () { if (navigator.vibrate) navigator.vibrate(10); });
+    a.addEventListener("click", function (e) {
+      if (webApp && typeof webApp.openLink === "function" && href) {
+        e.preventDefault();
+        try { webApp.openLink(href); } catch (_) {}
+      }
+      if (navigator.vibrate) navigator.vibrate(10);
+    });
     return a;
   }
 
@@ -291,8 +313,11 @@
   $("#btn-restart").addEventListener("click", function () {
     currentIndex = 0;
     answers = new Array(TOTAL).fill(null);
+    chosenProfile = "general";
     showScreen("start");
   });
+
+  if (btnBack) btnBack.addEventListener("click", goBack);
 
   const closeBtn = $("#btn-close");
   if (closeBtn) closeBtn.addEventListener("click", function () {
