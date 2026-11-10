@@ -1,241 +1,306 @@
 "use strict";
-(function () {
-  const w = window.WebApp || null;
-  const isMax = w !== null;
-  if (w && typeof w.ready === "function") { try { w.ready(); } catch (_) {} }
 
-  const C = CONTENT, L = C.links, A = C.app, S = C.settings, T = C.theme || {};
-  
-  if (T.primary) {
-    document.documentElement.style.setProperty('--accent', T.primary);
-    document.documentElement.style.setProperty('--accent-soft', T.primary + '20');
+(function () {
+  const C = window.CONTENT;
+  if (!C) {
+    document.body.innerHTML = '<p style="padding:24px;text-align:center;font-family:sans-serif;">Ошибка: content.js не загрузился.</p>';
+    return;
   }
+
+  const webApp = window.WebApp || null;
+  const isInsideMax = !!webApp;
+  if (webApp && typeof webApp.ready === "function") { try { webApp.ready(); } catch (_) {} }
 
   let userName = "";
-  if (w && w.initDataUnsafe && w.initDataUnsafe.user) {
-    const n = w.initDataUnsafe.user.first_name;
-    if (typeof n === "string" && n.length <= 64) userName = n;
+  if (webApp && webApp.initDataUnsafe && webApp.initDataUnsafe.user) {
+    const raw = webApp.initDataUnsafe.user.first_name;
+    if (typeof raw === "string" && raw.length <= 64) userName = raw;
   }
 
-  const $ = (s) => document.querySelector(s);
-  const el = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x !== undefined) e.textContent = x; return e; };
+  const LINKS = C.links || {};
+  const TEXT = C.app || {};
+  const SETTINGS = C.settings || {};
+  const QUESTIONS = (Array.isArray(C.questions) ? C.questions : []).map(normalizeQuestion);
+  const TOTAL = QUESTIONS.length;
+  const THRESHOLD = typeof SETTINGS.osteoThreshold === "number" ? SETTINGS.osteoThreshold : 35;
+  const SHOW_ALL = SETTINGS.showAllMessengersInsideMax !== false;
 
-  document.getElementById("ui-start-title").textContent = A.title;
-  document.getElementById("ui-start-hint").textContent = A.hint;
-  document.getElementById("btn-start").textContent = A.btnStart;
-  document.getElementById("btn-restart").textContent = A.btnRestart;
-  document.getElementById("btn-close").textContent = A.btnClose;
-
-  const pl = document.getElementById("privacy-list");
-  if (pl) {
-    pl.innerHTML = "";
-    A.privacyList.forEach(t => { const li = document.createElement("li"); li.textContent = t; pl.appendChild(li); });
+  if (!TOTAL) {
+    document.body.innerHTML = '<p style="padding:24px;text-align:center;font-family:sans-serif;">Тест не настроен: добавьте вопросы в content.js.</p>';
+    return;
   }
 
-  if (!isMax) {
-    document.getElementById("btn-close").style.display = "none";
-    const bn = document.getElementById("ui-browser-note");
-    bn.textContent = A.browserNote;
-    bn.style.display = "block";
-  }
+  let currentIndex = 0;
+  let answers = new Array(TOTAL).fill(null);
+  let locked = false;
+  let chosenProfile = "general";
 
-  const Q = C.questions.map((q, i) => {
-    let w = q.weights;
-    if (q.type === "osteo" && q.options.length !== w.length) {
-      w = q.options.map((_, idx) => q.weights[idx] !== undefined ? q.weights[idx] : 3);
-    } else if (q.type === "redflag") {
-      w = [1, 5];
-    }
-    return { type: q.type, profile: q.profile || "any", text: q.text, options: q.options, weights: w };
-  });
-
-  const TOTAL = Q.length;
-  let idx = 0, ans = new Array(TOTAL).fill(null), lock = false, prof = "general";
-
-  const scr = { start: $("#screen-start"), question: $("#screen-question"), result: $("#screen-result") };
-  const pWrap = $("#progress-wrap"), pBar = $("#progress-bar"), qCur = $("#q-current"), qTot = $("#q-total");
-  const qTxt = $("#q-text"), ansBox = $("#answers"), resIcon = $("#result-icon"), resTitle = $("#result-title");
-  const verd = $("#verdict"), resAct = $("#result-actions"), resHint = $("#result-hint");
-  const btnBack = $("#btn-back");
-
-  qTot.textContent = TOTAL;
-
-  const showScr = (n) => {
-    Object.keys(scr).forEach(k => scr[k].classList.remove("active"));
-    scr[n].classList.add("active");
-    window.scrollTo(0, 0);
-  };
-
-  const renderQ = () => {
-    const q = Q[idx];
-    qCur.textContent = idx + 1;
-    qTxt.textContent = q.text;
-    pBar.style.width = Math.round((idx / TOTAL) * 100) + "%";
-    if (pWrap) pWrap.setAttribute("aria-valuenow", Math.round((idx / TOTAL) * 100));
-    
-    if (btnBack) { btnBack.style.display = idx > 0 ? "block" : "none"; }
-
-    ansBox.innerHTML = "";
-    q.options.forEach((opt, i) => {
-      const btn = el("button", "answer", opt);
-      btn.type = "button";
-      if (ans[idx] === i) btn.classList.add("selected");
-      btn.onclick = () => {
-        if (navigator.vibrate) navigator.vibrate(10);
-        selectAns(i);
-      };
-      ansBox.appendChild(btn);
-    });
-  };
-
-  if (btnBack) {
-    btnBack.onclick = () => {
-      if (idx > 0) { idx--; renderQ(); }
+  function normalizeQuestion(q) {
+    const opts = Array.isArray(q.options) ? q.options : [];
+    return {
+      type: q.type || "osteo",
+      includeInScore: q.includeInScore !== false,
+      text: q.text || "",
+      options: opts.map(function (o) {
+        if (typeof o === "string") return { text: o, weight: 3, profile: null };
+        return {
+          text: o.text || "",
+          weight: typeof o.weight === "number" ? o.weight : 3,
+          profile: o.profile || null
+        };
+      })
     };
   }
 
-  const selectAns = (i) => {
-    if (lock) return; // 🛡️ Защита от двойного клика
-    lock = true;
-    if (typeof i !== "number" || i < 0 || i >= Q[idx].options.length) { lock = false; return; }
-    
-    ans[idx] = i;
-    if (idx === 0) {
-      if (i === 0) prof = "neck";
-      else if (i === 1) prof = "lower_back";
-      else if (i === 3) prof = "pelvis";
-      else prof = "general";
-    }
-    if (Q[idx].profile === "scar" && i >= 2) {
-      if (prof === "general" || prof === "neck" || prof === "lower_back") prof = "scar";
-    }
+  function $(s) { return document.querySelector(s); }
+  function el(tag, cls, txt) {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (txt !== undefined) n.textContent = String(txt);
+    return n;
+  }
 
-    const btns = ansBox.querySelectorAll(".answer");
-    btns.forEach(b => b.classList.remove("selected"));
-    if (btns[i]) btns[i].classList.add("selected");
+  const screens = { start: $("#screen-start"), question: $("#screen-question"), result: $("#screen-result") };
+  const progressWrap = $("#progress-wrap");
+  const progressBar = $("#progress-bar");
+  const qCurrent = $("#q-current");
+  const qTotal = $("#q-total");
+  const qText = $("#q-text");
+  const answersBox = $("#answers");
+  const resultIcon = $("#result-icon");
+  const resultTitle = $("#result-title");
+  const verdictEl = $("#verdict");
+  const resultActions = $("#result-actions");
+  const resultHint = $("#result-hint");
 
-    setTimeout(() => {
-      if (idx < TOTAL - 1) { idx++; renderQ(); } else { showRes(); }
-      lock = false;
-    }, 180);
-  };
+  qTotal.textContent = String(TOTAL);
 
-  const evalRes = () => {
-    let rf = 0, sum = 0, max = 0;
-    Q.forEach((q, i) => {
-      const a = ans[i], s = (typeof a === "number" && a >= 0 && a < q.options.length) ? a : 0;
-      if (q.type === "redflag") { if (s > 0) rf++; }
-      else if (q.type === "osteo" && i > 0) { sum += q.weights[s]; max += Math.max(...q.weights); }
+  $("#ui-start-title").textContent = TEXT.title || "";
+  $("#ui-start-subtitle").textContent = (userName ? ("Привет, " + userName + "! ") : "") + (TEXT.subtitle || "");
+  $("#ui-start-hint").textContent = TEXT.hint || "";
+  $("#btn-start").textContent = TEXT.btnStart || "Начать";
+  $("#btn-restart").textContent = TEXT.btnRestart || "Пройти заново";
+  $("#btn-close").textContent = TEXT.btnClose || "Закрыть";
+
+  const privacyUl = document.querySelector(".privacy-note ul");
+  if (privacyUl && Array.isArray(TEXT.privacyList)) {
+    privacyUl.innerHTML = "";
+    TEXT.privacyList.forEach(function (item) {
+      const li = document.createElement("li");
+      li.textContent = item;
+      privacyUl.appendChild(li);
     });
-    const p = max > 0 ? Math.round((sum / max) * 100) : 0;
-    if (rf >= 2) return { out: "doc" };
-    if (rf === 1) return { out: "osteo", p, warn: true };
-    if (p >= S.osteoThreshold) return { out: "osteo", p, warn: false };
-    return { out: "norm", p };
-  };
+  }
 
-  const mkBtn = (txt, href, type, bg, sh) => {
-    const a = el("a", "btn " + (type || "secondary"), txt);
-    a.href = href;
+  if (!isInsideMax) {
+    const closeBtn = $("#btn-close");
+    if (closeBtn) closeBtn.style.display = "none";
+    const note = $("#ui-browser-note");
+    if (note && TEXT.browserNote) {
+      note.textContent = TEXT.browserNote;
+      note.style.display = "block";
+    }
+  }
+
+  function showScreen(name) {
+    Object.keys(screens).forEach(function (k) { if (screens[k]) screens[k].classList.remove("active"); });
+    if (screens[name]) screens[name].classList.add("active");
+    try { window.scrollTo(0, 0); } catch (_) {}
+  }
+
+  function renderQuestion() {
+    const q = QUESTIONS[currentIndex];
+    qCurrent.textContent = String(currentIndex + 1);
+    qText.textContent = q.text;
+    const percent = Math.round((currentIndex / TOTAL) * 100);
+    progressBar.style.width = percent + "%";
+    if (progressWrap) progressWrap.setAttribute("aria-valuenow", String(percent));
+
+    answersBox.textContent = "";
+    q.options.forEach(function (opt, i) {
+      const btn = el("button", "answer", opt.text);
+      btn.type = "button";
+      if (answers[currentIndex] === i) btn.classList.add("selected");
+      btn.addEventListener("click", function () {
+        if (navigator.vibrate) navigator.vibrate(10);
+        selectAnswer(i);
+      });
+      answersBox.appendChild(btn);
+    });
+  }
+
+  function selectAnswer(optionIndex) {
+    if (locked) return;
+    const q = QUESTIONS[currentIndex];
+    if (optionIndex < 0 || optionIndex >= q.options.length) return;
+    locked = true;
+    answers[currentIndex] = optionIndex;
+
+    const opt = q.options[optionIndex];
+    if (opt.profile) chosenProfile = opt.profile;
+
+    const buttons = answersBox.querySelectorAll(".answer");
+    buttons.forEach(function (b) { b.classList.remove("selected"); });
+    if (buttons[optionIndex]) buttons[optionIndex].classList.add("selected");
+
+    window.setTimeout(function () {
+      if (currentIndex < TOTAL - 1) { currentIndex++; renderQuestion(); }
+      else { showResult(); }
+      locked = false;
+    }, 180);
+  }
+
+  function evaluate() {
+    let redFlagCount = 0, sum = 0, max = 0;
+    QUESTIONS.forEach(function (q, i) {
+      const idx = answers[i];
+      if (idx === null) return;
+      const opt = q.options[idx];
+      if (!opt) return;
+
+      if (q.type === "redflag") {
+        if (idx > 0) redFlagCount++;
+        return;
+      }
+      if (!q.includeInScore) return;
+
+      sum += opt.weight;
+      const localMax = q.options.reduce(function (m, o) { return Math.max(m, o.weight); }, 0);
+      max += localMax;
+    });
+
+    const percent = max > 0 ? Math.round((sum / max) * 100) : 0;
+    if (redFlagCount >= 2) return { outcome: "doctor" };
+    if (redFlagCount === 1) return { outcome: "osteo", warning: true, percent: percent };
+    if (percent >= THRESHOLD) return { outcome: "osteo", warning: false, percent: percent };
+    return { outcome: "normal", percent: percent };
+  }
+
+  function makeBtn(label, href, style, bg, shadow) {
+    const a = el("a", "btn " + (style || "secondary"), label);
+    a.href = href || "#";
     a.target = "_blank";
+    a.rel = "noopener";
     if (bg) {
       a.style.background = bg;
       a.style.color = "#fff";
-      a.style.boxShadow = "0 4px 0 " + (sh || "#000");
-      a.classList.remove("btn-secondary");
+      a.style.boxShadow = "0 4px 0 " + (shadow || "#000");
     }
-    a.onclick = () => { if (navigator.vibrate) navigator.vibrate(10); };
+    a.addEventListener("click", function () { if (navigator.vibrate) navigator.vibrate(10); });
     return a;
-  };
+  }
 
-  const getProfTxt = (p) => {
-    if (p === "neck") return "Твой профиль: «Офисная шея». Судя по ответам, твое тело застряло в режиме работы за компьютером. Голова уходит вперед, а фасции шеи и груди сжимаются. Наша задача — мягко раскрыть грудную клетку и вернуть шее свободу.";
-    if (p === "lower_back") return "Твой профиль: «Зажатая поясница». Твои ответы указывают на напряжение в нижней части спины. Это может быть связано с долгим сидением или компенсацией после нагрузок. Работа с фасциями таза и ног поможет снять эту нагрузку.";
-    if (p === "pelvis") return "Твой профиль: «Перекос таза». Тело подает сигналы о том, что ось сместилась. Из-за этого одна сторона тела работает больше, отнимая энергию. Остеокоррекция помогает вернуть тазу баланс и симметрию.";
-    if (p === "scar") return "Твой профиль: «Скрытые спайки». Ты отметил наличие рубцов или операций. Рубец — это плотная ткань, которая может стягивать фасции, вызывая перекосы. Мы можем бережно проработать эти натяжения, чтобы тело снова двигалось свободно.";
-    return "Твой профиль: «Внутренний марафон». Твоя нервная система долго находится в напряжении. Мышцы и фасции зажаты, как пружина. Наша задача — перевести тело в режим глубокого покоя.";
-  };
+  function messengerList() {
+    const showOthers = !isInsideMax || SHOW_ALL;
+    const list = [];
+    if (LINKS.max) list.push({ label: TEXT.btnWriteMax || "Написать в MAX", href: LINKS.max, style: "primary" });
+    if (showOthers && LINKS.tg) list.push({ label: TEXT.btnWriteTg || "Написать в Telegram", href: LINKS.tg, style: "custom", bg: "#229ED9", shadow: "#1A7CA8" });
+    if (showOthers && LINKS.wa) list.push({ label: TEXT.btnWriteWa || "Написать в WhatsApp", href: LINKS.wa, style: "custom", bg: "#25D366", shadow: "#128C7E" });
+    return list;
+  }
 
-  const showRes = () => {
-    const r = evalRes();
-    resAct.innerHTML = ""; resIcon.textContent = ""; resTitle.textContent = ""; verd.textContent = ""; resHint.textContent = "";
+  function showResult() {
+    const r = evaluate();
+    resultActions.textContent = "";
+    resultIcon.textContent = "";
+    resultTitle.textContent = "";
+    verdictEl.textContent = "";
+    resultHint.textContent = "";
 
-    if (r.out === "norm") {
-      resIcon.textContent = "✅"; resTitle.textContent = A.normalTitle; verd.textContent = A.normalVerdict;
-      resAct.appendChild(el("div", "result-body", A.normalBody));
-      resHint.textContent = "Это не медицинская диагностика. Сделайте скриншот, если хотите сохранить результат.";
-    } else if (r.out === "osteo") {
-      resIcon.textContent = "🌿"; resTitle.textContent = A.osteoTitle; verd.textContent = A.osteoVerdict;
-      resAct.appendChild(el("div", "result-body", A.osteoBody));
+    if (r.outcome === "normal") {
+      resultIcon.textContent = "✅";
+      resultTitle.textContent = TEXT.normalTitle || "";
+      verdictEl.textContent = TEXT.normalVerdict || "";
+      resultActions.appendChild(el("div", "result-body", TEXT.normalBody || ""));
+      resultHint.textContent = TEXT.hint || "";
 
-      const pBox = el("div", "result-body");
-      pBox.style.cssText = "background:var(--accent-soft);padding:20px;border-radius:12px;margin-bottom:20px;border-left:4px solid var(--accent)";
-      const pTitle = el("div", "action-title", "🎁 Твой персональный разбор");
-      pTitle.style.cssText = "color:var(--accent);margin-bottom:10px";
-      const pTxt = el("div", "", getProfTxt(prof));
-      pTxt.style.fontSize = "0.95rem";
-      pBox.appendChild(pTitle); pBox.appendChild(pTxt); resAct.appendChild(pBox);
+    } else if (r.outcome === "osteo") {
+      resultIcon.textContent = "🌿";
+      resultTitle.textContent = TEXT.osteoTitle || "";
+      verdictEl.textContent = TEXT.osteoVerdict || "";
+      resultActions.appendChild(el("div", "result-body", TEXT.osteoBody || ""));
 
-      const gBox = el("div", "result-body");
-      gBox.style.cssText = "background:var(--guide-bg);color:var(--guide-fg);padding:15px;border-radius:12px;margin-bottom:20px;border-left:4px solid var(--guide-border);font-size:0.9rem";
-      gBox.textContent = "🎁 Если хотите получить персональный гайд по экспресс-разгрузке именно вашей зоны напряжения — напишите мне в удобный мессенджер и пришлите скриншот этого результата. Отправлю методику бесплатно.";
-      resAct.appendChild(gBox);
+      const prize = el("div", "result-body");
+      prize.style.cssText = "background:var(--accent-soft);padding:20px;border-radius:12px;margin-bottom:20px;border-left:4px solid var(--accent)";
+      const pt = el("div", "action-title", "🎁 " + (TEXT.prizeTitle || "Твой персональный разбор"));
+      pt.style.color = "var(--accent)";
+      pt.style.marginBottom = "10px";
+      prize.appendChild(pt);
+      const map = TEXT.profiles || {};
+      const pb = el("div", "", map[chosenProfile] || map.general || "");
+      pb.style.fontSize = "0.95rem";
+      prize.appendChild(pb);
+      resultActions.appendChild(prize);
 
-      if (r.warn) {
-        const wBox = el("div", "result-body");
-        wBox.style.cssText = "background:var(--warn-bg);color:var(--warn-fg);padding:15px;border-radius:12px;margin-bottom:20px;font-size:0.9rem";
-        wBox.textContent = "Вы отметили один симптом, требующий наблюдения. Рекомендую перед сеансом проконсультироваться с врачом.";
-        resAct.appendChild(wBox);
+      if (TEXT.guideBox) {
+        const gb = el("div", "result-body", TEXT.guideBox);
+        gb.style.cssText = "background:var(--guide-bg);color:var(--guide-fg);padding:15px;border-radius:12px;margin-bottom:20px;border-left:4px solid var(--guide-border);font-size:0.9rem";
+        resultActions.appendChild(gb);
+      }
+      if (r.warning && TEXT.warningText) {
+        const w = el("div", "result-body", TEXT.warningText);
+        w.style.cssText = "background:var(--warn-bg);color:var(--warn-fg);padding:15px;border-radius:12px;margin-bottom:20px;font-size:0.9rem";
+        resultActions.appendChild(w);
       }
 
-      const aBlock = el("div", "action-block");
-      aBlock.appendChild(el("div", "action-title", A.btnWriteTitle));
-      
-      if (!isMax || S.showAllMessengersInsideMax) {
-        aBlock.appendChild(el("div", "action-hint", A.btnWriteHint));
-        if (C.messengerButtons && C.messengerButtons.length > 0) {
-          C.messengerButtons.forEach(b => {
-            let lnk = b.link;
-            if (lnk === "https://t.me/ТВОЙ_НИК") lnk = L.tg;
-            if (lnk === "https://wa.me/79951149954") lnk = L.wa;
-            if (lnk === "https://max.ru/se14074027_bot") lnk = L.max;
-            let bg = b.type === 'tg' ? T.tg : (b.type === 'wa' ? T.wa : (b.type === 'primary' ? T.primary : null));
-            aBlock.appendChild(mkBtn(b.text, lnk, b.type, bg, bg ? bg.replace('#','#00') : null));
-          });
+      const list = messengerList();
+      if (list.length || LINKS.phone) {
+        const block = el("div", "action-block");
+        block.appendChild(el("div", "action-title", TEXT.btnWriteTitle || "Написать мне"));
+        if (TEXT.btnWriteHint) block.appendChild(el("div", "action-hint", TEXT.btnWriteHint));
+        list.forEach(function (b) { block.appendChild(makeBtn(b.label, b.href, b.style, b.bg, b.shadow)); });
+        if (LINKS.phone && (!isInsideMax || SHOW_ALL)) {
+          block.appendChild(makeBtn(TEXT.btnCall || "Позвонить мне", LINKS.phone, "secondary"));
+          if (TEXT.callNote) {
+            const cn = el("div", "action-hint", TEXT.callNote);
+            cn.style.cssText = "margin-top:10px;margin-bottom:0;font-size:0.75rem";
+            block.appendChild(cn);
+          }
         }
-      } else {
-        aBlock.appendChild(mkBtn(A.btnWriteMax || "Написать в MAX", L.max, "primary"));
+        resultActions.appendChild(block);
       }
 
-      aBlock.appendChild(mkBtn(A.btnCall, L.phone, "secondary"));
-      const cHint = el("div", "action-hint", A.callNote);
-      cHint.style.cssText = "margin-top:10px;margin-bottom:0;font-size:0.75rem";
-      aBlock.appendChild(cHint);
-      resAct.appendChild(aBlock);
+      if (TEXT.methodTitle && LINKS.landing) {
+        const m = el("div", "action-block");
+        m.appendChild(el("div", "action-title", TEXT.methodTitle));
+        m.appendChild(makeBtn(TEXT.methodBtn || "Подробнее", LINKS.landing, "secondary"));
+        resultActions.appendChild(m);
+      }
 
-      const mBlock = el("div", "action-block");
-      mBlock.appendChild(el("div", "action-title", A.methodTitle));
-      mBlock.appendChild(mkBtn(A.methodBtn, L.landing, "secondary"));
-      resAct.appendChild(mBlock);
-      
-      resHint.textContent = "Это не медицинская диагностика. Приложение не ставит диагноз и не назначает лечение. Сделайте скриншот результата, если хотите его сохранить.";
+      resultHint.textContent = TEXT.hint || "";
+
     } else {
-      resIcon.textContent = "⚠️"; resTitle.textContent = A.doctorTitle; verd.textContent = A.doctorVerdict;
-      resAct.appendChild(el("div", "result-body", A.doctorBody));
-      resHint.textContent = "Это не медицинская диагностика. Решение о лечении принимает врач. Сделайте скриншот результата, если хотите его сохранить.";
+      resultIcon.textContent = "⚠️";
+      resultTitle.textContent = TEXT.doctorTitle || "";
+      verdictEl.textContent = TEXT.doctorVerdict || "";
+      resultActions.appendChild(el("div", "result-body", TEXT.doctorBody || ""));
+      resultHint.textContent = TEXT.hint || "";
     }
-    showScr("result");
-  };
 
-  $("#btn-start").onclick = () => { idx = 0; ans.fill(null); prof = "general"; renderQ(); showScr("question"); };
-  $("#btn-restart").onclick = () => { idx = 0; ans.fill(null); showScr("start"); };
-  $("#btn-close").onclick = () => {
-    ans.fill(null); showScr("start");
-    if (w && typeof w.close === "function") { try { w.close(); } catch (_) {} }
-  };
+    showScreen("result");
+  }
 
-  const app = $("#app");
-  if (app) app.removeAttribute("hidden");
-  const sub = $("#start-subtitle");
-  if (sub) sub.textContent = userName ? "Привет, " + userName + "! " + A.subtitle : A.subtitle;
+  $("#btn-start").addEventListener("click", function () {
+    currentIndex = 0;
+    answers = new Array(TOTAL).fill(null);
+    chosenProfile = "general";
+    renderQuestion();
+    showScreen("question");
+  });
+
+  $("#btn-restart").addEventListener("click", function () {
+    currentIndex = 0;
+    answers = new Array(TOTAL).fill(null);
+    showScreen("start");
+  });
+
+  const closeBtn = $("#btn-close");
+  if (closeBtn) closeBtn.addEventListener("click", function () {
+    answers = new Array(TOTAL).fill(null);
+    showScreen("start");
+    if (webApp && typeof webApp.close === "function") { try { webApp.close(); } catch (_) {} }
+  });
+
+  const appRoot = $("#app");
+  if (appRoot) appRoot.removeAttribute("hidden");
 })();
