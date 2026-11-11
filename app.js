@@ -63,6 +63,16 @@
     try { window.scrollTo(0, 0); } catch (_) {}
   }
 
+  // --- ФУНКЦИЯ ТАКТИЛЬНОГО И ВИЗУАЛЬНОГО ОТКЛИКА ---
+  function applyPressEffect(element, callback) {
+    element.classList.add("pressed");
+    if (navigator.vibrate) { try { navigator.vibrate(15); } catch(e){} }
+    setTimeout(() => {
+      element.classList.remove("pressed");
+      callback();
+    }, 150); // Задержка, чтобы глаз и палец "увидели" нажатие
+  }
+
   function renderQuestion() {
     const q = QUESTIONS[currentIndex];
     qCurrent.textContent = String(currentIndex + 1);
@@ -75,54 +85,42 @@
       const btn = el("button", "answer", opt.text);
       btn.type = "button";
       if (answers[currentIndex] === i) btn.classList.add("selected");
+      
       btn.addEventListener("click", () => {
-        if (navigator.vibrate) navigator.vibrate(10);
-        selectAnswer(i);
+        if (locked) return;
+        locked = true;
+        
+        // Сначала визуальный эффект, потом переход
+        btn.classList.add("selected");
+        applyPressEffect(btn, () => {
+          answers[currentIndex] = i;
+          const optObj = q.options[i];
+          if (optObj.profile) chosenProfile = optObj.profile;
+          if (optObj.forceOutcome === "osteo") forceOsteo = true;
+
+          setTimeout(() => {
+            if (currentIndex < TOTAL - 1) { currentIndex++; renderQuestion(); }
+            else { showResult(); }
+            locked = false;
+          }, 50);
+        });
       });
       answersBox.appendChild(btn);
     });
-  }
-
-  function selectAnswer(optionIndex) {
-    if (locked) return;
-    locked = true;
-    answers[currentIndex] = optionIndex;
-    const opt = QUESTIONS[currentIndex].options[optionIndex];
-    
-    if (opt.profile) chosenProfile = opt.profile;
-    if (opt.forceOutcome === "osteo") forceOsteo = true;
-
-    const buttons = answersBox.querySelectorAll(".answer");
-    buttons.forEach(b => b.classList.remove("selected"));
-    if (buttons[optionIndex]) buttons[optionIndex].classList.add("selected");
-
-    setTimeout(() => {
-      if (currentIndex < TOTAL - 1) { currentIndex++; renderQuestion(); }
-      else { showResult(); }
-      locked = false;
-    }, 200);
   }
 
   function goBack() { if (currentIndex > 0) { currentIndex--; renderQuestion(); } else { showScreen("start"); } }
 
   function evaluate() {
     let redFlagCount = 0, sum = 0, max = 0, hasPain = false;
-
     QUESTIONS.forEach((q, i) => {
       const idx = answers[i]; if (idx === null) return;
       const opt = q.options[idx]; if (!opt) return;
       
-      if (q.type === "redflag") {
-        if (opt.redflag) redFlagCount++;
-        return;
-      }
-      if (q.includeInScore) {
-        sum += opt.weight;
-        max += Math.max(...q.options.map(o => o.weight));
-      }
+      if (q.type === "redflag") { if (opt.redflag) redFlagCount++; return; }
+      if (q.includeInScore) { sum += opt.weight; max += Math.max(...q.options.map(o => o.weight)); }
       if (opt.weight > 1) hasPain = true; 
     });
-
     const percent = max > 0 ? Math.round((sum / max) * 100) : 0;
     
     if (redFlagCount >= 1) return { outcome: "doctor" }; 
@@ -135,7 +133,13 @@
     a.href = href || "#"; a.rel = "noopener noreferrer";
     if (!/^tel:|^mailto:/.test(a.href)) a.target = "_blank";
     if (bg) { a.style.background = bg; a.style.color = "#fff"; a.style.boxShadow = "0 4px 0 " + (shadow || "#000"); }
-    a.addEventListener("click", (e) => { if (canUseOpenLink && href) { e.preventDefault(); openExternal(href); } if (navigator.vibrate) navigator.vibrate(10); });
+    
+    a.addEventListener("click", (e) => {
+      if (canUseOpenLink && href) e.preventDefault();
+      applyPressEffect(a, () => {
+        if (canUseOpenLink && href) openExternal(href);
+      });
+    });
     return a;
   }
 
@@ -147,10 +151,11 @@
       resultIcon.textContent = "✅"; resultTitle.textContent = TEXT.normalTitle || ""; verdictEl.textContent = TEXT.normalVerdict || "";
       resultActions.appendChild(el("div", "result-body", TEXT.normalBody || ""));
       
-      if (TEXT.methodTitle && LINKS.landing) {
+      // ЖЕСТКАЯ КНОПКА НА ЛЕНДИНГ
+      if (LINKS.landing) {
         const m = el("div", "action-block");
-        m.appendChild(el("div", "action-title", TEXT.methodTitle));
-        m.appendChild(makeBtn(TEXT.methodBtn || "Подробнее", LINKS.landing, "secondary"));
+        m.appendChild(el("div", "action-title", TEXT.methodTitle || "Узнать о методике"));
+        m.appendChild(makeBtn(TEXT.methodBtn || "Подробнее на сайте", LINKS.landing, "secondary"));
         resultActions.appendChild(m);
       }
       resultHint.textContent = TEXT.hint || "";
@@ -189,10 +194,11 @@
         resultActions.appendChild(block);
       }
 
-      if (TEXT.methodTitle && LINKS.landing) {
+      // ЖЕСТКАЯ КНОПКА НА ЛЕНДИНГ
+      if (LINKS.landing) {
         const m = el("div", "action-block");
-        m.appendChild(el("div", "action-title", TEXT.methodTitle));
-        m.appendChild(makeBtn(TEXT.methodBtn || "Подробнее", LINKS.landing, "secondary"));
+        m.appendChild(el("div", "action-title", TEXT.methodTitle || "Узнать о методике"));
+        m.appendChild(makeBtn(TEXT.methodBtn || "Подробнее на сайте", LINKS.landing, "secondary"));
         resultActions.appendChild(m);
       }
 
