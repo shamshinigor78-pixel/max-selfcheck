@@ -1,681 +1,258 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#4a7dff">
-<title>Загрузка…</title>
-<style>
-/* ============ БАЗА ============ */
-:root{
-  --accent:#4a7dff;
-  --tg:#2aabee;
-  --wa:#25d366;
-  --bg:#f4f5f7;
-  --fg:#1a1a1a;
-  --muted:#6b7280;
-  --card-bg:#ffffff;
-  --card-border:1px solid #e8e9ec;
-  --card-shadow:0 2px 16px -8px rgba(0,0,0,.06);
-  --card-radius:20px;
-  --btn-radius:14px;
-  --section-gap:64px;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-  font-size:16px;line-height:1.6;color:var(--fg);background:var(--bg);
-  -webkit-font-smoothing:antialiased;
-}
-img{max-width:100%;display:block}
-a{color:var(--accent);text-decoration:none}
-button{font-family:inherit}
-.container{max-width:780px;margin:0 auto;padding:0 20px}
-
-/* ============ ПРЕСЕТ: PREMIUM ============ */
-body.preset-premium{
-  --bg:#f5f5f7;
-  --card-bg:rgba(255,255,255,.55);
-  --card-border:1px solid rgba(255,255,255,.85);
-  --card-radius:24px;
-  --btn-radius:16px;
-  --card-shadow:0 8px 32px -12px rgba(0,0,0,.08);
-  background:linear-gradient(160deg,#eef1f7 0%,#f5f5f7 40%,#e8eef8 100%);
-  background-attachment:fixed;
-}
-body.preset-premium .card,
-body.preset-premium .loc-list,
-body.preset-premium .loc-inner img,
-body.preset-premium .expert-card,
-body.preset-premium .news-card,
-body.preset-premium .pricing-card,
-body.preset-premium .gift-card,
-body.preset-premium .contacts-card,
-body.preset-premium .compare-col{
-  backdrop-filter:blur(20px) saturate(160%);
-  -webkit-backdrop-filter:blur(20px) saturate(160%);
-}
-body.preset-premium .btn-primary{box-shadow:none}
-
-/* ============ ПРЕСЕТ: STRICT ============ */
-body.preset-strict{
-  --bg:#ffffff;
-  --card-bg:#ffffff;
-  --card-border:2px solid #1a1a1a;
-  --card-radius:0;
-  --btn-radius:0;
-  --card-shadow:none;
-}
-body.preset-strict .btn-primary{background:#1a1a1a;box-shadow:none}
-body.preset-strict .btn{border-radius:0}
-
-/* ============ HERO ============ */
-.hero{padding:80px 0 60px;text-align:center;position:relative}
-.hero h1{
-  font-size:clamp(32px,6vw,52px);font-weight:800;
-  letter-spacing:-.02em;line-height:1.1;
-  max-width:720px;margin:0 auto;
-}
-.hero p{
-  font-size:clamp(16px,2.2vw,19px);color:var(--muted);
-  max-width:600px;margin:20px auto 0;line-height:1.55;
-}
-.hero-cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:36px}
-
-/* ============ SECTION ============ */
-.section{padding:var(--section-gap) 0;border-top:1px solid rgba(0,0,0,.05)}
-.section-title{
-  font-size:clamp(24px,4vw,34px);font-weight:800;
-  letter-spacing:-.01em;line-height:1.2;margin-bottom:16px;
-}
-.section-text{font-size:16px;color:var(--muted);line-height:1.6;margin-bottom:28px;max-width:640px}
-
-/* ============ КНОПКИ ============ */
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  padding:14px 24px;font-size:16px;font-weight:600;
-  border-radius:var(--btn-radius);border:none;cursor:pointer;
-  transition:transform .15s,opacity .15s,background .15s;
-  text-decoration:none;color:inherit;
-  -webkit-tap-highlight-color:transparent;
-  background:rgba(0,0,0,.05);color:var(--fg);
-}
-.btn.pressed{transform:scale(.97);opacity:.9}
-.btn-primary{background:var(--accent);color:#fff;box-shadow:0 8px 24px -8px var(--accent)}
-.btn-lg{padding:18px 32px;font-size:17px}
-.btn-max{background:#7b5cff;color:#fff}
-.btn-tg{background:var(--tg);color:#fff}
-.btn-wa{background:var(--wa);color:#fff}
-.btn-outline{background:transparent;border:2px solid var(--accent);color:var(--accent)}
-
-/* ============ COMPARE ============ */
-.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media (max-width:640px){.compare-grid{grid-template-columns:1fr}}
-.compare-col{
-  padding:24px;border-radius:var(--card-radius);
-  background:var(--card-bg);border:var(--card-border);
-  box-shadow:var(--card-shadow);
-}
-.compare-col h3{font-size:18px;font-weight:700;margin-bottom:16px}
-.compare-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
-.compare-col li{padding-left:26px;position:relative;font-size:15px;line-height:1.5}
-.compare-col.good li::before{content:"✓";position:absolute;left:0;color:#16a34a;font-weight:800}
-.compare-col.bad li::before{content:"✕";position:absolute;left:0;color:#dc2626;font-weight:800}
-
-/* ============ EXPERT ============ */
-.expert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
-.expert-card{
-  padding:24px;border-radius:var(--card-radius);
-  background:var(--card-bg);border:var(--card-border);box-shadow:var(--card-shadow);
-}
-.expert-card img{
-  width:80px;height:80px;border-radius:50%;object-fit:cover;margin-bottom:16px;
-}
-.expert-card h3{font-size:17px;font-weight:700;margin-bottom:8px}
-.expert-card p{font-size:15px;color:var(--muted);line-height:1.55}
-
-/* ============ LOCATIONS (АККОРДЕОН) ============ */
-.loc-list{
-  display:flex;flex-direction:column;
-  border-radius:var(--card-radius);overflow:hidden;
-  background:var(--card-bg);border:var(--card-border);box-shadow:var(--card-shadow);
-}
-.loc-item+.loc-item{border-top:1px solid rgba(0,0,0,.06)}
-.loc-head{
-  width:100%;padding:20px 24px;background:none;border:none;
-  font-size:17px;font-weight:600;text-align:left;cursor:pointer;
-  display:flex;justify-content:space-between;align-items:center;
-  color:inherit;-webkit-tap-highlight-color:transparent;
-}
-.loc-head:hover{background:rgba(0,0,0,.02)}
-.loc-arrow{transition:transform .25s ease;color:var(--muted);font-size:14px}
-.loc-item.open .loc-arrow{transform:rotate(180deg)}
-.loc-body{max-height:0;overflow:hidden;transition:max-height .35s ease}
-.loc-item.open .loc-body{max-height:1400px}
-.loc-inner{padding:0 24px 24px}
-.loc-inner img{
-  width:100%;height:auto;border-radius:14px;margin-bottom:16px;
-  aspect-ratio:16/9;object-fit:cover;
-}
-.loc-text{font-size:15px;color:var(--muted);line-height:1.55;margin-bottom:12px}
-.loc-price{font-size:18px;font-weight:700;margin-bottom:16px}
-.loc-actions{display:flex;gap:10px;flex-wrap:wrap}
-.loc-actions .btn{flex:1;min-width:130px}
-
-/* ============ PRICING ============ */
-.pricing-card{
-  max-width:560px;padding:36px;border-radius:var(--card-radius);
-  background:var(--card-bg);border:var(--card-border);box-shadow:var(--card-shadow);
-  text-align:center;margin-top:8px;
-}
-.pricing-name{font-size:20px;font-weight:700;margin-bottom:8px}
-.pricing-price{
-  font-size:44px;font-weight:800;letter-spacing:-.02em;line-height:1;
-  margin:16px 0;color:var(--accent);
-}
-.pricing-desc{font-size:15px;color:var(--muted);line-height:1.55;margin-bottom:24px}
-
-/* ============ GIFT ============ */
-.gift-card{
-  padding:36px 32px;border-radius:var(--card-radius);
-  background:var(--card-bg);border:var(--card-border);box-shadow:var(--card-shadow);
-  text-align:center;
-}
-.gift-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:24px}
-
-/* ============ NEWS / CASES ============ */
-.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
-.news-card{
-  padding:20px;border-radius:var(--card-radius);
-  background:var(--card-bg);border:var(--card-border);box-shadow:var(--card-shadow);
-}
-.news-date{
-  font-size:13px;color:var(--muted);text-transform:uppercase;
-  letter-spacing:.05em;font-weight:600;margin-bottom:8px;
-}
-.news-card h3{font-size:17px;font-weight:700;margin-bottom:8px;line-height:1.35}
-.news-card p{font-size:15px;color:var(--muted);line-height:1.55}
-
-/* ============ CONTACTS ============ */
-.contacts-card{
-  padding:32px 24px;border-radius:var(--card-radius);
-  background:var(--card-bg);border:var(--card-border);box-shadow:var(--card-shadow);
-  text-align:center;
-}
-.contacts-actions{display:flex;flex-direction:column;gap:12px;max-width:400px;margin:24px auto 0}
-.contacts-actions .btn{width:100%}
-
-/* ============ FOOTER ============ */
-.footer{
-  padding:40px 0;border-top:1px solid rgba(0,0,0,.06);
-  text-align:center;font-size:14px;color:var(--muted);line-height:1.6;
-}
-.footer a{color:var(--muted);text-decoration:underline}
-
-/* ============ FLOATING ============ */
-.floating-btn{
-  position:fixed;right:20px;bottom:20px;
-  padding:14px 20px;border-radius:999px;
-  background:var(--accent);color:#fff;
-  box-shadow:0 8px 32px -8px var(--accent);
-  border:none;cursor:pointer;
-  display:flex;flex-direction:column;align-items:flex-start;gap:2px;
-  z-index:50;transition:transform .15s;text-align:left;
-}
-.floating-btn.pressed{transform:scale(.96)}
-.floating-btn-title{font-size:14px;font-weight:700}
-.floating-btn-sub{font-size:12px;opacity:.85;font-weight:500}
-@media (max-width:640px){
-  .floating-btn{right:12px;bottom:12px;padding:12px 18px}
-}
-
-/* ============ COOKIE ============ */
-.cookie-banner{
-  position:fixed;left:0;right:0;bottom:0;
-  background:#1a1a1a;color:#fff;
-  padding:20px;z-index:100;
-  display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center;
-  font-size:14px;line-height:1.5;
-  box-shadow:0 -8px 32px rgba(0,0,0,.15);
-}
-.cookie-banner-text{flex:1;min-width:240px;max-width:640px}
-.cookie-banner-actions{display:flex;gap:8px}
-.cookie-banner .btn{padding:10px 18px;font-size:14px}
-.cookie-banner .btn-accept{background:#fff;color:#1a1a1a}
-.cookie-banner .btn-decline{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.3)}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Мио-фасциальная практика</title>
+  <style>
+    :root { --bg: #fbf9f6; --fg: #2b2a28; --muted: #8a8580; --accent: #4a8f6f; --tg: #229ED9; --wa: #25D366; --card: #fff; --border: #ebe6df; --radius: 16px; --shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    @media (prefers-color-scheme: dark) { :root { --bg: #1c1e1b; --fg: #e8e6e2; --muted: #9a9890; --card: #24262a; --border: #33342f; } }
+    
+    body.preset-premium { --bg: #f5f5f7; --card: rgba(255,255,255,0.6); --radius: 24px; --border: rgba(255,255,255,0.4); }
+    body.preset-premium .card { backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%); box-shadow: 0 8px 32px rgba(0,0,0,0.05); }
+    body.preset-premium .btn { box-shadow: none; transform: none; }
+    body.preset-strict { --bg: #fff; --fg: #1a1a1a; --border: #1a1a1a; --accent: #1a1a1a; --radius: 0; }
+    body.preset-strict .btn, body.preset-strict .card { border: 2px solid #1a1a1a; box-shadow: none; }
+    
+    html { scroll-behavior: smooth; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--fg); line-height: 1.6; padding-bottom: 80px; transition: background 0.2s, color 0.2s; }
+    .container { max-width: 700px; margin: 0 auto; padding: 40px 20px; }
+    h1, h2, h3 { line-height: 1.2; margin-bottom: 16px; }
+    h1 { font-size: 2.2rem; text-align: center; } h2 { font-size: 1.8rem; margin-top: 40px; }
+    p { font-size: 1.05rem; color: var(--muted); margin-bottom: 16px; }
+    
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 16px 24px; border-radius: var(--radius); text-decoration: none; font-weight: 600; font-size: 1.05rem; border: none; cursor: pointer; color: #fff; transition: all 0.2s; width: 100%; margin-bottom: 10px; }
+    .btn-max { background: var(--accent); } .btn-tg { background: var(--tg); } .btn-wa { background: var(--wa); } .btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
+    
+    .card { background: var(--card); border-radius: var(--radius); padding: 24px; border: 1px solid var(--border); margin-bottom: 20px; box-shadow: var(--shadow); }
+    
+    /* Аккордеон локаций */
+    .loc-item { border-bottom: 1px solid var(--border); padding: 16px 0; }
+    .loc-item:last-child { border: none; }
+    .loc-head { font-size: 1.2rem; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .loc-head::after { content: "▼"; font-size: 0.8rem; color: var(--accent); transition: transform 0.3s; }
+    .loc-item.open .loc-head::after { transform: rotate(180deg); }
+    .loc-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+    .loc-item.open .loc-body { max-height: 1600px; padding-top: 16px; }
+    .loc-img { width: 100%; height: 200px; object-fit: cover; border-radius: 12px; margin-bottom: 16px; background: var(--border); }
+    
+    .cookie { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); padding: 16px; border-top: 1px solid var(--border); z-index: 100; display: none; text-align: center; box-shadow: 0 -4px 12px rgba(0,0,0,0.1); }
+    .cookie.active { display: block; }
+    .float-btn { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 1.5rem; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.2); cursor: pointer; display: none; align-items: center; justify-content: center; z-index: 90; }
+    .float-btn.active { display: flex; }
+    .hidden { display: none !important; }
+  </style>
 </head>
 <body>
-
-<main>
-  <!-- HERO -->
-  <section class="hero">
-    <div class="container">
-      <h1 id="heroTitle"></h1>
-      <p id="heroText"></p>
-      <div class="hero-cta" id="heroCta"></div>
+  <div class="container">
+    <div id="sec-hero" class="hidden">
+      <h1 id="hero-title"></h1>
+      <p id="hero-text"></p>
+      <div id="hero-btns"></div>
     </div>
-  </section>
 
-  <section class="section" id="sec-compare"></section>
-  <section class="section" id="sec-expert"></section>
-  <section class="section" id="sec-locations"></section>
-  <section class="section" id="sec-pricing"></section>
-  <section class="section" id="sec-gift"></section>
-  <section class="section" id="news"></section>
-  <section class="section" id="sec-cases"></section>
-  <section class="section" id="sec-contacts"></section>
+    <div id="sec-compare" class="hidden">
+      <h2 id="compare-title"></h2>
+      <p id="compare-text"></p>
+      <div class="row" style="display: flex; gap: 20px; flex-wrap: wrap;">
+        <div class="card" style="flex:1;"><h3 id="compare-bad-title" style="color: #d9534f;"></h3><ul id="compare-bad-list"></ul></div>
+        <div class="card" style="flex:1;"><h3 id="compare-good-title" style="color: var(--accent);"></h3><ul id="compare-good-list"></ul></div>
+      </div>
+    </div>
 
-  <footer class="footer" id="footer"></footer>
-</main>
+    <div id="sec-expert" class="hidden">
+      <h2 id="expert-title"></h2>
+      <p id="expert-text"></p>
+      <div id="expert-cards" class="card"></div>
+    </div>
 
-<script src="content.js"></script>
-<script>
-(function () {
-  'use strict';
+    <div id="sec-locations" class="hidden">
+      <h2 id="loc-title"></h2>
+      <div class="card" id="loc-list"></div>
+    </div>
 
-  /* ===================== ИНИЦИАЛИЗАЦИЯ ===================== */
-  if (!window.CONTENT) return;
+    <div id="sec-pricing" class="hidden">
+      <h2 id="pricing-title"></h2>
+      <div class="card">
+        <h3 id="pricing-name"></h3>
+        <p style="font-size: 1.5rem; color: var(--accent); font-weight: 700;" id="pricing-price"></p>
+        <p id="pricing-desc"></p>
+      </div>
+    </div>
 
-  const C        = window.CONTENT;
-  const theme    = C.theme    || {};
-  const settings = C.settings || {};
-  const links    = C.links    || {};
-  const landing  = C.landing  || {};
-  const app      = C.app      || {};
+    <div id="sec-gift" class="hidden">
+      <h2 id="gift-title"></h2>
+      <div class="card" style="text-align: center; border: 2px dashed var(--accent);">
+        <p id="gift-text"></p>
+        <div id="gift-btns"></div>
+      </div>
+    </div>
 
-  /* --- Тема / пресет --- */
-  (function applyTheme() {
-    const r = document.documentElement;
-    if (theme.primary) r.style.setProperty('--accent', theme.primary);
-    if (theme.tg)      r.style.setProperty('--tg', theme.tg);
-    if (theme.wa)      r.style.setProperty('--wa', theme.wa);
-    if (theme.preset)  document.body.classList.add('preset-' + theme.preset);
-  })();
+    <div id="sec-news" class="hidden">
+      <h2 id="news-title"></h2>
+      <div id="news-list"></div>
+    </div>
 
-  /* --- Title страницы --- */
-  document.title = landing.heroTitle || app.title || document.title;
+    <div id="sec-cases" class="hidden">
+      <h2 id="cases-title"></h2>
+      <div id="cases-list" style="display: grid; gap: 20px;"></div>
+    </div>
 
-  /* ===================== ХЕЛПЕРЫ ===================== */
-  function esc(s) {
-    return String(s == null ? '' : s)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;');
-  }
+    <div id="sec-contacts" class="hidden" style="margin-top: 40px;">
+      <h2 style="text-align: center;">Связаться со мной</h2>
+      <div id="contacts-btns" style="max-width: 400px; margin: 0 auto;"></div>
+    </div>
+    
+    <div id="sec-footer" class="hidden" style="margin-top: 60px; border-top: 1px solid var(--border); padding-top: 20px; text-align: center;">
+      <p id="footer-text" style="font-size: 0.85rem;"></p>
+    </div>
+  </div>
 
-  function hasItems(a) { return Array.isArray(a) && a.length > 0; }
+  <div class="cookie" id="cookie-banner">
+    <p id="cookie-text" style="font-size: 0.9rem; margin-bottom: 10px;"></p>
+    <button class="btn btn-max" id="btn-accept" style="width: auto; padding: 8px 20px; margin-right: 10px;"></button>
+    <button class="btn btn-outline" id="btn-decline" style="width: auto; padding: 8px 20px; color: var(--muted); border-color: var(--border);"></button>
+  </div>
 
-  function imgSrc(p) {
-    if (!p) return '';
-    if (/^(https?:)?\/\//i.test(p) || p.indexOf('data:') === 0 || p.charAt(0) === '/') return p;
-    const base = String(links.imgBase || '').replace(/\/+$/, '');
-    if (!base) return p;
-    return base + '/' + String(p).replace(/^\/+/, '');
-  }
+  <button class="float-btn" id="float-btn">💬</button>
 
-  function pressBtn(el, cb) {
-    el.classList.add('pressed');
-    setTimeout(function () {
-      el.classList.remove('pressed');
-      cb();
-    }, 150);
-  }
+  <script src="content.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      if (typeof CONTENT === "undefined") return;
+      const C = CONTENT;
+      const L = C.links || {}, S = C.settings || {}, LD = C.landing || {}, APP = C.app || {};
+      
+      // Тема
+      document.documentElement.style.setProperty('--accent', C.theme.primary);
+      document.documentElement.style.setProperty('--tg', C.theme.tg);
+      document.documentElement.style.setProperty('--wa', C.theme.wa);
+      if (C.theme.preset) document.body.classList.add('preset-' + C.theme.preset);
 
-  /* ===================== HERO ===================== */
-  document.getElementById('heroTitle').textContent = landing.heroTitle || '';
-  document.getElementById('heroText').textContent  = landing.heroText  || '';
+      const $ = id => document.getElementById(id);
+      const setT = (id, val) => { if ($(id)) $(id).textContent = val || ''; };
+      const show = (id, cond) => { if ($(id)) $(id).classList.toggle('hidden', !cond); };
+      const getImg = (src) => {
+        if (!src) return "";
+        if (src.startsWith('http') || src.startsWith('data:') || src.startsWith('/')) return src;
+        return (L.imgBase || '') + src;
+      };
 
-  (function renderHeroCta() {
-    const wrap = document.getElementById('heroCta');
-    if (links.test) {
-      const a = document.createElement('a');
-      a.href = links.test;
-      a.className = 'btn btn-primary btn-lg';
-      a.textContent = app.btnStart || 'Пройти тест';
-      wrap.appendChild(a);
-    }
-  })();
+      const createBtn = (txt, href, cls) => {
+        if (!href) return null;
+        const a = document.createElement('a');
+        a.href = href; a.textContent = txt; a.className = 'btn ' + cls;
+        a.target = '_blank'; a.rel = 'noopener';
+        return a;
+      };
 
-  /* ===================== COMPARE ===================== */
-  (function renderCompare() {
-    const sec = document.getElementById('sec-compare');
-    if (settings.showCompare === false ||
-        (!hasItems(landing.compareGoodList) && !hasItems(landing.compareBadList))) {
-      sec.style.display = 'none';
-      return;
-    }
-    const good = (landing.compareGoodList || []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('');
-    const bad  = (landing.compareBadList  || []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('');
+      // Hero
+      setT('hero-title', LD.heroTitle); setT('hero-text', LD.heroText);
+      const heroBtns = $('hero-btns');
+      [createBtn('Написать в MAX', L.max, 'btn-max'), createBtn('Telegram', L.tg, 'btn-tg'), createBtn('WhatsApp', L.wa, 'btn-wa')].forEach(b => b && heroBtns.appendChild(b));
+      show('sec-hero', !!(LD.heroTitle || heroBtns.children.length));
 
-    sec.innerHTML =
-      '<div class="container">' +
-        (landing.compareTitle ? '<h2 class="section-title">' + esc(landing.compareTitle) + '</h2>' : '') +
-        (landing.compareText  ? '<p class="section-text">'  + esc(landing.compareText)  + '</p>' : '') +
-        '<div class="compare-grid">' +
-          '<div class="compare-col good">' +
-            (landing.compareGoodTitle ? '<h3>' + esc(landing.compareGoodTitle) + '</h3>' : '') +
-            (good ? '<ul>' + good + '</ul>' : '') +
-          '</div>' +
-          '<div class="compare-col bad">' +
-            (landing.compareBadTitle ? '<h3>' + esc(landing.compareBadTitle) + '</h3>' : '') +
-            (bad ? '<ul>' + bad + '</ul>' : '') +
-          '</div>' +
-        '</div>' +
-      '</div>';
-  })();
+      // Compare
+      if (S.showCompare && LD.compareBadList && LD.compareBadList.length > 0) {
+        show('sec-compare', true);
+        setT('compare-title', LD.compareTitle); setT('compare-text', LD.compareText);
+        setT('compare-bad-title', LD.compareBadTitle); setT('compare-good-title', LD.compareGoodTitle);
+        $('compare-bad-list').innerHTML = LD.compareBadList.map(t => `<li>${t}</li>`).join('');
+        $('compare-good-list').innerHTML = LD.compareGoodList.map(t => `<li>${t}</li>`).join('');
+      }
 
-  /* ===================== EXPERT ===================== */
-  (function renderExpert() {
-    const sec = document.getElementById('sec-expert');
-    if (settings.showExpert === false || !hasItems(landing.expertCards)) {
-      sec.style.display = 'none';
-      return;
-    }
-    const cards = landing.expertCards.map(function (c) {
-      const img = c.img ? '<img src="' + esc(imgSrc(c.img)) + '" alt="" loading="lazy">' : '';
-      return '<div class="expert-card">' + img +
-        '<h3>' + esc(c.title || '') + '</h3>' +
-        '<p>'  + esc(c.text  || '') + '</p>' +
-      '</div>';
-    }).join('');
+      // Expert
+      if (S.showExpert && LD.expertCards && LD.expertCards.length > 0) {
+        show('sec-expert', true);
+        setT('expert-title', LD.expertTitle); setT('expert-text', LD.expertText);
+        $('expert-cards').innerHTML = LD.expertCards.map(c => `<div style="margin-bottom:15px;"><strong>${c.icon} ${c.title}</strong><p style="font-size:0.95rem; margin:0;">${c.text}</p></div>`).join('');
+      }
 
-    sec.innerHTML =
-      '<div class="container">' +
-        (landing.expertTitle ? '<h2 class="section-title">' + esc(landing.expertTitle) + '</h2>' : '') +
-        (landing.expertText  ? '<p class="section-text">'  + esc(landing.expertText)  + '</p>' : '') +
-        '<div class="expert-grid">' + cards + '</div>' +
-      '</div>';
-  })();
-
-  /* ===================== LOCATIONS (АККОРДЕОНЫ) ===================== */
-  (function renderLocations() {
-    const sec = document.getElementById('sec-locations');
-    if (settings.showLocations === false || !hasItems(landing.locationsCards)) {
-      sec.style.display = 'none';
-      return;
-    }
-
-    let html = '<div class="container">';
-    if (landing.locationsTitle) {
-      html += '<h2 class="section-title">' + esc(landing.locationsTitle) + '</h2>';
-    }
-    html += '<div class="loc-list">';
-
-    landing.locationsCards.forEach(function (loc, i) {
-      html +=
-        '<div class="loc-item" data-idx="' + i + '">' +
-          '<button class="loc-head" type="button">' +
-            '<span class="loc-name">' + esc(loc.title || '') + '</span>' +
-            '<span class="loc-arrow">▾</span>' +
-          '</button>' +
-          '<div class="loc-body">' +
-            '<div class="loc-inner">' +
-              (loc.img ? '<img src="' + esc(imgSrc(loc.img)) + '" alt="' + esc(loc.title || '') + '" loading="lazy">' : '') +
-              (loc.text ? '<p class="loc-text">' + esc(loc.text) + '</p>' : '') +
-              (loc.price ? '<div class="loc-price">' + esc(loc.price) + '</div>' : '') +
-              '<div class="loc-actions">' +
-                '<button type="button" class="btn btn-primary loc-book">Записаться</button>' +
-                (loc.mapLink
-                  ? '<a class="btn btn-outline" href="' + esc(loc.mapLink) + '" target="_blank" rel="noopener">Маршрут</a>'
-                  : '') +
-              '</div>' +
-            '</div>' +
-          '</div>' +
-        '</div>';
-    });
-
-    html += '</div></div>';
-    sec.innerHTML = html;
-
-    /* Клик по заголовку — раскрыть/закрыть */
-    sec.querySelectorAll('.loc-head').forEach(function (head) {
-      head.addEventListener('click', function () {
-        const item = head.closest('.loc-item');
-        const isOpen = item.classList.contains('open');
-        sec.querySelectorAll('.loc-item.open').forEach(function (x) {
-          x.classList.remove('open');
+      // Locations (Аккордеон)
+      if (S.showLocations && LD.locationsCards && LD.locationsCards.length > 0) {
+        show('sec-locations', true);
+        setT('loc-title', LD.locationsTitle);
+        const locList = $('loc-list');
+        locList.innerHTML = '';
+        LD.locationsCards.forEach(loc => {
+          const div = document.createElement('div');
+          div.className = 'loc-item';
+          div.innerHTML = `
+            <div class="loc-head">${loc.city} — ${loc.title}</div>
+            <div class="loc-body">
+              ${loc.img ? `<img src="${getImg(loc.img)}" class="loc-img" loading="lazy">` : ''}
+              <p>${loc.text}</p>
+              <p style="color:var(--accent); font-weight:700;">${loc.price}</p>
+              <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+                <button class="btn btn-max" style="width:auto; padding:10px 20px;" onclick="document.getElementById('sec-contacts').scrollIntoView({behavior:'smooth'})">Записаться</button>
+                ${loc.mapLink ? `<a href="${loc.mapLink}" target="_blank" class="btn btn-outline" style="width:auto; padding:10px 20px;">Маршрут</a>` : ''}
+              </div>
+            </div>
+          `;
+          div.querySelector('.loc-head').addEventListener('click', () => div.classList.toggle('open'));
+          locList.appendChild(div);
         });
-        if (!isOpen) item.classList.add('open');
-      });
+      }
+
+      // Pricing
+      if (S.showPricing && LD.pricingName) {
+        show('sec-pricing', true);
+        setT('pricing-title', LD.pricingTitle); setT('pricing-name', LD.pricingName);
+        setT('pricing-price', LD.pricingPrice); setT('pricing-desc', LD.pricingDesc);
+      }
+
+      // Gift
+      if (S.showGift && LD.giftTitle) {
+        show('sec-gift', true);
+        setT('gift-title', LD.giftTitle); setT('gift-text', LD.giftText);
+        const gb = $('gift-btns');
+        [createBtn('Получить в MAX', L.max, 'btn-max'), createBtn('В Telegram', L.tg, 'btn-tg'), createBtn('В WhatsApp', L.wa, 'btn-wa')].forEach(b => b && gb.appendChild(b));
+      }
+
+      // News
+      if (S.showNews && LD.newsCards && LD.newsCards.length > 0) {
+        show('sec-news', true);
+        setT('news-title', LD.newsTitle);
+        $('news-list').innerHTML = LD.newsCards.map(n => `<div class="card"><small style="color:var(--muted);">${n.date}</small><h3 style="margin:5px 0;">${n.title}</h3><p style="margin:0; font-size:0.95rem;">${n.text}</p></div>`).join('');
+      }
+
+      // Cases
+      if (S.showCases && LD.casesCards && LD.casesCards.length > 0) {
+        show('sec-cases', true);
+        setT('cases-title', LD.casesTitle);
+        $('cases-list').innerHTML = LD.casesCards.map(c => `<div class="card"><h3>${c.title}</h3><p style="font-size:0.95rem;"><b>Жалобы:</b> ${c.complaints}</p><p style="font-size:0.95rem;"><b>Результат:</b> ${c.result}</p></div>`).join('');
+      }
+
+      // Contacts
+      show('sec-contacts', !!(L.max || L.tg || L.wa || L.phone));
+      const cBtns = $('contacts-btns');
+      [createBtn('Написать в MAX', L.max, 'btn-max'), createBtn('Написать в Telegram', L.tg, 'btn-tg'), createBtn('Написать в WhatsApp', L.wa, 'btn-wa'), createBtn('Позвонить', L.phone, 'btn-outline')].forEach(b => b && cBtns.appendChild(b));
+
+      // Footer
+      if (LD.footerText) {
+        show('sec-footer', true);
+        setT('footer-text', LD.footerText);
+      }
+
+      // Float Button
+      if (S.showFloatingButton) {
+        const fb = $('float-btn');
+        fb.classList.add('active');
+        fb.addEventListener('click', () => $('sec-contacts').scrollIntoView({behavior: 'smooth'}));
+      }
+
+      // Cookie
+      if (S.dataCollectionEnabled && !localStorage.getItem('cookieChoice') && LD.cookieBanner) {
+        const banner = $('cookie-banner');
+        banner.classList.add('active');
+        setT('cookie-text', LD.cookieBanner.text);
+        $('btn-accept').textContent = LD.cookieBanner.accept || 'Принять';
+        $('btn-decline').textContent = LD.cookieBanner.decline || 'Отклонить';
+        $('btn-accept').onclick = () => { localStorage.setItem('cookieChoice', 'accept'); banner.classList.remove('active'); };
+        $('btn-decline').onclick = () => { localStorage.setItem('cookieChoice', 'decline'); banner.classList.remove('active'); };
+      }
     });
-
-    /* Клик «Записаться» — плавный скролл к контактам */
-    sec.querySelectorAll('.loc-book').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        const target = document.getElementById('sec-contacts');
-        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-    });
-  })();
-
-  /* ===================== PRICING ===================== */
-  (function renderPricing() {
-    const sec = document.getElementById('sec-pricing');
-    if (settings.showPricing === false || !landing.pricingPrice) {
-      sec.style.display = 'none';
-      return;
-    }
-    sec.innerHTML =
-      '<div class="container">' +
-        (landing.pricingTitle ? '<h2 class="section-title">' + esc(landing.pricingTitle) + '</h2>' : '') +
-        '<div class="pricing-card">' +
-          (landing.pricingName ? '<div class="pricing-name">' + esc(landing.pricingName) + '</div>' : '') +
-          '<div class="pricing-price">' + esc(landing.pricingPrice) + '</div>' +
-          (landing.pricingDesc ? '<p class="pricing-desc">' + esc(landing.pricingDesc) + '</p>' : '') +
-          '<div id="pricingCta"></div>' +
-        '</div>' +
-      '</div>';
-
-    const cta = document.getElementById('pricingCta');
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'btn btn-primary';
-    btn.textContent = 'Записаться на приём';
-    btn.addEventListener('click', function () {
-      const target = document.getElementById('sec-contacts');
-      if (target) target.scrollIntoView({ behavior: 'smooth' });
-    });
-    cta.appendChild(btn);
-  })();
-
-  /* ===================== GIFT ===================== */
-  (function renderGift() {
-    const sec = document.getElementById('sec-gift');
-    if (settings.showGift === false || (!landing.giftTitle && !landing.giftText)) {
-      sec.style.display = 'none';
-      return;
-    }
-    sec.innerHTML =
-      '<div class="container">' +
-        '<div class="gift-card">' +
-          (landing.giftTitle ? '<h2 class="section-title" style="margin-bottom:12px">' + esc(landing.giftTitle) + '</h2>' : '') +
-          (landing.giftText  ? '<p class="section-text" style="margin:0 auto;max-width:520px">' + esc(landing.giftText) + '</p>' : '') +
-          '<div class="gift-actions" id="giftActions"></div>' +
-        '</div>' +
-      '</div>';
-
-    const wrap = document.getElementById('giftActions');
-    const defs = [
-      { url: links.max, label: landing.giftBtnMax || app.btnWriteMax || 'Написать в MAX',      cls: 'btn-max' },
-      { url: links.tg,  label: landing.giftBtnTg  || app.btnWriteTg  || 'Написать в Telegram', cls: 'btn-tg'  },
-      { url: links.wa,  label: landing.giftBtnWa  || app.btnWriteWa  || 'Написать в WhatsApp', cls: 'btn-wa'  }
-    ];
-
-    defs.forEach(function (d) {
-      if (!d.url) return;
-      const a = document.createElement('a');
-      a.href = d.url;
-      a.target = '_blank';
-      a.rel = 'noopener';
-      a.className = 'btn ' + d.cls;
-      a.textContent = d.label;
-      wrap.appendChild(a);
-    });
-
-    if (!wrap.children.length) wrap.parentElement.style.display = 'none';
-  })();
-
-  /* ===================== NEWS ===================== */
-  (function renderNews() {
-    const sec = document.getElementById('news');
-    if (settings.showNews === false || !hasItems(landing.newsCards)) {
-      sec.style.display = 'none';
-      return;
-    }
-    const cards = landing.newsCards.map(function (c) {
-      const img = c.img
-        ? '<img src="' + esc(imgSrc(c.img)) + '" alt="" loading="lazy" ' +
-          'style="border-radius:12px;margin-bottom:12px;aspect-ratio:16/9;object-fit:cover;width:100%">'
-        : '';
-      const date = c.date ? '<div class="news-date">' + esc(c.date) + '</div>' : '';
-      return '<div class="news-card">' + img + date +
-        '<h3>' + esc(c.title || '') + '</h3>' +
-        '<p>'  + esc(c.text  || '') + '</p>' +
-      '</div>';
-    }).join('');
-
-    sec.innerHTML =
-      '<div class="container">' +
-        (landing.newsTitle ? '<h2 class="section-title">' + esc(landing.newsTitle) + '</h2>' : '') +
-        '<div class="news-grid">' + cards + '</div>' +
-      '</div>';
-  })();
-
-  /* ===================== CASES ===================== */
-  (function renderCases() {
-    const sec = document.getElementById('sec-cases');
-    if (settings.showCases === false || !hasItems(landing.casesCards)) {
-      sec.style.display = 'none';
-      return;
-    }
-    const cards = landing.casesCards.map(function (c) {
-      const img = c.img
-        ? '<img src="' + esc(imgSrc(c.img)) + '" alt="" loading="lazy" ' +
-          'style="border-radius:12px;margin-bottom:12px;aspect-ratio:16/9;object-fit:cover;width:100%">'
-        : '';
-      return '<div class="news-card">' + img +
-        '<h3>' + esc(c.title || '') + '</h3>' +
-        '<p>'  + esc(c.text  || '') + '</p>' +
-      '</div>';
-    }).join('');
-
-    sec.innerHTML =
-      '<div class="container">' +
-        (landing.casesTitle ? '<h2 class="section-title">' + esc(landing.casesTitle) + '</h2>' : '') +
-        '<div class="news-grid">' + cards + '</div>' +
-      '</div>';
-  })();
-
-  /* ===================== CONTACTS ===================== */
-  (function renderContacts() {
-    const sec = document.getElementById('sec-contacts');
-    sec.innerHTML =
-      '<div class="container">' +
-        '<div class="contacts-card">' +
-          '<h2 class="section-title" style="margin-bottom:8px">Связаться с нами</h2>' +
-          '<p class="section-text" style="margin:0 auto">Выберите удобный способ связи</p>' +
-          '<div class="contacts-actions" id="contactsActions"></div>' +
-        '</div>' +
-      '</div>';
-
-    const actions = document.getElementById('contactsActions');
-
-    const defs = [];
-    if (links.max)    defs.push({ url: links.max, label: app.btnWriteMax || 'Написать в MAX',       cls: 'btn-max' });
-    if (links.tg)     defs.push({ url: links.tg,  label: app.btnWriteTg  || 'Написать в Telegram',  cls: 'btn-tg'  });
-    if (links.wa)     defs.push({ url: links.wa,  label: app.btnWriteWa  || 'Написать в WhatsApp',  cls: 'btn-wa'  });
-    if (links.phone)  defs.push({
-      url: 'tel:' + String(links.phone).replace(/[^\d+]/g, ''),
-      label: app.btnCall || 'Позвонить',
-      cls: 'btn-outline'
-    });
-
-    if (links.booking) {
-      defs.push({ url: links.booking, label: 'Онлайн-запись', cls: 'btn-primary' });
-    } else if (settings.onlineBooking && settings.onlineBooking.enabled && settings.onlineBooking.link) {
-      defs.push({ url: settings.onlineBooking.link, label: 'Онлайн-запись', cls: 'btn-primary' });
-    }
-
-    defs.forEach(function (d) {
-      const a = document.createElement('a');
-      a.href = d.url;
-      a.className = 'btn ' + d.cls;
-      a.textContent = d.label;
-      if (/^https?:/i.test(d.url)) { a.target = '_blank'; a.rel = 'noopener'; }
-      actions.appendChild(a);
-    });
-
-    if (!actions.children.length) sec.style.display = 'none';
-  })();
-
-  /* ===================== FOOTER ===================== */
-  (function renderFooter() {
-    const f = document.getElementById('footer');
-    const parts = [];
-    if (landing.footerText) parts.push('<p>' + esc(landing.footerText) + '</p>');
-    if (links.privacy) parts.push('<p style="margin-top:8px"><a href="' + esc(links.privacy) + '">Политика конфиденциальности</a></p>');
-    if (parts.length) f.innerHTML = '<div class="container">' + parts.join('') + '</div>';
-    else f.style.display = 'none';
-  })();
-
-  /* ===================== FLOATING BUTTON ===================== */
-  (function renderFloating() {
-    if (!settings.showFloatingButton || !landing.floatingButton) return;
-    const fb = document.createElement('button');
-    fb.type = 'button';
-    fb.className = 'floating-btn';
-    fb.innerHTML =
-      '<span class="floating-btn-title">' + esc(landing.floatingButton.title || 'Записаться') + '</span>' +
-      (landing.floatingButton.subtitle
-        ? '<span class="floating-btn-sub">' + esc(landing.floatingButton.subtitle) + '</span>'
-        : '');
-    fb.addEventListener('click', function () {
-      pressBtn(fb, function () {
-        const target = document.getElementById('sec-contacts');
-        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-    });
-    document.body.appendChild(fb);
-  })();
-
-  /* ===================== COOKIE BANNER ===================== */
-  (function renderCookie() {
-    if (!settings.dataCollectionEnabled) return;
-    if (localStorage.getItem('cookieChoice')) return;
-
-    const banner = landing.cookieBanner || {};
-    const el = document.createElement('div');
-    el.className = 'cookie-banner';
-    el.innerHTML =
-      '<div class="cookie-banner-text">' +
-        esc(banner.text || 'Мы используем cookie для аналитики.') +
-      '</div>' +
-      '<div class="cookie-banner-actions">' +
-        '<button type="button" class="btn btn-decline" id="cookieDecline">' +
-          esc(banner.decline || 'Отклонить') +
-        '</button>' +
-        '<button type="button" class="btn btn-accept" id="cookieAccept">' +
-          esc(banner.accept || 'Принять') +
-        '</button>' +
-      '</div>';
-    document.body.appendChild(el);
-
-    document.getElementById('cookieAccept').addEventListener('click', function () {
-      localStorage.setItem('cookieChoice', 'accept');
-      el.remove();
-      /* Здесь можно подключить реальную аналитику */
-    });
-    document.getElementById('cookieDecline').addEventListener('click', function () {
-      localStorage.setItem('cookieChoice', 'decline');
-      el.remove();
-    });
-  })();
-
-})();
-</script>
+  </script>
 </body>
 </html>
