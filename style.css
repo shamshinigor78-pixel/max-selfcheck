@@ -33,14 +33,34 @@ h1 { font-size: 1.875rem; line-height: 1.2; text-align: center; margin-bottom: .
 .privacy-note li { padding-left: 1rem; position: relative; margin-bottom: .375rem; overflow-wrap: break-word; }
 .privacy-note li::before { content: "—"; position: absolute; left: 0; }
 
-.btn { display: block; width: 100%; min-height: 3rem; padding: 1.125rem; border: none; border-radius: .875rem; font-size: 1.0625rem; font-weight: 600; font-family: inherit; text-decoration: none; text-align: center; line-height: 1.2; cursor: pointer; transition: all .1s ease; }
+/* =========================================
+   КНОПКИ И ЭФФЕКТ НАЖАТИЯ (ТАКТИЛЬНОСТЬ)
+   ========================================= */
+.btn { 
+  display: block; width: 100%; min-height: 3rem; padding: 1.125rem; 
+  border: none; border-radius: .875rem; font-size: 1.0625rem; font-weight: 600; 
+  font-family: inherit; text-decoration: none; text-align: center; line-height: 1.2; 
+  cursor: pointer; 
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.1s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.1s ease;
+  will-change: transform, box-shadow;
+}
 .btn.primary { background: var(--accent); color: #fff; box-shadow: 0 4px 0 #3b755a; transform: translateY(0); }
-.btn.primary:active { box-shadow: 0 0px 0 #3b755a; transform: translateY(4px); }
-.btn.secondary { background: transparent; color: var(--muted); margin-top: .75rem; border: 1.5px solid var(--border); }
+.btn.secondary { background: transparent; color: var(--muted); margin-top: .75rem; border: 1.5px solid var(--border); box-shadow: none; }
 .action-block .btn.secondary { margin-top: 0; color: var(--fg); background: var(--bg); }
 .action-block .btn.primary { margin-top: 0; }
 .action-block .btn + .btn { margin-top: .625rem; }
 
+/* Эффект нажатия для кнопок */
+.btn:active, .btn.pressed {
+  transform: translateY(4px) scale(0.98) !important;
+  box-shadow: 0 0px 0 transparent !important;
+}
+.btn.secondary:active, .btn.secondary.pressed {
+  transform: scale(0.98) !important;
+  background-color: var(--accent-soft) !important;
+}
+
+/* Кнопка Назад */
 .btn-back {
   display: none;
   background: var(--accent-soft);
@@ -55,21 +75,38 @@ h1 { font-size: 1.875rem; line-height: 1.2; text-align: center; margin-bottom: .
   border-radius: 0.625rem;
   align-items: center;
   gap: 0.25rem;
-  transition: all .15s ease;
+  transition: all 0.15s ease;
 }
-.btn-back:hover { background: var(--accent); color: #fff; }
-.btn-back:active { transform: scale(0.97); }
+.btn-back:active, .btn-back.pressed { transform: scale(0.95) !important; opacity: 0.8; }
 
+/* =========================================
+   ОПРОС И ОТВЕТЫ
+   ========================================= */
 .progress { height: .4375rem; background: var(--border); border-radius: 999px; overflow: hidden; margin-bottom: .5rem; }
 .progress-bar { height: 100%; width: 0%; background: var(--accent); border-radius: 999px; transition: width .3s ease; }
-.progress-text { font-size: .9375rem; color: var(--muted); margin-bottom: 1.5rem; }
+.progress-text { font-size: .9375rem; color: var(--muted); margin-bottom: 1.5rem; text-align: right; }
 
 #q-text { font-size: 1.4375rem; line-height: 1.4; text-align: left; margin-bottom: 1.75rem; overflow-wrap: break-word; hyphens: auto; }
 .answers { display: flex; flex-direction: column; gap: .75rem; }
-.answer { display: block; width: 100%; min-height: 3rem; padding: 1.125rem 1.25rem; border: 1.5px solid var(--border); border-radius: .875rem; background: var(--bg); color: var(--fg); font-size: 1.0625rem; font-family: inherit; text-align: left; cursor: pointer; transition: all .15s ease; overflow-wrap: break-word; line-height: 1.4; }
-.answer:active { transform: scale(.98); }
+
+.answer { 
+  display: block; width: 100%; min-height: 3.25rem; padding: 1.125rem 1.25rem; 
+  border: 1.5px solid var(--border); border-radius: .875rem; 
+  background: var(--bg); color: var(--fg); font-size: 1.0625rem; font-family: inherit; 
+  text-align: left; cursor: pointer; overflow-wrap: break-word; line-height: 1.4;
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s ease, background-color 0.15s ease;
+}
+/* Эффект нажатия для ответов */
+.answer:active, .answer.pressed {
+  transform: scale(0.97) !important;
+  background-color: var(--accent-soft) !important;
+  border-color: var(--accent) !important;
+}
 .answer.selected { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 600; }
 
+/* =========================================
+   ЭКРАН РЕЗУЛЬТАТА
+   ========================================= */
 .result-icon { font-size: 4rem; text-align: center; margin: 1rem 0 .5rem; line-height: 1; }
 .verdict { text-align: center; font-size: 1.0625rem; color: var(--muted); margin-bottom: 1.75rem; overflow-wrap: break-word; }
 .result-body { font-size: 1rem; line-height: 1.6; margin-bottom: 1.25rem; overflow-wrap: break-word; }
@@ -79,6 +116,9 @@ h1 { font-size: 1.875rem; line-height: 1.2; text-align: center; margin-bottom: .
 .action-title { font-size: 1.0625rem; font-weight: 700; margin-bottom: .375rem; line-height: 1.3; }
 .action-hint { font-size: .9375rem; color: var(--muted); margin-bottom: .875rem; line-height: 1.45; }
 
+/* =========================================
+   АДАПТИВНОСТЬ
+   ========================================= */
 @media (max-width: 360px) {
   html { font-size: 16px; }
   h1 { font-size: 1.625rem; }
@@ -109,13 +149,7 @@ h1 { font-size: 1.875rem; line-height: 1.2; text-align: center; margin-bottom: .
   .verdict { margin-bottom: 1rem; }
   .action-block { padding: .875rem; margin-bottom: .5rem; }
 }
-@media (prefers-reduced-motion: reduce) { * { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+@media (prefers-reduced-motion: reduce) { 
+  * { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } 
+}
 .answer:focus-visible, .btn:focus-visible, .btn-back:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.btn, .answer {
-  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.1s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  will-change: transform, box-shadow;
-}
-.btn:active, .answer:active {
-  transform: translateY(4px) scale(0.98) !important;
-  box-shadow: 0 0px 0 transparent !important;
-}
