@@ -1,5 +1,5 @@
 window.CONTENT = {
-  version: "2.2.0",
+  version: "2.2.1",
   theme: { primary: "#4a8f6f", primaryHover: "#3b755a", tg: "#229ED9", wa: "#25D366" },
   seo: { title: "Игорь Шамшин | Мио-фасциальная остеокоррекция", description: "Авторская практика. 20+ лет опыта.", ogImage: "https://shamshinigor78-pixel.github.io/max-selfcheck/igor.jpg" },
   analytics: { yandexMetrika: "", googleAnalytics: "" },
@@ -38,7 +38,8 @@ window.CONTENT = {
     warningText: "Вы отметили серьёзный симптом. Рекомендую перед сеансом проконсультироваться с врачом.",
     btnWriteTitle: "Написать мне", btnWriteHint: "Выберите мессенджер:",
     btnWriteMax: "Написать в MAX", btnWriteTg: "Написать в Telegram", btnWriteWa: "Написать в WhatsApp", btnCall: "Позвонить мне",
-    callNote: "Если я на сеансе, ответит секретарь.", methodTitle: "Узнать о методике", methodBtn: "Подробнее",
+    callNote: "Если я на сеансе, ответит секретарь.", 
+    methodTitle: "Узнать о методике", methodBtn: "Подробнее на сайте",
     
     profiles: {
       neck: "Профиль «Офисная шея». Голова уходит вперед, фасции шеи и груди сжимаются. Нужно мягко раскрыть грудную клетку.",
