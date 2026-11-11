@@ -76,7 +76,7 @@
       btn.type = "button";
       if (answers[currentIndex] === i) btn.classList.add("selected");
       btn.addEventListener("click", () => {
-        if (navigator.vibrate) navigator.vibrate(10); // Тактильный отклик
+        if (navigator.vibrate) navigator.vibrate(10);
         selectAnswer(i);
       });
       answersBox.appendChild(btn);
@@ -125,14 +125,8 @@
 
     const percent = max > 0 ? Math.round((sum / max) * 100) : 0;
     
-    // Если есть настоящие красные флаги
     if (redFlagCount >= 1) return { outcome: "doctor" }; 
-    
-    // Если "всё тело" или процент высокий, или есть локализованная боль
-    if (forceOsteo || percent >= THRESHOLD || hasPain) {
-      return { outcome: "osteo", warning: false, percent: percent };
-    }
-    
+    if (forceOsteo || percent >= THRESHOLD || hasPain) return { outcome: "osteo", warning: false, percent: percent };
     return { outcome: "normal", percent: percent };
   }
 
@@ -152,6 +146,13 @@
     if (r.outcome === "normal") {
       resultIcon.textContent = "✅"; resultTitle.textContent = TEXT.normalTitle || ""; verdictEl.textContent = TEXT.normalVerdict || "";
       resultActions.appendChild(el("div", "result-body", TEXT.normalBody || ""));
+      
+      if (TEXT.methodTitle && LINKS.landing) {
+        const m = el("div", "action-block");
+        m.appendChild(el("div", "action-title", TEXT.methodTitle));
+        m.appendChild(makeBtn(TEXT.methodBtn || "Подробнее", LINKS.landing, "secondary"));
+        resultActions.appendChild(m);
+      }
       resultHint.textContent = TEXT.hint || "";
 
     } else if (r.outcome === "osteo") {
@@ -187,6 +188,14 @@
         }
         resultActions.appendChild(block);
       }
+
+      if (TEXT.methodTitle && LINKS.landing) {
+        const m = el("div", "action-block");
+        m.appendChild(el("div", "action-title", TEXT.methodTitle));
+        m.appendChild(makeBtn(TEXT.methodBtn || "Подробнее", LINKS.landing, "secondary"));
+        resultActions.appendChild(m);
+      }
+
       resultHint.textContent = TEXT.hint || "";
 
     } else {
