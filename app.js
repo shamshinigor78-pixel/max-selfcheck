@@ -27,7 +27,13 @@
       type: q.type || "osteo", text: q.text || "",
       options: opts.map(function (o) {
         if (typeof o === "string") return { text: o, weight: 3, profile: null, redflag: false, forceOutcome: null };
-        return { text: o.text || "", weight: typeof o.weight === "number" ? o.weight : 3, profile: o.profile || null, redflag: !!o.redflag, forceOutcome: o.forceOutcome || null };
+        return { 
+          text: o.text || "", 
+          weight: typeof o.weight === "number" ? o.weight : 3, 
+          profile: o.profile || null, 
+          redflag: !!o.redflag, 
+          forceOutcome: o.forceOutcome || null 
+        };
       })
     };
   }
