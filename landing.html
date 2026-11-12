@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Мио-фасциальная практика</title>
   <meta name="description" content="Авторская мио-фасциальная остеокоррекция. 20+ лет опыта.">
+  <meta property="og:type" content="website">
   <meta property="og:title" content="Мио-фасциальная практика">
+  <meta property="og:description" content="20+ лет в восстановительной медицине. Остеокоррекция в Москве.">
   <meta property="og:image" content="igor.jpg">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%234a8f6f'/%3E%3Ctext x='96' y='130' font-size='110' text-anchor='middle'%3E🌿%3C/text%3E%3C/svg%3E">
   
@@ -95,6 +97,7 @@
     .cookie-banner.active { display: block; }
     .cookie-inner { max-width: 900px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
     .cookie-text { flex: 1 1 300px; font-size: 0.9rem; color: var(--fg); line-height: 1.5; }
+    .cookie-text a { color: var(--accent); }
     .cookie-actions { display: flex; gap: 8px; flex-shrink: 0; }
     .cookie-actions button { padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; font-size: 0.9rem; }
     .cookie-accept { background: var(--accent); color: #fff; }
@@ -146,14 +149,49 @@
       if (typeof C === "undefined") return;
       const L = C.links || {}, S = C.settings || {}, LD = C.landing || {}, A = C.analytics || {};
       
-      // SEO
+      // ===== SEO И META =====
       if (C.seo) {
-        if (C.seo.title) document.title = C.seo.title;
-        const desc = document.querySelector('meta[name="description"]');
-        if (desc && C.seo.description) desc.setAttribute('content', C.seo.description);
+        if (C.seo.title) {
+          document.title = C.seo.title;
+          const ogT = document.querySelector('meta[property="og:title"]');
+          if (ogT) ogT.setAttribute('content', C.seo.title);
+        }
+        if (C.seo.description) {
+          const desc = document.querySelector('meta[name="description"]');
+          if (desc) desc.setAttribute('content', C.seo.description);
+          const ogD = document.querySelector('meta[property="og:description"]');
+          if (ogD) ogD.setAttribute('content', C.seo.description);
+        }
+        if (C.seo.ogImage) {
+          const ogI = document.querySelector('meta[property="og:image"]');
+          if (ogI) ogI.setAttribute('content', C.seo.ogImage);
+        }
+        
+        // Canonical
+        if (C.seo.canonical) {
+          let link = document.querySelector('link[rel="canonical"]');
+          if (!link) { link = document.createElement('link'); link.rel = 'canonical'; document.head.appendChild(link); }
+          link.href = C.seo.canonical;
+        }
+
+        // JSON-LD
+        if (C.seo.enableJsonLd && L.phoneText) {
+          const ld = {
+            "@context": "https://schema.org",
+            "@type": "MedicalBusiness",
+            "name": C.seo.title || "Самодиагностика",
+            "telephone": L.phoneText,
+            "url": L.landing,
+            "image": C.seo.ogImage || L.landing + "igor.jpg"
+          };
+          const script = document.createElement('script');
+          script.type = 'application/ld+json';
+          script.textContent = JSON.stringify(ld);
+          document.head.appendChild(script);
+        }
       }
 
-      // Тема
+      // ===== ТЕМА =====
       document.documentElement.style.setProperty('--accent', C.theme.primary);
       document.documentElement.style.setProperty('--tg', C.theme.tg);
       document.documentElement.style.setProperty('--wa', C.theme.wa);
@@ -368,7 +406,7 @@
         fb.addEventListener('click', () => $('sec-contacts').scrollIntoView({behavior: 'smooth'}));
       }
 
-      // Cookie & Аналитика
+      // ===== COOKIE & АНАЛИТИКА =====
       function loadAnalytics() {
         if (!S.dataCollectionEnabled) return;
         if (A.yandexMetrika && !document.getElementById("ym-script")) {
