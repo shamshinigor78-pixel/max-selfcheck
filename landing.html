@@ -164,7 +164,7 @@
       const renderHero = () => `
         <section class="section">
           <div class="container">
-            <span class="overline">Тест пройден</span>
+            <span class="overline">${LD.heroOverline || 'Тест пройден'}</span>
             <h1>${LD.heroTitle || ''}</h1>
             <p>${LD.heroText || ''}</p>
             <div class="hero-img-container"><img src="${getImg(LD.heroImage || 'igor.jpg')}" onerror="this.style.display='none';this.parentElement.innerHTML='<span>Фото</span>';"></div>
