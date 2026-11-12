@@ -18,10 +18,10 @@
       --shadow: 0 8px 24px rgba(0,0,0,0.06);
     }
     body.preset-premium { --bg-main: #f5f5f7; --bg-alt: #ebebeb; --card-bg: rgba(255, 255, 255, 0.6); --radius: 24px; --border: rgba(255,255,255,0.4); }
-    body.preset-premium .card { backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%); box-shadow: 0 8px 32px rgba(0,0,0,0.05); }
+    body.preset-premium .card, body.preset-premium .loc-card, body.preset-premium .loc-item { backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%); box-shadow: 0 8px 32px rgba(0,0,0,0.05); }
     body.preset-premium .btn { box-shadow: none; transform: none; }
     body.preset-strict { --bg-main: #ffffff; --bg-alt: #fafafa; --fg: #1a1a1a; --border: #1a1a1a; --accent: #1a1a1a; --accent-soft: #f0f0f0; --radius: 0; }
-    body.preset-strict .btn, body.preset-strict .card { border: 2px solid #1a1a1a; box-shadow: none; }
+    body.preset-strict .btn, body.preset-strict .card, body.preset-strict .loc-card, body.preset-strict .loc-item { border: 2px solid #1a1a1a; box-shadow: none; }
 
     html { scroll-behavior: smooth; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -135,18 +135,16 @@
   <script src="content.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // Поддержка предпросмотра
       let C = window.CONTENT;
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('preview') === 'true') {
         const pd = localStorage.getItem('previewData');
-        if (pd) { try { C = JSON.parse(pd); } catch(e) { console.error("Ошибка превью данных:", e); } }
+        if (pd) { try { C = JSON.parse(pd); } catch(e) {} }
       }
 
       if (typeof C === "undefined") return;
       const L = C.links || {}, S = C.settings || {}, LD = C.landing || {};
       
-      // Тема
       document.documentElement.style.setProperty('--accent', C.theme.primary);
       document.documentElement.style.setProperty('--tg', C.theme.tg);
       document.documentElement.style.setProperty('--wa', C.theme.wa);
