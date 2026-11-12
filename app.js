@@ -1,6 +1,13 @@
 "use strict";
 (function () {
-  const C = window.CONTENT;
+  // Поддержка предпросмотра
+  let C = window.CONTENT;
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('preview') === 'true') {
+    const pd = localStorage.getItem('previewData');
+    if (pd) { try { C = JSON.parse(pd); } catch(e) { console.error("Ошибка превью данных:", e); } }
+  }
+  
   if (!C) { document.body.innerHTML = '<p style="padding:24px;text-align:center;">Ошибка: content.js не загрузился.</p>'; return; }
 
   const webApp = window.WebApp || null;
@@ -69,7 +76,7 @@
   const browserNote = $("#ui-browser-note");
   if (browserNote && TEXT.browserNote && !canUseOpenLink) {
     browserNote.textContent = TEXT.browserNote;
-    browserNote.hidden = false; // CSP-safe
+    browserNote.hidden = false;
   }
 
   function showScreen(name) {
@@ -167,6 +174,12 @@
       const map = TEXT.profiles || {};
       const pb = el("div", "", map[chosenProfile] || map.general || ""); pb.style.fontSize = "1rem";
       prize.appendChild(pb); resultActions.appendChild(prize);
+
+      if (TEXT.guideBox) {
+        const gb = el("div", "result-body", TEXT.guideBox);
+        gb.style.cssText = "background:var(--guide-bg);color:var(--guide-fg);padding:15px;border-radius:12px;margin-bottom:20px;border-left:4px solid var(--guide-border);font-size:1rem";
+        resultActions.appendChild(gb);
+      }
 
       const list = [];
       if (LINKS.max) list.push({ label: TEXT.btnWriteMax || "MAX", href: LINKS.max, style: "primary" });
