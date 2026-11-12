@@ -1,13 +1,11 @@
 "use strict";
 (function () {
-  // Поддержка предпросмотра
   let C = window.CONTENT;
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.get('preview') === 'true') {
     const pd = localStorage.getItem('previewData');
-    if (pd) { try { C = JSON.parse(pd); } catch(e) { console.error("Ошибка превью данных:", e); } }
+    if (pd) { try { C = JSON.parse(pd); } catch(e) {} }
   }
-  
   if (!C) { document.body.innerHTML = '<p style="padding:24px;text-align:center;">Ошибка: content.js не загрузился.</p>'; return; }
 
   const webApp = window.WebApp || null;
@@ -190,7 +188,14 @@
         const block = el("div", "action-block");
         block.appendChild(el("div", "action-title", TEXT.btnWriteTitle || "Написать мне"));
         list.forEach(b => block.appendChild(makeBtn(b.label, b.href, b.style)));
-        if (LINKS.phone) block.appendChild(makeBtn(TEXT.btnCall || "Позвонить", LINKS.phone, "secondary"));
+        if (LINKS.phone) {
+          block.appendChild(makeBtn(TEXT.btnCall || "Позвонить", LINKS.phone, "secondary"));
+          if (TEXT.callNote) {
+            const cn = el("div", "action-hint", TEXT.callNote);
+            cn.style.cssText = "margin-top:10px;margin-bottom:0;font-size:0.85rem";
+            block.appendChild(cn);
+          }
+        }
         resultActions.appendChild(block);
       }
     } else {
