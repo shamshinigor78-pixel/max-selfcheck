@@ -69,6 +69,7 @@
     .card { background: var(--card-bg); border-radius: var(--radius); padding: 24px; border: 1px solid var(--border); box-shadow: var(--shadow); }
     .card-icon { font-size: 2rem; margin-bottom: 15px; display: block; }
     .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; font-size: 0.9rem; color: var(--muted); }
+    .footer a { color: var(--accent); text-decoration: none; }
     
     .loc-item { border-bottom: 1px solid var(--border); padding: 20px 0; }
     .loc-item:last-child { border: none; }
@@ -143,8 +144,16 @@
       }
 
       if (typeof C === "undefined") return;
-      const L = C.links || {}, S = C.settings || {}, LD = C.landing || {};
+      const L = C.links || {}, S = C.settings || {}, LD = C.landing || {}, A = C.analytics || {};
       
+      // SEO
+      if (C.seo) {
+        if (C.seo.title) document.title = C.seo.title;
+        const desc = document.querySelector('meta[name="description"]');
+        if (desc && C.seo.description) desc.setAttribute('content', C.seo.description);
+      }
+
+      // Тема
       document.documentElement.style.setProperty('--accent', C.theme.primary);
       document.documentElement.style.setProperty('--tg', C.theme.tg);
       document.documentElement.style.setProperty('--wa', C.theme.wa);
@@ -173,6 +182,7 @@
               ${createBtn(LD.btnWriteTg || 'Написать в Telegram', L.tg, 'btn-tg')}
               ${createBtn(LD.btnWriteWa || 'Написать в WhatsApp', L.wa, 'btn-wa')}
               ${createBtn(LD.btnCall || 'Позвонить', L.phone, 'btn-outline')}
+              ${S.onlineBooking?.enabled && S.onlineBooking.link ? `<a href="${S.onlineBooking.link}" target="_blank" class="btn btn-max" style="background:transparent; color:var(--accent); border:2px solid var(--accent); box-shadow:none;">Записаться онлайн</a>` : ''}
             </div>
           </div>
         </section>`;
@@ -316,8 +326,12 @@
               ${createBtn(LD.btnWriteTg || 'Написать в Telegram', L.tg, 'btn-tg')}
               ${createBtn(LD.btnWriteWa || 'Написать в WhatsApp', L.wa, 'btn-wa')}
               ${createBtn(LD.btnCall || 'Позвонить', L.phone, 'btn-outline')}
+              ${S.onlineBooking?.enabled && S.onlineBooking.link ? `<a href="${S.onlineBooking.link}" target="_blank" class="btn btn-max" style="background:transparent; color:var(--accent); border:2px solid var(--accent); box-shadow:none;">Записаться онлайн</a>` : ''}
             </div>
-            <div class="footer"><p>${LD.footerText || ''}</p></div>
+            <div class="footer">
+              <p>${L.phoneText ? `<a href="${L.phone}">${L.phoneText}</a>` : ''}</p>
+              <p>${LD.footerText || ''}</p>
+            </div>
           </div>
         </section>`;
 
@@ -325,15 +339,8 @@
       let html = '';
       
       const sections = C.sections || [
-        { type: 'hero', visible: true },
-        { type: 'compare', visible: true },
-        { type: 'expert', visible: true },
-        { type: 'locations', visible: true, variant: 'accordion' },
-        { type: 'pricing', visible: true },
-        { type: 'gift', visible: true },
-        { type: 'news', visible: true },
-        { type: 'cases', visible: true },
-        { type: 'contacts', visible: true }
+        { type: 'hero', visible: true }, { type: 'compare', visible: true }, { type: 'expert', visible: true }, { type: 'locations', visible: true, variant: 'accordion' },
+        { type: 'pricing', visible: true }, { type: 'gift', visible: true }, { type: 'news', visible: true }, { type: 'cases', visible: true }, { type: 'contacts', visible: true }
       ];
 
       sections.forEach(sec => {
@@ -361,14 +368,36 @@
         fb.addEventListener('click', () => $('sec-contacts').scrollIntoView({behavior: 'smooth'}));
       }
 
+      // Cookie & Аналитика
+      function loadAnalytics() {
+        if (!S.dataCollectionEnabled) return;
+        if (A.yandexMetrika && !document.getElementById("ym-script")) {
+          (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+          try { window.ym(parseInt(A.yandexMetrika, 10), "init", { clickmap: true, trackLinks: true, accurateTrackBounce: true }); } catch (_) {}
+        }
+        if (A.googleAnalytics && !document.getElementById("ga-script")) {
+          const s = document.createElement("script");
+          s.id = "ga-script"; s.async = true;
+          s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(A.googleAnalytics);
+          document.head.appendChild(s);
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { window.dataLayer.push(arguments); }
+          window.gtag = gtag;
+          gtag("js", new Date());
+          gtag("config", A.googleAnalytics);
+        }
+      }
+
       if (S.dataCollectionEnabled && !localStorage.getItem('cookieChoice') && LD.cookieBanner) {
         const banner = $('cookie-banner');
         banner.classList.add('active');
         $('cookie-text').textContent = LD.cookieBanner.text;
         $('btn-accept').textContent = LD.cookieBanner.accept || 'Принять';
         $('btn-decline').textContent = LD.cookieBanner.decline || 'Отклонить';
-        $('btn-accept').onclick = () => { localStorage.setItem('cookieChoice', 'accept'); banner.classList.remove('active'); };
+        $('btn-accept').onclick = () => { localStorage.setItem('cookieChoice', 'accept'); banner.classList.remove('active'); loadAnalytics(); };
         $('btn-decline').onclick = () => { localStorage.setItem('cookieChoice', 'decline'); banner.classList.remove('active'); };
+      } else if (localStorage.getItem('cookieChoice') === 'accept') {
+        loadAnalytics();
       }
     });
   </script>
