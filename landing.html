@@ -7,10 +7,9 @@
   <meta name="description" content="Авторская мио-фасциальная остеокоррекция. 20+ лет опыта.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Мио-фасциальная практика">
-  <meta property="og:description" content="20+ лет в восстановительной медицине. Остеокоррекция в Москве.">
   <meta property="og:image" content="igor.jpg">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%234a8f6f'/%3E%3Ctext x='96' y='130' font-size='110' text-anchor='middle'%3E🌿%3C/text%3E%3C/svg%3E">
-  
+
   <style>
     :root {
       --bg-main: #fbf9f6; --bg-alt: #f2efe9; --fg: #2b2a28; --muted: #8a8580;
@@ -28,32 +27,74 @@
     html { scroll-behavior: smooth; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg-main); color: var(--fg); line-height: 1.6; -webkit-font-smoothing: antialiased; padding-bottom: 80px; transition: background 0.3s; }
-    
+
     .section { padding: 60px 20px; width: 100%; display: flex; justify-content: center; }
     .section-alt { background-color: var(--bg-alt); }
     .container { width: 100%; max-width: 700px; }
-    
+
     h1 { font-size: 2.2rem; line-height: 1.2; margin-bottom: 20px; color: var(--fg); }
     h2 { font-size: 1.8rem; margin-bottom: 20px; color: var(--fg); line-height: 1.3; }
     h3 { font-size: 1.2rem; margin-bottom: 10px; color: var(--fg); }
     p { font-size: 1.05rem; margin-bottom: 16px; color: #4a4845; }
     .overline { text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; color: var(--accent); font-weight: 700; margin-bottom: 10px; display: block; }
-    
+
     .btn-group { display: flex; flex-direction: column; gap: 12px; margin: 30px 0 15px; }
     .btn { display: flex; align-items: center; justify-content: center; width: 100%; padding: 18px 20px; border-radius: var(--radius); text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: all 0.2s ease; cursor: pointer; border: none; color: #fff; }
-    
-    .btn-max { background: var(--accent); box-shadow: 0 6px 0 var(--accent-hover); }
-    .btn-max:active { transform: translateY(6px); box-shadow: 0 0px 0 var(--accent-hover) !important; }
-    .btn-tg { background: var(--tg); box-shadow: 0 6px 0 #1A7CA8; }
-    .btn-tg:active { transform: translateY(6px); box-shadow: 0 0px 0 #1A7CA8 !important; }
-    .btn-wa { background: var(--wa); box-shadow: 0 6px 0 #128C7E; }
-    .btn-wa:active { transform: translateY(6px); box-shadow: 0 0px 0 #128C7E !important; }
-    .btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); box-shadow: none; }
-    .btn-outline:active { background: var(--accent-soft); transform: scale(0.98); }
-    
+
+    /* === СТИЛИ КНОПОК === */
+    /* Классические (3D с тенью) — по умолчанию */
+    body.btn-style-classic .btn-max { background: var(--accent); box-shadow: 0 6px 0 var(--accent-hover); }
+    body.btn-style-classic .btn-max:active { transform: translateY(6px); box-shadow: 0 0 0 var(--accent-hover) !important; }
+    body.btn-style-classic .btn-tg { background: var(--tg); box-shadow: 0 6px 0 #1A7CA8; }
+    body.btn-style-classic .btn-tg:active { transform: translateY(6px); box-shadow: 0 0 0 #1A7CA8 !important; }
+    body.btn-style-classic .btn-wa { background: var(--wa); box-shadow: 0 6px 0 #128C7E; }
+    body.btn-style-classic .btn-wa:active { transform: translateY(6px); box-shadow: 0 0 0 #128C7E !important; }
+    body.btn-style-classic .btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
+    body.btn-style-classic .btn-outline:active { background: var(--accent-soft); transform: scale(0.98); }
+
+    /* Плоские */
+    body.btn-style-flat .btn-max { background: var(--accent); }
+    body.btn-style-flat .btn-max:active { filter: brightness(0.9); }
+    body.btn-style-flat .btn-tg { background: var(--tg); }
+    body.btn-style-flat .btn-wa { background: var(--wa); }
+    body.btn-style-flat .btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
+    body.btn-style-flat .btn-outline:active { background: var(--accent-soft); }
+    body.btn-style-flat .btn { box-shadow: none !important; }
+    body.btn-style-flat .btn:active { transform: none !important; }
+
+    /* Градиентные (Apple-style) */
+    body.btn-style-gradient .btn-max { background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%); }
+    body.btn-style-gradient .btn-tg { background: linear-gradient(135deg, #229ED9 0%, #1A7CA8 100%); }
+    body.btn-style-gradient .btn-wa { background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); }
+    body.btn-style-gradient .btn-outline { background: linear-gradient(135deg, transparent 0%, var(--accent-soft) 100%); color: var(--accent); border: 2px solid var(--accent); }
+    body.btn-style-gradient .btn { box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    body.btn-style-gradient .btn:active { transform: scale(0.98) !important; box-shadow: 0 2px 6px rgba(0,0,0,0.1) !important; }
+
+    /* Контурные */
+    body.btn-style-outline .btn-max, body.btn-style-outline .btn-tg, body.btn-style-outline .btn-wa, body.btn-style-outline .btn-outline {
+      background: transparent; color: var(--accent); border: 2px solid var(--accent);
+    }
+    body.btn-style-outline .btn-tg { color: var(--tg); border-color: var(--tg); }
+    body.btn-style-outline .btn-wa { color: var(--wa); border-color: var(--wa); }
+    body.btn-style-outline .btn:active { background: var(--accent-soft); transform: scale(0.98) !important; }
+    body.btn-style-outline .btn { box-shadow: none !important; }
+
+    /* Со стрелкой */
+    body.btn-style-arrow .btn-max, body.btn-style-arrow .btn-tg, body.btn-style-arrow .btn-wa { position: relative; padding-right: 48px; }
+    body.btn-style-arrow .btn-max { background: var(--accent); }
+    body.btn-style-arrow .btn-tg { background: var(--tg); }
+    body.btn-style-arrow .btn-wa { background: var(--wa); }
+    body.btn-style-arrow .btn-max::after, body.btn-style-arrow .btn-tg::after, body.btn-style-arrow .btn-wa::after {
+      content: "→"; position: absolute; right: 20px; font-size: 1.2rem;
+    }
+    body.btn-style-arrow .btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); position: relative; padding-right: 48px; }
+    body.btn-style-arrow .btn-outline::after { content: "→"; position: absolute; right: 20px; font-size: 1.2rem; }
+    body.btn-style-arrow .btn:active { transform: scale(0.98) !important; }
+    body.btn-style-arrow .btn { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+
     .hero-img-container { width: 100%; height: 300px; border-radius: var(--radius); background: linear-gradient(135deg, #e8f0ea 0%, #d4e4d9 100%); margin: 25px 0; box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; color: var(--accent); font-weight: 600; overflow: hidden; }
     .hero-img-container img { width: 100%; height: 100%; object-fit: cover; }
-    
+
     .compare-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin: 25px 0; }
     .compare-card { padding: 20px; border-radius: 12px; border: 1px solid var(--border); background: var(--card-bg); }
     .compare-card h4 { margin-bottom: 15px; font-size: 1.1rem; }
@@ -63,16 +104,18 @@
     .compare-list li { position: relative; padding-left: 24px; margin-bottom: 10px; font-size: 0.95rem; }
     .compare-card.bad .compare-list li::before { content: "✕"; position: absolute; left: 0; color: #a86a5a; font-weight: bold; }
     .compare-card.good .compare-list li::before { content: "✓"; position: absolute; left: 0; color: var(--accent); font-weight: bold; }
-    
+
     .grid-2 { display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 20px; }
     .grid-3 { display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 20px; }
     .grid-4 { display: grid; grid-template-columns: 1fr; gap: 15px; margin: 25px 0; }
-    
+
     .card { background: var(--card-bg); border-radius: var(--radius); padding: 24px; border: 1px solid var(--border); box-shadow: var(--shadow); }
     .card-icon { font-size: 2rem; margin-bottom: 15px; display: block; }
     .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; font-size: 0.9rem; color: var(--muted); }
     .footer a { color: var(--accent); text-decoration: none; }
-    
+
+    /* === ВАРИАНТЫ ЛОКАЦИЙ === */
+    /* 1. Аккордеон */
     .loc-item { border-bottom: 1px solid var(--border); padding: 20px 0; }
     .loc-item:last-child { border: none; }
     .loc-head { font-size: 1.2rem; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--fg); transition: color 0.2s; }
@@ -82,6 +125,7 @@
     .loc-body { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0, 1, 0, 1); }
     .loc-item.open .loc-body { max-height: 1500px; transition: max-height 0.5s ease-in-out; padding-top: 20px; }
 
+    /* 2. Карточки */
     .loc-grid { display: grid; grid-template-columns: 1fr; gap: 20px; margin-top: 20px; }
     .loc-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column; }
     .loc-card-img { width: 100%; height: 200px; object-fit: cover; background: var(--bg-alt); }
@@ -89,9 +133,43 @@
     .loc-card-content h3 { margin-bottom: 8px; }
     .loc-card-content p { flex: 1; font-size: 0.95rem; }
 
+    /* 3. Плитка (компактная) */
+    .loc-tiles { display: grid; grid-template-columns: 1fr; gap: 0; margin-top: 20px; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--card-bg); }
+    .loc-tile { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; }
+    .loc-tile:last-child { border-bottom: none; }
+    .loc-tile-header { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .loc-tile-metro { font-size: 1.1rem; font-weight: 700; color: var(--fg); }
+    .loc-tile-price { font-size: 1rem; font-weight: 700; color: var(--accent); }
+    .loc-tile-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.4; margin: 0; }
+    .loc-tile-actions { display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
+    .loc-tile-actions .btn { padding: 10px 16px; font-size: 0.9rem; width: auto; }
+
+    /* 4. Большая карточка-герой */
+    .loc-hero { display: flex; flex-direction: column; border-radius: var(--radius); overflow: hidden; background: var(--card-bg); box-shadow: var(--shadow); border: 1px solid var(--border); margin-top: 20px; }
+    .loc-hero-img { width: 100%; height: 250px; object-fit: cover; background: var(--bg-alt); }
+    .loc-hero-content { padding: 24px; }
+    .loc-hero-content h3 { font-size: 1.5rem; margin-bottom: 8px; }
+    .loc-hero-content p { font-size: 1rem; margin-bottom: 16px; }
+    .loc-hero-meta { display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+    .loc-hero-price { font-size: 1.4rem; font-weight: 700; color: var(--accent); }
+    .loc-hero-actions { display: flex; flex-direction: column; gap: 8px; }
+    .loc-hero-actions .btn { width: 100%; }
+
     .float-btn { position: fixed; bottom: 20px; right: 20px; z-index: 900; width: 60px; height: 60px; border-radius: 50%; background: var(--accent); color: #fff; border: none; font-size: 1.6rem; cursor: pointer; box-shadow: 0 6px 20px rgba(74,143,111,0.4); display: none; align-items: center; justify-content: center; transition: transform 0.2s; }
     .float-btn.active { display: flex; }
     .float-btn:hover { transform: scale(1.05); }
+
+    /* ФОРМА ЗАЯВКИ */
+    .form-card { background: var(--card-bg); border-radius: var(--radius); padding: 24px; border: 1px solid var(--border); box-shadow: var(--shadow); max-width: 500px; margin: 0 auto; }
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; font-size: 0.9rem; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
+    .form-group input[type="text"], .form-group input[type="tel"], .form-group textarea { width: 100%; padding: 12px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 1rem; font-family: inherit; background: var(--bg-main); color: var(--fg); transition: border-color 0.2s; }
+    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--accent); background: var(--card-bg); }
+    .form-checkbox { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 16px; font-size: 0.85rem; color: var(--muted); line-height: 1.4; }
+    .form-checkbox input[type="checkbox"] { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--accent); flex-shrink: 0; }
+    .form-checkbox a { color: var(--accent); text-decoration: underline; }
+    .form-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+    .form-actions .btn { width: 100%; }
 
     .cookie-banner { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid var(--border); padding: 16px 20px; z-index: 1100; box-shadow: 0 -4px 20px rgba(0,0,0,0.08); display: none; }
     .cookie-banner.active { display: block; }
@@ -113,9 +191,17 @@
       .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
       .grid-4 { grid-template-columns: 1fr 1fr; }
       .loc-grid { grid-template-columns: 1fr 1fr; }
+      .loc-tiles { grid-template-columns: 1fr 1fr; }
+      .loc-hero { flex-direction: row; }
+      .loc-hero-img { width: 50%; height: auto; min-height: 350px; }
+      .loc-hero-content { width: 50%; padding: 40px; display: flex; flex-direction: column; justify-content: center; }
+      .loc-hero-actions { flex-direction: row; flex-wrap: wrap; }
+      .loc-hero-actions .btn { width: auto; }
       .compare-grid { grid-template-columns: 1fr 1fr; }
       .btn-group { flex-direction: row; justify-content: center; flex-wrap: wrap; }
       .btn { width: auto; min-width: 200px; }
+      .form-actions { flex-direction: row; }
+      .form-actions .btn { width: auto; flex: 1; }
       .float-btn { bottom: 30px; right: 30px; }
     }
   </style>
@@ -145,57 +231,99 @@
         const pd = localStorage.getItem('previewData');
         if (pd) { try { C = JSON.parse(pd); } catch(e) {} }
       }
+      if (typeof C === "undefined") C = {};
 
-      if (typeof C === "undefined") return;
-      const L = C.links || {}, S = C.settings || {}, LD = C.landing || {}, A = C.analytics || {};
-      
-      // ===== SEO И META =====
+      const DEFAULTS = {
+        landing: {
+          heroOverline: "Тест пройден",
+          heroTitle: "Верните телу природную легкость и свободу движений за 2–3 сеанса",
+          heroText: "Авторская мио-фасциальная практика от Игоря Шамшина. 20+ лет опыта в восстановительной медицине. Бережное освобождение от зажимов, отеков и хронической усталости.",
+          heroImage: "igor.jpg",
+          btnWriteMax: "Написать в MAX",
+          btnWriteTg: "Написать в Telegram",
+          btnWriteWa: "Написать в WhatsApp",
+          btnCall: "Позвонить мне",
+          compareTitle: "Почему 1 сеанс эффективнее, чем целый курс массажа?",
+          compareText: "Классический массаж работает с верхушкой айсберга — мышцами. Поэтому после курса из 10 сеансов дискомфорт часто возвращается. Игорь Шамшин работает с первопричиной.",
+          compareBadTitle: "Обычный массаж",
+          compareBadList: ["Поверхностное разминание мышц", "Болит шея — массируют шею (симптом, а не причина)", "Облегчение на 2–3 дня", "Нужен курс 10 сеансов (до 48 000 ₽ + время)"],
+          compareGoodTitle: "У Игоря Шамшина",
+          compareGoodList: ["Глубокая работа с фасциями и связками", "Ищет первопричину (шея может болеть из-за перекоса таза)", "Накопительный эффект на месяцы", "Всего 2–3 сеанса по 8 000 ₽ (экономия до 50%)"],
+          expertTitle: "Мой путь и экспертность",
+          expertText: "Более 20 лет в медицине: от реабилитации в нейрохирургии до работы со спортсменами и клиниками пластической хирургии. Теперь — авторская мио-фасциальная практика.",
+          expertCards: [
+            { icon: "🏥", title: "Нейрохирургия и реабилитация", text: "Начинал с реабилитации в нейрохирургическом отделении. Знаю изнутри, как восстанавливается тело после травм, операций и длительного напряжения." },
+            { icon: "🏆", title: "Спорт высоких достижений", text: "Работал с пауэрлифтерами и баскетболистами. Понимаю механику мощных нагрузок, восстановления и перегрузок." },
+            { icon: "✨", title: "Пластическая хирургия", text: "Большой опыт реабилитации после пластических операций: работа с рубцами, лимфотоком и восстановлением мягких тканей." },
+            { icon: "📜", title: "Остеокоррекция", text: "Медицинское образование, 20+ лет практики. Обучался остеопластике у Виталия Кима. Знаком с биодинамикой и методом Олега Агапе." }
+          ],
+          locationsTitle: "География приема",
+          locationsCards: [
+            { city: "Москва", title: "м. Китай-город", text: "Идеально для перезагрузки в разгар рабочего дня. Уютный кабинет в тихом центре.", price: "8 000 ₽", img: "loc-center.jpg", mapLink: "https://yandex.ru/maps/?text=Москва, метро Китай-город" },
+            { city: "Москва", title: "м. Сокольники", text: "Удобная локация для спокойного визита в выходные. Зеленая зона, парковка рядом.", price: "8 000 ₽", img: "loc-sokolniki.jpg", mapLink: "https://yandex.ru/maps/?text=Москва, метро Сокольники" },
+            { city: "Волгоград", title: "Гастроли (Центр)", text: "Принимаю в уютном кабинете в центре города. Даты приезда смотрите в новостях.", price: "6 000 ₽", img: "loc-volgograd.jpg", mapLink: "https://yandex.ru/maps/?text=Волгоград, центр" }
+          ],
+          pricingTitle: "Стоимость и формат",
+          pricingName: "Сеанс мио-фасциальной остеокоррекции",
+          pricingPrice: "от 6 000 ₽ / час",
+          pricingDesc: "Стоимость фиксирована за час работы и может отличаться в зависимости от города.",
+          giftTitle: "Подарок для тех, кто прошел тест",
+          giftText: "Мы выявили зоны вашего напряжения. Чтобы вы могли начать помогать себе уже сегодня, я дарю вам персональный гайд по экспресс-разгрузке именно для вашей зоны.",
+          giftBtnMax: "Получить гайд в MAX",
+          giftBtnTg: "Получить гайд в Telegram",
+          giftBtnWa: "Получить гайд в WhatsApp",
+          newsTitle: "Что происходит в практике",
+          newsCards: [
+            { date: "15 мая 2026", title: "Гастроли в Волгоград", text: "Буду вести прием в Волгограде с 20 по 25 мая. Запись уже открыта." },
+            { date: "1 мая 2026", title: "Новая локация на Патриарших", text: "Скоро открою двери новый уютный кабинет в центре." }
+          ],
+          casesTitle: "Реальные истории клиентов",
+          casesCards: [
+            { title: "Екатерина, 37 лет", complaints: "«Компьютерная шея», сутулость, отеки.", result: "После 2 сеансов ушла привычка горбиться, визуально удлинилась шея." },
+            { title: "Мария, 32 года", complaints: "Тяжесть в ногах, деликатная проблема.", result: "После 3 сеансов ушла тяжесть. Деликатная проблема ушла полностью." },
+            { title: "Василий", complaints: "Сильное напряжение в спине, шее, плохой сон.", result: "После курса появилась легкость в теле, нормализовался сон." }
+          ],
+          footerText: "Мио-фасциальная практика — это оздоровительный метод. Не заменяет медицинскую диагностику. При острых состояниях рекомендуется консультация врача.",
+          contactsTitle: "Связаться со мной",
+          cookieBanner: { text: "Мы используем cookie для аналитики.", accept: "Принять", decline: "Отклонить" },
+          floatingButton: { title: "Связаться со мной", subtitle: "Выберите удобный способ:" }
+        }
+      };
+
+      const L = C.links || {};
+      const S = C.settings || {};
+      const LD = C.landing || {};
+      const A = C.analytics || {};
+      const testEnabled = S.testEnabled !== false;
+
+      const getLD = (key) => {
+        const v = LD[key];
+        if (v === undefined || v === null || v === '' || (Array.isArray(v) && v.length === 0)) return DEFAULTS.landing[key];
+        return v;
+      };
+
+      // SEO
       if (C.seo) {
-        if (C.seo.title) {
-          document.title = C.seo.title;
-          const ogT = document.querySelector('meta[property="og:title"]');
-          if (ogT) ogT.setAttribute('content', C.seo.title);
-        }
-        if (C.seo.description) {
-          const desc = document.querySelector('meta[name="description"]');
-          if (desc) desc.setAttribute('content', C.seo.description);
-          const ogD = document.querySelector('meta[property="og:description"]');
-          if (ogD) ogD.setAttribute('content', C.seo.description);
-        }
-        if (C.seo.ogImage) {
-          const ogI = document.querySelector('meta[property="og:image"]');
-          if (ogI) ogI.setAttribute('content', C.seo.ogImage);
-        }
-        
-        // Canonical
-        if (C.seo.canonical) {
-          let link = document.querySelector('link[rel="canonical"]');
-          if (!link) { link = document.createElement('link'); link.rel = 'canonical'; document.head.appendChild(link); }
-          link.href = C.seo.canonical;
-        }
-
-        // JSON-LD
+        if (C.seo.title) document.title = C.seo.title;
+        if (C.seo.description) { const d = document.querySelector('meta[name="description"]'); if (d) d.setAttribute('content', C.seo.description); }
+        if (C.seo.ogImage) { const og = document.querySelector('meta[property="og:image"]'); if (og) og.setAttribute('content', C.seo.ogImage); }
+        if (C.seo.canonical) { let link = document.querySelector('link[rel="canonical"]'); if (!link) { link = document.createElement('link'); link.rel = 'canonical'; document.head.appendChild(link); } link.href = C.seo.canonical; }
         if (C.seo.enableJsonLd && L.phoneText) {
-          const ld = {
-            "@context": "https://schema.org",
-            "@type": "MedicalBusiness",
-            "name": C.seo.title || "Самодиагностика",
-            "telephone": L.phoneText,
-            "url": L.landing,
-            "image": C.seo.ogImage || L.landing + "igor.jpg"
-          };
-          const script = document.createElement('script');
-          script.type = 'application/ld+json';
-          script.textContent = JSON.stringify(ld);
-          document.head.appendChild(script);
+          const ld = { "@context": "https://schema.org", "@type": "MedicalBusiness", "name": C.seo.title || "Самодиагностика", "telephone": L.phoneText, "url": L.landing, "image": C.seo.ogImage || (L.landing || '') + "igor.jpg" };
+          const script = document.createElement('script'); script.type = 'application/ld+json'; script.textContent = JSON.stringify(ld); document.head.appendChild(script);
         }
       }
 
-      // ===== ТЕМА =====
-      document.documentElement.style.setProperty('--accent', C.theme.primary);
-      document.documentElement.style.setProperty('--tg', C.theme.tg);
-      document.documentElement.style.setProperty('--wa', C.theme.wa);
-      if (C.theme.preset) document.body.classList.add('preset-' + C.theme.preset);
+      // Тема + стиль кнопок
+      if (C.theme) {
+        document.documentElement.style.setProperty('--accent', C.theme.primary || '#4a8f6f');
+        document.documentElement.style.setProperty('--tg', C.theme.tg || '#229ED9');
+        document.documentElement.style.setProperty('--wa', C.theme.wa || '#25D366');
+        if (C.theme.preset) document.body.classList.add('preset-' + C.theme.preset);
+        document.body.classList.add('btn-style-' + (C.theme.btnStyle || 'classic'));
+      } else {
+        document.body.classList.add('btn-style-classic');
+      }
 
       const $ = id => document.getElementById(id);
       const getImg = (src) => {
@@ -211,118 +339,203 @@
       const renderHero = () => `
         <section class="section">
           <div class="container">
-            <span class="overline">${LD.heroOverline || 'Тест пройден'}</span>
-            <h1>${LD.heroTitle || ''}</h1>
-            <p>${LD.heroText || ''}</p>
-            <div class="hero-img-container"><img src="${getImg(LD.heroImage || 'igor.jpg')}" onerror="this.style.display='none';this.parentElement.innerHTML='<span>Фото</span>';"></div>
+            ${getLD('heroOverline') ? `<span class="overline">${getLD('heroOverline')}</span>` : ''}
+            <h1>${getLD('heroTitle') || ''}</h1>
+            <p>${getLD('heroText') || ''}</p>
+            <div class="hero-img-container"><img src="${getImg(getLD('heroImage') || 'igor.jpg')}" onerror="this.style.display='none';this.parentElement.innerHTML='<span>Фото</span>';"></div>
             <div class="btn-group">
-              ${createBtn(LD.btnWriteMax || 'Написать в MAX', L.max, 'btn-max')}
-              ${createBtn(LD.btnWriteTg || 'Написать в Telegram', L.tg, 'btn-tg')}
-              ${createBtn(LD.btnWriteWa || 'Написать в WhatsApp', L.wa, 'btn-wa')}
-              ${createBtn(LD.btnCall || 'Позвонить', L.phone, 'btn-outline')}
-              ${S.onlineBooking?.enabled && S.onlineBooking.link ? `<a href="${S.onlineBooking.link}" target="_blank" class="btn btn-max" style="background:transparent; color:var(--accent); border:2px solid var(--accent); box-shadow:none;">Записаться онлайн</a>` : ''}
+              ${testEnabled && L.test ? `<a href="${L.test}" class="btn btn-outline">Пройти тест</a>` : ''}
+              ${createBtn(getLD('btnWriteMax') || 'Написать в MAX', L.max, 'btn-max')}
+              ${createBtn(getLD('btnWriteTg') || 'Написать в Telegram', L.tg, 'btn-tg')}
+              ${createBtn(getLD('btnWriteWa') || 'Написать в WhatsApp', L.wa, 'btn-wa')}
+              ${createBtn(getLD('btnCall') || 'Позвонить', L.phone, 'btn-outline')}
+              ${S.onlineBooking?.enabled && S.onlineBooking.link ? `<a href="${S.onlineBooking.link}" target="_blank" class="btn btn-outline">Записаться онлайн</a>` : ''}
             </div>
           </div>
         </section>`;
 
       const renderCompare = () => {
-        if (!LD.compareBadList?.length) return '';
+        const badList = getLD('compareBadList') || [];
+        const goodList = getLD('compareGoodList') || [];
+        if (!badList.length && !goodList.length) return '';
         return `
         <section class="section section-alt">
           <div class="container">
-            <h2>${LD.compareTitle || ''}</h2>
-            <p>${LD.compareText || ''}</p>
+            <h2>${getLD('compareTitle') || ''}</h2>
+            <p>${getLD('compareText') || ''}</p>
             <div class="compare-grid">
-              <div class="compare-card bad"><h4>${LD.compareBadTitle || ''}</h4><ul class="compare-list">${LD.compareBadList.map(t => `<li>${t}</li>`).join('')}</ul></div>
-              <div class="compare-card good"><h4>${LD.compareGoodTitle || ''}</h4><ul class="compare-list">${LD.compareGoodList.map(t => `<li>${t}</li>`).join('')}</ul></div>
+              <div class="compare-card bad"><h4>${getLD('compareBadTitle') || ''}</h4><ul class="compare-list">${badList.map(t => `<li>${t}</li>`).join('')}</ul></div>
+              <div class="compare-card good"><h4>${getLD('compareGoodTitle') || ''}</h4><ul class="compare-list">${goodList.map(t => `<li>${t}</li>`).join('')}</ul></div>
             </div>
           </div>
         </section>`;
       };
 
       const renderExpert = () => {
-        if (!LD.expertCards?.length) return '';
+        const cards = getLD('expertCards') || [];
+        if (!cards.length) return '';
         return `
         <section class="section">
           <div class="container">
-            <h2>${LD.expertTitle || ''}</h2>
-            <p>${LD.expertText || ''}</p>
+            <h2>${getLD('expertTitle') || ''}</h2>
+            <p>${getLD('expertText') || ''}</p>
             <div class="grid-3">
-              ${LD.expertCards.map(c => `<div class="card"><span class="card-icon">${c.icon || '✨'}</span><h3>${c.title}</h3><p style="font-size:0.95rem;">${c.text}</p></div>`).join('')}
+              ${cards.map(c => `<div class="card"><span class="card-icon">${c.icon || '✨'}</span><h3>${c.title}</h3><p style="font-size:0.95rem;">${c.text}</p></div>`).join('')}
             </div>
           </div>
         </section>`;
       };
 
+      // === 4 ВАРИАНТА ЛОКАЦИЙ ===
       const renderLocations = (variant) => {
-        if (!LD.locationsCards?.length) return '';
-        let inner = '';
-        if (variant === 'cards') {
-          inner = `<div class="loc-grid">${LD.locationsCards.map(loc => `
-            <div class="loc-card">
-              ${loc.img ? `<img src="${getImg(loc.img)}" class="loc-card-img" loading="lazy">` : ''}
-              <div class="loc-card-content">
-                <h3>${loc.city} — ${loc.title}</h3>
-                <p>${loc.text}</p>
-                <p style="color:var(--accent); font-weight:700; font-size:1.2rem;">${loc.price}</p>
-                <div class="btn-group" style="justify-content: flex-start; margin-top: 10px;">
-                  <button class="btn btn-max" style="width:auto; padding:10px 20px; box-shadow:none;" onclick="document.getElementById('sec-contacts').scrollIntoView({behavior:'smooth'})">Записаться</button>
-                  ${loc.mapLink ? `<a href="${loc.mapLink}" target="_blank" class="btn btn-outline" style="width:auto; padding:10px 20px;">Маршрут</a>` : ''}
-                </div>
+        const cards = getLD('locationsCards') || [];
+        if (!cards.length) return '';
+        const v = variant || LD.locationsVariant || 'accordion';
+
+        // 1. Аккордеон
+        if (v === 'accordion') {
+          return `
+          <section class="section section-alt" id="sec-locations">
+            <div class="container">
+              <h2>${getLD('locationsTitle') || ''}</h2>
+              <div class="card">${cards.map(loc => `
+                <div class="loc-item">
+                  <div class="loc-head">${loc.city} — ${loc.title}</div>
+                  <div class="loc-body">
+                    ${loc.img ? `<img src="${getImg(loc.img)}" class="loc-img" style="width:100%; border-radius:12px; margin-bottom:16px;" loading="lazy">` : ''}
+                    <p>${loc.text}</p>
+                    <p style="color:var(--accent); font-weight:700; font-size:1.2rem;">${loc.price}</p>
+                    <div class="btn-group" style="justify-content: flex-start; margin-top: 15px;">
+                      <button class="btn btn-max" style="width:auto; padding:12px 24px;" onclick="document.getElementById('sec-form')?.scrollIntoView({behavior:'smooth'}) || document.getElementById('sec-contacts')?.scrollIntoView({behavior:'smooth'})">Записаться</button>
+                      ${loc.mapLink ? `<a href="${loc.mapLink}" target="_blank" class="btn btn-outline" style="width:auto; padding:12px 24px;">Маршрут</a>` : ''}
+                    </div>
+                  </div>
+                </div>`).join('')}
               </div>
-            </div>`).join('')}</div>`;
-        } else {
-          inner = `<div class="card">${LD.locationsCards.map(loc => `
-            <div class="loc-item">
-              <div class="loc-head">${loc.city} — ${loc.title}</div>
-              <div class="loc-body">
-                ${loc.img ? `<img src="${getImg(loc.img)}" class="loc-img" style="width:100%; border-radius:12px; margin-bottom:16px;" loading="lazy">` : ''}
-                <p>${loc.text}</p>
-                <p style="color:var(--accent); font-weight:700; font-size:1.2rem;">${loc.price}</p>
-                <div class="btn-group" style="justify-content: flex-start; margin-top: 15px;">
-                  <button class="btn btn-max" style="width:auto; padding:12px 24px; box-shadow:none;" onclick="document.getElementById('sec-contacts').scrollIntoView({behavior:'smooth'})">Записаться</button>
-                  ${loc.mapLink ? `<a href="${loc.mapLink}" target="_blank" class="btn btn-outline" style="width:auto; padding:12px 24px;">Маршрут</a>` : ''}
-                </div>
-              </div>
-            </div>`).join('')}</div>`;
+            </div>
+          </section>`;
         }
-        return `
-        <section class="section section-alt" id="sec-locations">
-          <div class="container">
-            <h2>${LD.locationsTitle || ''}</h2>
-            ${inner}
-          </div>
-        </section>`;
+
+        // 2. Карточки
+        if (v === 'cards') {
+          return `
+          <section class="section section-alt" id="sec-locations">
+            <div class="container">
+              <h2>${getLD('locationsTitle') || ''}</h2>
+              <div class="loc-grid">${cards.map(loc => `
+                <div class="loc-card">
+                  ${loc.img ? `<img src="${getImg(loc.img)}" class="loc-card-img" loading="lazy">` : ''}
+                  <div class="loc-card-content">
+                    <h3>${loc.city} — ${loc.title}</h3>
+                    <p>${loc.text}</p>
+                    <p style="color:var(--accent); font-weight:700; font-size:1.2rem;">${loc.price}</p>
+                    <div class="btn-group" style="justify-content: flex-start; margin-top: 10px;">
+                      <button class="btn btn-max" style="width:auto; padding:10px 20px;" onclick="document.getElementById('sec-form')?.scrollIntoView({behavior:'smooth'}) || document.getElementById('sec-contacts')?.scrollIntoView({behavior:'smooth'})">Записаться</button>
+                      ${loc.mapLink ? `<a href="${loc.mapLink}" target="_blank" class="btn btn-outline" style="width:auto; padding:10px 20px;">Маршрут</a>` : ''}
+                    </div>
+                  </div>
+                </div>`).join('')}
+              </div>
+            </div>
+          </section>`;
+        }
+
+        // 3. Плитка (компактная)
+        if (v === 'tiles') {
+          return `
+          <section class="section section-alt" id="sec-locations">
+            <div class="container">
+              <h2>${getLD('locationsTitle') || ''}</h2>
+              <div class="loc-tiles">${cards.map(loc => `
+                <div class="loc-tile">
+                  <div class="loc-tile-header">
+                    <span class="loc-tile-metro">${loc.title || loc.city}</span>
+                    <span class="loc-tile-price">${loc.price}</span>
+                  </div>
+                  <p class="loc-tile-desc">${loc.text}</p>
+                  <div class="loc-tile-actions">
+                    <button class="btn btn-max" onclick="document.getElementById('sec-form')?.scrollIntoView({behavior:'smooth'}) || document.getElementById('sec-contacts')?.scrollIntoView({behavior:'smooth'})">Записаться</button>
+                    ${loc.mapLink ? `<a href="${loc.mapLink}" target="_blank" class="btn btn-outline">Маршрут</a>` : ''}
+                  </div>
+                </div>`).join('')}
+              </div>
+            </div>
+          </section>`;
+        }
+
+        // 4. Большая карточка-герой (первая локация — крупно, остальные — списком ниже)
+        if (v === 'hero') {
+          const first = cards[0];
+          const rest = cards.slice(1);
+          return `
+          <section class="section section-alt" id="sec-locations">
+            <div class="container">
+              <h2>${getLD('locationsTitle') || ''}</h2>
+              <div class="loc-hero">
+                ${first.img ? `<img src="${getImg(first.img)}" class="loc-hero-img" loading="lazy">` : ''}
+                <div class="loc-hero-content">
+                  <h3>${first.city} — ${first.title}</h3>
+                  <p>${first.text}</p>
+                  <div class="loc-hero-meta">
+                    <span class="loc-hero-price">${first.price}</span>
+                  </div>
+                  <div class="loc-hero-actions">
+                    <button class="btn btn-max" onclick="document.getElementById('sec-form')?.scrollIntoView({behavior:'smooth'}) || document.getElementById('sec-contacts')?.scrollIntoView({behavior:'smooth'})">Записаться</button>
+                    ${first.mapLink ? `<a href="${first.mapLink}" target="_blank" class="btn btn-outline">Маршрут</a>` : ''}
+                  </div>
+                </div>
+              </div>
+              ${rest.length ? `<div class="loc-tiles" style="margin-top:20px;">${rest.map(loc => `
+                <div class="loc-tile">
+                  <div class="loc-tile-header">
+                    <span class="loc-tile-metro">${loc.title || loc.city}</span>
+                    <span class="loc-tile-price">${loc.price}</span>
+                  </div>
+                  <p class="loc-tile-desc">${loc.text}</p>
+                  <div class="loc-tile-actions">
+                    <button class="btn btn-max" onclick="document.getElementById('sec-form')?.scrollIntoView({behavior:'smooth'}) || document.getElementById('sec-contacts')?.scrollIntoView({behavior:'smooth'})">Записаться</button>
+                    ${loc.mapLink ? `<a href="${loc.mapLink}" target="_blank" class="btn btn-outline">Маршрут</a>` : ''}
+                  </div>
+                </div>`).join('')}</div>` : ''}
+            </div>
+          </section>`;
+        }
+
+        // Fallback
+        return renderLocations('accordion');
       };
 
       const renderPricing = () => {
-        if (!LD.pricingName) return '';
+        const name = getLD('pricingName');
+        if (!name) return '';
         return `
         <section class="section">
           <div class="container">
-            <h2>${LD.pricingTitle || ''}</h2>
+            <h2>${getLD('pricingTitle') || ''}</h2>
             <div class="card" style="text-align: center;">
-              <h3>${LD.pricingName}</h3>
-              <p style="font-size: 2rem; font-weight: 700; color: var(--accent); margin: 10px 0;">${LD.pricingPrice}</p>
-              <p>${LD.pricingDesc}</p>
+              <h3>${name}</h3>
+              <p style="font-size: 2rem; font-weight: 700; color: var(--accent); margin: 10px 0;">${getLD('pricingPrice') || ''}</p>
+              <p>${getLD('pricingDesc') || ''}</p>
             </div>
           </div>
         </section>`;
       };
 
       const renderGift = () => {
-        if (!LD.giftTitle) return '';
+        if (!testEnabled) return '';
+        const title = getLD('giftTitle');
+        if (!title) return '';
         return `
         <section class="section section-alt">
           <div class="container">
-            <h2 style="text-align: center;">${LD.giftTitle}</h2>
+            <h2 style="text-align: center;">${title}</h2>
             <div class="card" style="border: 2px dashed var(--accent); background: var(--accent-soft); text-align: center;">
               <span class="card-icon">🎁</span>
-              <p style="font-size: 1.1rem; font-weight: 500;">${LD.giftText}</p>
+              <p style="font-size: 1.1rem; font-weight: 500;">${getLD('giftText') || ''}</p>
               <div class="btn-group" style="justify-content: center;">
-                ${createBtn(LD.giftBtnMax || 'Получить в MAX', L.max, 'btn-max')}
-                ${createBtn(LD.giftBtnTg || 'В Telegram', L.tg, 'btn-tg')}
-                ${createBtn(LD.giftBtnWa || 'В WhatsApp', L.wa, 'btn-wa')}
+                ${createBtn(getLD('giftBtnMax') || 'Получить в MAX', L.max, 'btn-max')}
+                ${createBtn(getLD('giftBtnTg') || 'В Telegram', L.tg, 'btn-tg')}
+                ${createBtn(getLD('giftBtnWa') || 'В WhatsApp', L.wa, 'btn-wa')}
               </div>
             </div>
           </div>
@@ -330,63 +543,92 @@
       };
 
       const renderNews = () => {
-        if (!LD.newsCards?.length) return '';
+        const cards = getLD('newsCards') || [];
+        if (!cards.length) return '';
         return `
         <section class="section" id="news">
           <div class="container">
-            <h2>${LD.newsTitle || ''}</h2>
+            <h2>${getLD('newsTitle') || ''}</h2>
             <div class="grid-3">
-              ${LD.newsCards.map(n => `<div class="card"><small style="color:var(--muted); font-weight:600;">${n.date}</small><h3 style="margin:8px 0;">${n.title}</h3><p style="margin:0; font-size:0.95rem;">${n.text}</p></div>`).join('')}
+              ${cards.map(n => `<div class="card"><small style="color:var(--muted); font-weight:600;">${n.date}</small><h3 style="margin:8px 0;">${n.title}</h3><p style="margin:0; font-size:0.95rem;">${n.text}</p></div>`).join('')}
             </div>
           </div>
         </section>`;
       };
 
       const renderCases = () => {
-        if (!LD.casesCards?.length) return '';
+        const cards = getLD('casesCards') || [];
+        if (!cards.length) return '';
         return `
         <section class="section section-alt" id="sec-cases">
           <div class="container">
-            <h2>${LD.casesTitle || ''}</h2>
+            <h2>${getLD('casesTitle') || ''}</h2>
             <div class="grid-3">
-              ${LD.casesCards.map(c => `<div class="card"><h3>${c.title}</h3><p style="font-size:0.95rem;"><b>Жалобы:</b> ${c.complaints}</p><p style="font-size:0.95rem; margin:0;"><b>Результат:</b> ${c.result}</p></div>`).join('')}
+              ${cards.map(c => `<div class="card"><h3>${c.title}</h3><p style="font-size:0.95rem;"><b>Жалобы:</b> ${c.complaints}</p><p style="font-size:0.95rem; margin:0;"><b>Результат:</b> ${c.result}</p></div>`).join('')}
+            </div>
+          </div>
+        </section>`;
+      };
+
+      const renderForm = () => {
+        const lf = S.leadForm || {};
+        if (!lf.enabled) return '';
+        const privacyUrl = L.privacy || '#';
+        return `
+        <section class="section" id="sec-form">
+          <div class="container">
+            <h2 style="text-align:center;">${lf.title || 'Связаться со мной'}</h2>
+            ${lf.subtitle ? `<p style="text-align:center; color:var(--muted); margin-bottom:24px;">${lf.subtitle}</p>` : ''}
+            <div class="form-card">
+              <div class="form-group"><label>Ваше имя</label><input type="text" id="lead-name" placeholder="Как к вам обращаться?" autocomplete="name"></div>
+              <div class="form-group"><label>Телефон</label><input type="tel" id="lead-phone" placeholder="+7 (___) ___-__-__" autocomplete="tel"></div>
+              <div class="form-checkbox">
+                <input type="checkbox" id="lead-consent">
+                <label for="lead-consent" style="margin:0; font-weight:normal; cursor:pointer;">
+                  ${lf.privacyText || 'Я согласен на обработку персональных данных'} <a href="${privacyUrl}" target="_blank">(политика)</a>
+                </label>
+              </div>
+              <div class="form-actions">
+                <button class="btn btn-max" onclick="submitLead()">${lf.btnText || 'Связаться'}</button>
+              </div>
             </div>
           </div>
         </section>`;
       };
 
       const renderContacts = () => `
-        <section class="section" id="sec-contacts">
+        <section class="section section-alt" id="sec-contacts">
           <div class="container" style="text-align: center;">
-            <h2 style="margin-bottom: 30px;">${LD.contactsTitle || 'Связаться со мной'}</h2>
+            <h2 style="margin-bottom: 30px;">${getLD('contactsTitle') || 'Связаться со мной'}</h2>
             <div class="btn-group">
-              ${createBtn(LD.btnWriteMax || 'Написать в MAX', L.max, 'btn-max')}
-              ${createBtn(LD.btnWriteTg || 'Написать в Telegram', L.tg, 'btn-tg')}
-              ${createBtn(LD.btnWriteWa || 'Написать в WhatsApp', L.wa, 'btn-wa')}
-              ${createBtn(LD.btnCall || 'Позвонить', L.phone, 'btn-outline')}
-              ${S.onlineBooking?.enabled && S.onlineBooking.link ? `<a href="${S.onlineBooking.link}" target="_blank" class="btn btn-max" style="background:transparent; color:var(--accent); border:2px solid var(--accent); box-shadow:none;">Записаться онлайн</a>` : ''}
+              ${createBtn(getLD('btnWriteMax') || 'Написать в MAX', L.max, 'btn-max')}
+              ${createBtn(getLD('btnWriteTg') || 'Написать в Telegram', L.tg, 'btn-tg')}
+              ${createBtn(getLD('btnWriteWa') || 'Написать в WhatsApp', L.wa, 'btn-wa')}
+              ${createBtn(getLD('btnCall') || 'Позвонить', L.phone, 'btn-outline')}
             </div>
             <div class="footer">
               <p>${L.phoneText ? `<a href="${L.phone}">${L.phoneText}</a>` : ''}</p>
-              <p>${LD.footerText || ''}</p>
+              <p>${getLD('footerText') || ''}</p>
             </div>
           </div>
         </section>`;
 
       const container = $('sections-container');
       let html = '';
-      
-      const sections = C.sections || [
-        { type: 'hero', visible: true }, { type: 'compare', visible: true }, { type: 'expert', visible: true }, { type: 'locations', visible: true, variant: 'accordion' },
-        { type: 'pricing', visible: true }, { type: 'gift', visible: true }, { type: 'news', visible: true }, { type: 'cases', visible: true }, { type: 'contacts', visible: true }
-      ];
+
+      const sections = (C.sections || [
+        { type: 'hero', visible: true }, { type: 'compare', visible: true }, { type: 'expert', visible: true },
+        { type: 'locations', visible: true }, { type: 'pricing', visible: true },
+        { type: 'gift', visible: true }, { type: 'news', visible: true }, { type: 'cases', visible: true }, { type: 'contacts', visible: true }
+      ]);
 
       sections.forEach(sec => {
         if (!sec.visible) return;
+        if (sec.type === 'gift' && !testEnabled) return;
         if (sec.type === 'hero') html += renderHero();
         else if (sec.type === 'compare') html += renderCompare();
         else if (sec.type === 'expert') html += renderExpert();
-        else if (sec.type === 'locations') html += renderLocations(sec.variant || 'accordion');
+        else if (sec.type === 'locations') html += renderLocations(sec.variant);
         else if (sec.type === 'pricing') html += renderPricing();
         else if (sec.type === 'gift') html += renderGift();
         else if (sec.type === 'news') html += renderNews();
@@ -394,19 +636,49 @@
         else if (sec.type === 'contacts') html += renderContacts();
       });
 
+      const formHtml = renderForm();
+      if (formHtml) {
+        const contactsIdx = html.indexOf('id="sec-contacts"');
+        if (contactsIdx !== -1) html = html.slice(0, contactsIdx - 20) + formHtml + '<section class="section section-alt">' + html.slice(contactsIdx - 20);
+        else html += formHtml;
+      }
+
       container.innerHTML = html;
 
       document.querySelectorAll('.loc-head').forEach(head => {
         head.addEventListener('click', () => head.parentElement.classList.toggle('open'));
       });
 
-      if (S.showFloatingButton) {
+      if (S.showFloatingButton !== false) {
         const fb = $('float-btn');
         fb.classList.add('active');
-        fb.addEventListener('click', () => $('sec-contacts').scrollIntoView({behavior: 'smooth'}));
+        fb.addEventListener('click', () => {
+          const target = document.getElementById('sec-form') || document.getElementById('sec-contacts');
+          if (target) target.scrollIntoView({behavior: 'smooth'});
+        });
       }
 
-      // ===== COOKIE & АНАЛИТИКА =====
+      window.submitLead = function() {
+        const name = document.getElementById('lead-name')?.value.trim();
+        const phone = document.getElementById('lead-phone')?.value.trim();
+        const consent = document.getElementById('lead-consent')?.checked;
+        if (!name) { alert('Пожалуйста, укажите ваше имя'); return; }
+        if (!phone) { alert('Пожалуйста, укажите телефон'); return; }
+        if (!consent) { alert('Пожалуйста, согласитесь на обработку данных'); return; }
+        const lf = S.leadForm || {};
+        const text = encodeURIComponent(`Здравствуйте! Меня зовут ${name}. Мой телефон: ${phone}. Я оставил(а) заявку на сайте.`);
+        let target = null;
+        if (lf.method === 'max' && L.max) target = L.max;
+        else if (lf.method === 'tg' && L.tg) target = L.tg;
+        else if (lf.method === 'wa' && L.wa) target = L.wa;
+        else if (lf.method === 'phone' && L.phone) target = L.phone;
+        else { if (L.max) target = L.max; else if (L.tg) target = L.tg; else if (L.wa) target = L.wa; else if (L.phone) target = L.phone; }
+        if (!target) { alert('К сожалению, не настроены способы связи.'); return; }
+        if (target.indexOf('wa.me') !== -1 && target.indexOf('?') === -1) target += '?text=' + text;
+        else if (target.indexOf('wa.me') !== -1) target += '&text=' + text;
+        window.open(target, '_blank', 'noopener');
+      };
+
       function loadAnalytics() {
         if (!S.dataCollectionEnabled) return;
         if (A.yandexMetrika && !document.getElementById("ym-script")) {
@@ -426,12 +698,13 @@
         }
       }
 
-      if (S.dataCollectionEnabled && !localStorage.getItem('cookieChoice') && LD.cookieBanner) {
+      if (S.dataCollectionEnabled && !localStorage.getItem('cookieChoice')) {
+        const cb = LD.cookieBanner || DEFAULTS.landing.cookieBanner;
         const banner = $('cookie-banner');
         banner.classList.add('active');
-        $('cookie-text').textContent = LD.cookieBanner.text;
-        $('btn-accept').textContent = LD.cookieBanner.accept || 'Принять';
-        $('btn-decline').textContent = LD.cookieBanner.decline || 'Отклонить';
+        $('cookie-text').textContent = cb.text;
+        $('btn-accept').textContent = cb.accept || 'Принять';
+        $('btn-decline').textContent = cb.decline || 'Отклонить';
         $('btn-accept').onclick = () => { localStorage.setItem('cookieChoice', 'accept'); banner.classList.remove('active'); loadAnalytics(); };
         $('btn-decline').onclick = () => { localStorage.setItem('cookieChoice', 'decline'); banner.classList.remove('active'); };
       } else if (localStorage.getItem('cookieChoice') === 'accept') {
