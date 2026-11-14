@@ -28,7 +28,7 @@ window.CONTENT = {
   "links": {
     "max": "https://max.ru/se14074027_bot",
     "tg": "",
-    "wa": "https://api.whatsapp.com/send?phone=79951149954",
+    "wa": "https://wa.me/79951149954.",
     "phone": "tel:+79951149954",
     "phoneText": "+7 (995) 114-99-54",
     "test": "https://shamshinigor78-pixel.github.io/max-selfcheck/",
