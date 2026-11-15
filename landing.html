@@ -159,6 +159,18 @@
     .form-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
     .form-actions .btn { width: 100%; }
 
+    .cookie-banner { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid var(--border); padding: 16px 20px; z-index: 1100; box-shadow: 0 -4px 20px rgba(0,0,0,0.08); display: none; }
+    .cookie-banner.active { display: block; }
+    .cookie-inner { max-width: 900px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+    .cookie-text { flex: 1 1 300px; font-size: 0.9rem; color: var(--fg); line-height: 1.5; }
+    .cookie-text a { color: var(--accent); }
+    .cookie-actions { display: flex; gap: 8px; flex-shrink: 0; }
+    .cookie-actions button { padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; font-size: 0.9rem; }
+    .cookie-accept { background: var(--accent); color: #fff; }
+    .cookie-decline { background: transparent; color: var(--muted); border: 1.5px solid var(--border) !important; }
+
+    .hidden { display: none !important; }
+
     @media (min-width: 768px) {
       .container { max-width: 900px; }
       h1 { font-size: 2.8rem; }
@@ -272,6 +284,7 @@
       const A = C.analytics || {};
       const testEnabled = S.testEnabled !== false;
 
+      // Применяем тему
       if (C.theme && C.theme.darkMode) {
         if (C.theme.darkMode === 'on') document.body.classList.add('theme-dark');
         else if (C.theme.darkMode === 'auto') document.body.classList.add('theme-auto');
@@ -292,17 +305,6 @@
         return v;
       };
 
-      if (C.seo) {
-        if (C.seo.title) document.title = C.seo.title;
-        if (C.seo.description) { const d = document.querySelector('meta[name="description"]'); if (d) d.setAttribute('content', C.seo.description); }
-        if (C.seo.ogImage) { const og = document.querySelector('meta[property="og:image"]'); if (og) og.setAttribute('content', C.seo.ogImage); }
-        if (C.seo.canonical) { let link = document.querySelector('link[rel="canonical"]'); if (!link) { link = document.createElement('link'); link.rel = 'canonical'; document.head.appendChild(link); } link.href = C.seo.canonical; }
-        if (C.seo.enableJsonLd && L.phoneText) {
-          const ld = { "@context": "https://schema.org", "@type": "MedicalBusiness", "name": C.seo.title || "Самодиагностика", "telephone": L.phoneText, "url": L.landing, "image": C.seo.ogImage || (L.landing || '') + "igor.jpg" };
-          const script = document.createElement('script'); script.type = 'application/ld+json'; script.textContent = JSON.stringify(ld); document.head.appendChild(script);
-        }
-      }
-
       const $ = id => document.getElementById(id);
       const getImg = (src) => {
         if (!src) return "";
@@ -314,66 +316,70 @@
         return `<a href="${href}" target="_blank" rel="noopener" class="btn ${cls}">${txt}</a>`;
       };
 
-      const renderHero = () => `
+      /* ============ РЕНДЕР БЛОКОВ ============ */
+
+      function renderHero(data) {
+        return `
         <section class="section">
           <div class="container">
-            ${getLD('heroOverline') ? `<span class="overline">${getLD('heroOverline')}</span>` : ''}
-            <h1>${getLD('heroTitle') || ''}</h1>
-            <p>${getLD('heroText') || ''}</p>
-            <div class="hero-img-container"><img src="${getImg(getLD('heroImage') || 'igor.jpg')}" onerror="this.style.display='none';this.parentElement.innerHTML='<span>Фото</span>';"></div>
+            ${data.overline ? `<span class="overline">${data.overline}</span>` : ''}
+            <h1>${data.title || ''}</h1>
+            <p>${data.text || ''}</p>
+            <div class="hero-img-container"><img src="${getImg(data.image || 'igor.jpg')}" onerror="this.style.display='none';this.parentElement.innerHTML='<span>Фото</span>';"></div>
             <div class="btn-group">
               ${testEnabled && L.test ? `<a href="${L.test}" class="btn btn-outline">Пройти тест</a>` : ''}
-              ${createBtn(getLD('btnWriteMax') || 'Написать в MAX', L.max, 'btn-max')}
-              ${createBtn(getLD('btnWriteTg') || 'Написать в Telegram', L.tg, 'btn-tg')}
-              ${createBtn(getLD('btnWriteWa') || 'Написать в WhatsApp', L.wa, 'btn-wa')}
-              ${createBtn(getLD('btnCall') || 'Позвонить', L.phone, 'btn-outline')}
+              ${createBtn(data.btnMax || 'Написать в MAX', L.max, 'btn-max')}
+              ${createBtn(data.btnTg || 'Написать в Telegram', L.tg, 'btn-tg')}
+              ${createBtn(data.btnWa || 'Написать в WhatsApp', L.wa, 'btn-wa')}
+              ${createBtn(data.btnCall || 'Позвонить', L.phone, 'btn-outline')}
               ${S.onlineBooking?.enabled && S.onlineBooking.link ? `<a href="${S.onlineBooking.link}" target="_blank" class="btn btn-outline">Записаться онлайн</a>` : ''}
             </div>
           </div>
         </section>`;
+      }
 
-      const renderCompare = () => {
-        const badList = getLD('compareBadList') || [];
-        const goodList = getLD('compareGoodList') || [];
+      function renderCompare(data) {
+        const badList = data.badList || [];
+        const goodList = data.goodList || [];
         if (!badList.length && !goodList.length) return '';
         return `
         <section class="section section-alt">
           <div class="container">
-            <h2>${getLD('compareTitle') || ''}</h2>
-            <p>${getLD('compareText') || ''}</p>
+            <h2>${data.title || ''}</h2>
+            <p>${data.text || ''}</p>
             <div class="compare-grid">
-              <div class="compare-card bad"><h4>${getLD('compareBadTitle') || ''}</h4><ul class="compare-list">${badList.map(t => `<li>${t}</li>`).join('')}</ul></div>
-              <div class="compare-card good"><h4>${getLD('compareGoodTitle') || ''}</h4><ul class="compare-list">${goodList.map(t => `<li>${t}</li>`).join('')}</ul></div>
+              <div class="compare-card bad"><h4>${data.badTitle || ''}</h4><ul class="compare-list">${badList.map(t => `<li>${t}</li>`).join('')}</ul></div>
+              <div class="compare-card good"><h4>${data.goodTitle || ''}</h4><ul class="compare-list">${goodList.map(t => `<li>${t}</li>`).join('')}</ul></div>
             </div>
           </div>
         </section>`;
-      };
+      }
 
-      const renderExpert = () => {
-        const cards = getLD('expertCards') || [];
+      function renderExpert(data) {
+        const cards = data.cards || [];
         if (!cards.length) return '';
         return `
         <section class="section">
           <div class="container">
-            <h2>${getLD('expertTitle') || ''}</h2>
-            <p>${getLD('expertText') || ''}</p>
+            <h2>${data.title || ''}</h2>
+            <p>${data.text || ''}</p>
             <div class="grid-3">
               ${cards.map(c => `<div class="card"><span class="card-icon">${c.icon || '✨'}</span><h3>${c.title}</h3><p style="font-size:0.95rem;">${c.text}</p></div>`).join('')}
             </div>
           </div>
         </section>`;
-      };
+      }
 
-      const renderLocations = (variant) => {
-        const cards = getLD('locationsCards') || [];
+      function renderLocations(data) {
+        const cards = data.cards || [];
         if (!cards.length) return '';
-        const v = variant || LD.locationsVariant || 'accordion';
+        const v = data.variant || 'accordion';
 
         if (v === 'accordion') {
           return `
           <section class="section section-alt" id="sec-locations">
             <div class="container">
-              <h2>${getLD('locationsTitle') || ''}</h2>
+              <h2>${data.title || ''}</h2>
               <div class="card">${cards.map(loc => `
                 <div class="loc-item">
                   <div class="loc-head">${loc.city} — ${loc.title}</div>
@@ -396,7 +402,7 @@
           return `
           <section class="section section-alt" id="sec-locations">
             <div class="container">
-              <h2>${getLD('locationsTitle') || ''}</h2>
+              <h2>${data.title || ''}</h2>
               <div class="loc-grid">${cards.map(loc => `
                 <div class="loc-card">
                   ${loc.img ? `<img src="${getImg(loc.img)}" class="loc-card-img" loading="lazy">` : ''}
@@ -419,7 +425,7 @@
           return `
           <section class="section section-alt" id="sec-locations">
             <div class="container">
-              <h2>${getLD('locationsTitle') || ''}</h2>
+              <h2>${data.title || ''}</h2>
               <div class="loc-tiles">${cards.map(loc => `
                 <div class="loc-tile">
                   <div class="loc-tile-header">
@@ -443,7 +449,7 @@
           return `
           <section class="section section-alt" id="sec-locations">
             <div class="container">
-              <h2>${getLD('locationsTitle') || ''}</h2>
+              <h2>${data.title || ''}</h2>
               <div class="loc-hero">
                 ${first.img ? `<img src="${getImg(first.img)}" class="loc-hero-img" loading="lazy">` : ''}
                 <div class="loc-hero-content">
@@ -472,79 +478,235 @@
           </section>`;
         }
 
-        return renderLocations('accordion');
-      };
+        return renderLocations({ ...data, variant: 'accordion' });
+      }
 
-      const renderPricing = () => {
-        const name = getLD('pricingName');
-        if (!name) return '';
+      function renderPricing(data) {
+        if (!data.name) return '';
         return `
         <section class="section">
           <div class="container">
-            <h2>${getLD('pricingTitle') || ''}</h2>
+            <h2>${data.title || ''}</h2>
             <div class="card" style="text-align: center;">
-              <h3>${name}</h3>
-              <p style="font-size: 2rem; font-weight: 700; color: var(--accent); margin: 10px 0;">${getLD('pricingPrice') || ''}</p>
-              <p>${getLD('pricingDesc') || ''}</p>
+              <h3>${data.name}</h3>
+              <p style="font-size: 2rem; font-weight: 700; color: var(--accent); margin: 10px 0;">${data.price || ''}</p>
+              <p>${data.desc || ''}</p>
             </div>
           </div>
         </section>`;
-      };
+      }
 
-      const renderGift = () => {
+      function renderGift(data) {
         if (!testEnabled) return '';
-        const title = getLD('giftTitle');
-        if (!title) return '';
+        if (!data.title) return '';
         return `
         <section class="section section-alt">
           <div class="container">
-            <h2 style="text-align: center;">${title}</h2>
+            <h2 style="text-align: center;">${data.title}</h2>
             <div class="card" style="border: 2px dashed var(--accent); background: var(--accent-soft); text-align: center;">
               <span class="card-icon">🎁</span>
-              <p style="font-size: 1.1rem; font-weight: 500;">${getLD('giftText') || ''}</p>
+              <p style="font-size: 1.1rem; font-weight: 500;">${data.text || ''}</p>
               <div class="btn-group" style="justify-content: center;">
-                ${createBtn(getLD('giftBtnMax') || 'Получить в MAX', L.max, 'btn-max')}
-                ${createBtn(getLD('giftBtnTg') || 'В Telegram', L.tg, 'btn-tg')}
-                ${createBtn(getLD('giftBtnWa') || 'В WhatsApp', L.wa, 'btn-wa')}
+                ${createBtn(data.btnMax || 'Получить в MAX', L.max, 'btn-max')}
+                ${createBtn(data.btnTg || 'В Telegram', L.tg, 'btn-tg')}
+                ${createBtn(data.btnWa || 'В WhatsApp', L.wa, 'btn-wa')}
               </div>
             </div>
           </div>
         </section>`;
-      };
+      }
 
-      const renderNews = () => {
-        const cards = getLD('newsCards') || [];
+      function renderNews(data) {
+        const cards = data.cards || [];
         if (!cards.length) return '';
         return `
         <section class="section" id="news">
           <div class="container">
-            <h2>${getLD('newsTitle') || ''}</h2>
+            <h2>${data.title || ''}</h2>
             <div class="grid-3">
               ${cards.map(n => `<div class="card"><small style="color:var(--muted); font-weight:600;">${n.date}</small><h3 style="margin:8px 0;">${n.title}</h3><p style="margin:0; font-size:0.95rem;">${n.text}</p></div>`).join('')}
             </div>
           </div>
         </section>`;
-      };
+      }
 
-      const renderCases = () => {
-        const cards = getLD('casesCards') || [];
+      function renderCases(data) {
+        const cards = data.cards || [];
         if (!cards.length) return '';
         return `
         <section class="section section-alt" id="sec-cases">
           <div class="container">
-            <h2>${getLD('casesTitle') || ''}</h2>
+            <h2>${data.title || ''}</h2>
             <div class="grid-3">
               ${cards.map(c => `<div class="card"><h3>${c.title}</h3><p style="font-size:0.95rem;"><b>Жалобы:</b> ${c.complaints}</p><p style="font-size:0.95rem; margin:0;"><b>Результат:</b> ${c.result}</p></div>`).join('')}
             </div>
           </div>
         </section>`;
-      };
+      }
 
-      const renderForm = () => {
-        const lf = S.leadForm || {};
-        if (!lf.enabled) return '';
-        const privacyUrl = L.privacy || '#';
+      function renderContacts(data) {
         return `
+        <section class="section section-alt" id="sec-contacts">
+          <div class="container" style="text-align: center;">
+            <h2 style="margin-bottom: 30px;">${data.title || 'Связаться со мной'}</h2>
+            <div class="btn-group">
+              ${createBtn(data.btnMax || 'Написать в MAX', L.max, 'btn-max')}
+              ${createBtn(data.btnTg || 'Написать в Telegram', L.tg, 'btn-tg')}
+              ${createBtn(data.btnWa || 'Написать в WhatsApp', L.wa, 'btn-wa')}
+              ${createBtn(data.btnCall || 'Позвонить', L.phone, 'btn-outline')}
+            </div>
+            <div class="footer">
+              <p>${L.phoneText ? `<a href="${L.phone}">${L.phoneText}</a>` : ''}</p>
+              <p>${data.footerText || getLD('footerText') || ''}</p>
+            </div>
+          </div>
+        </section>`;
+      }
+
+      /* ============ НОВЫЕ БЛОКИ ============ */
+      function renderCustom(data) {
+        if (!data.title && !data.text && !data.image) return '';
+        return `
+        <section class="section ${data.alt ? 'section-alt' : ''}">
+          <div class="container">
+            ${data.overline ? `<span class="overline">${data.overline}</span>` : ''}
+            ${data.title ? `<h2>${data.title}</h2>` : ''}
+            ${data.text ? `<p>${data.text}</p>` : ''}
+            ${data.image ? `<div class="hero-img-container"><img src="${getImg(data.image)}" onerror="this.style.display='none';"></div>` : ''}
+            ${data.link ? `<div class="btn-group"><a href="${data.link}" target="_blank" class="btn btn-outline">${data.linkText || 'Подробнее'}</a></div>` : ''}
+          </div>
+        </section>`;
+      }
+
+      function renderFaq(data) {
+        const items = data.items || [];
+        if (!items.length) return '';
+        return `
+        <section class="section ${data.alt ? 'section-alt' : ''}">
+          <div class="container">
+            <h2>${data.title || 'Частые вопросы'}</h2>
+            <div class="card" style="padding: 10px 0;">
+              ${items.map(item => `
+                <div class="loc-item" style="border-bottom: 1px solid var(--border);">
+                  <div class="loc-head" style="padding: 10px 20px;">${item.q}</div>
+                  <div class="loc-body" style="padding: 0 20px;"><p style="margin-top:10px;">${item.a}</p></div>
+                </div>`).join('')}
+            </div>
+          </div>
+        </section>`;
+      }
+
+      function renderBeforeAfter(data) {
+        const items = data.items || [];
+        if (!items.length) return '';
+        return `
+        <section class="section ${data.alt ? 'section-alt' : ''}">
+          <div class="container">
+            <h2>${data.title || 'До / После'}</h2>
+            ${data.text ? `<p>${data.text}</p>` : ''}
+            <div class="grid-2">
+              ${items.map(item => `
+                <div class="card">
+                  <h3>${item.title || ''}</h3>
+                  <div style="display:flex; gap:10px; margin-top:10px;">
+                    <div style="flex:1; text-align:center;">
+                      <small style="color:var(--muted); font-weight:600;">До</small>
+                      <img src="${getImg(item.before)}" style="width:100%; border-radius:8px; margin-top:5px;" loading="lazy">
+                    </div>
+                    <div style="flex:1; text-align:center;">
+                      <small style="color:var(--muted); font-weight:600;">После</small>
+                      <img src="${getImg(item.after)}" style="width:100%; border-radius:8px; margin-top:5px;" loading="lazy">
+                    </div>
+                  </div>
+                  ${item.text ? `<p style="margin-top:10px; font-size:0.95rem;">${item.text}</p>` : ''}
+                </div>`).join('')}
+            </div>
+          </div>
+        </section>`;
+      }
+
+      function renderGallery(data) {
+        const images = data.images || [];
+        if (!images.length) return '';
+        return `
+        <section class="section ${data.alt ? 'section-alt' : ''}">
+          <div class="container">
+            <h2>${data.title || 'Галерея'}</h2>
+            ${data.text ? `<p>${data.text}</p>` : ''}
+            <div class="grid-3">
+              ${images.map(img => `<div class="card" style="padding:0; overflow:hidden;"><img src="${getImg(img)}" style="width:100%; height:200px; object-fit:cover;" loading="lazy"></div>`).join('')}
+            </div>
+          </div>
+        </section>`;
+      }
+
+      /* ============ СБОРКА БЛОКОВ ============ */
+
+      const container = $('sections-container');
+      let html = '';
+
+      // Если в content.js есть blocks — используем их. Иначе — генерируем из старых полей.
+      let blocks = C.blocks;
+      if (!blocks || !Array.isArray(blocks) || blocks.length === 0) {
+        blocks = [
+          { id: 'hero', type: 'hero', visible: true, data: {
+              overline: getLD('heroOverline'), title: getLD('heroTitle'), text: getLD('heroText'), image: getLD('heroImage'),
+              btnMax: getLD('btnWriteMax'), btnTg: getLD('btnWriteTg'), btnWa: getLD('btnWriteWa'), btnCall: getLD('btnCall')
+          }},
+          { id: 'compare', type: 'compare', visible: true, data: {
+              title: getLD('compareTitle'), text: getLD('compareText'),
+              badTitle: getLD('compareBadTitle'), badList: getLD('compareBadList'),
+              goodTitle: getLD('compareGoodTitle'), goodList: getLD('compareGoodList')
+          }},
+          { id: 'expert', type: 'expert', visible: true, data: {
+              title: getLD('expertTitle'), text: getLD('expertText'), cards: getLD('expertCards')
+          }},
+          { id: 'locations', type: 'locations', visible: true, data: {
+              title: getLD('locationsTitle'), cards: getLD('locationsCards'), variant: LD.locationsVariant || 'accordion'
+          }},
+          { id: 'pricing', type: 'pricing', visible: true, data: {
+              title: getLD('pricingTitle'), name: getLD('pricingName'), price: getLD('pricingPrice'), desc: getLD('pricingDesc')
+          }},
+          { id: 'gift', type: 'gift', visible: true, data: {
+              title: getLD('giftTitle'), text: getLD('giftText'),
+              btnMax: getLD('giftBtnMax'), btnTg: getLD('giftBtnTg'), btnWa: getLD('giftBtnWa')
+          }},
+          { id: 'news', type: 'news', visible: true, data: {
+              title: getLD('newsTitle'), cards: getLD('newsCards')
+          }},
+          { id: 'cases', type: 'cases', visible: true, data: {
+              title: getLD('casesTitle'), cards: getLD('casesCards')
+          }},
+          { id: 'contacts', type: 'contacts', visible: true, data: {
+              title: getLD('contactsTitle'), footerText: getLD('footerText'),
+              btnMax: getLD('btnWriteMax'), btnTg: getLD('btnWriteTg'), btnWa: getLD('btnWriteWa'), btnCall: getLD('btnCall')
+          }}
+        ];
+      }
+
+      blocks.forEach(block => {
+        if (block.visible === false) return;
+        if (block.type === 'gift' && !testEnabled) return;
+        if (block.type === 'hero') html += renderHero(block.data);
+        else if (block.type === 'compare') html += renderCompare(block.data);
+        else if (block.type === 'expert') html += renderExpert(block.data);
+        else if (block.type === 'locations') html += renderLocations(block.data);
+        else if (block.type === 'pricing') html += renderPricing(block.data);
+        else if (block.type === 'gift') html += renderGift(block.data);
+        else if (block.type === 'news') html += renderNews(block.data);
+        else if (block.type === 'cases') html += renderCases(block.data);
+        else if (block.type === 'contacts') html += renderContacts(block.data);
+        else if (block.type === 'custom') html += renderCustom(block.data);
+        else if (block.type === 'faq') html += renderFaq(block.data);
+        else if (block.type === 'beforeAfter') html += renderBeforeAfter(block.data);
+        else if (block.type === 'gallery') html += renderGallery(block.data);
+      });
+
+      // Форма заявки (если включена)
+      const lf = S.leadForm || {};
+      if (lf.enabled) {
+        const privacyUrl = L.privacy || '#';
+        html += `
         <section class="section" id="sec-form">
           <div class="container">
             <h2 style="text-align:center;">${lf.title || 'Связаться со мной'}</h2>
@@ -564,50 +726,7 @@
             </div>
           </div>
         </section>`;
-      };
-
-      const renderContacts = () => `
-        <section class="section section-alt" id="sec-contacts">
-          <div class="container" style="text-align: center;">
-            <h2 style="margin-bottom: 30px;">${getLD('contactsTitle') || 'Связаться со мной'}</h2>
-            <div class="btn-group">
-              ${createBtn(getLD('btnWriteMax') || 'Написать в MAX', L.max, 'btn-max')}
-              ${createBtn(getLD('btnWriteTg') || 'Написать в Telegram', L.tg, 'btn-tg')}
-              ${createBtn(getLD('btnWriteWa') || 'Написать в WhatsApp', L.wa, 'btn-wa')}
-              ${createBtn(getLD('btnCall') || 'Позвонить', L.phone, 'btn-outline')}
-            </div>
-            <div class="footer">
-              <p>${L.phoneText ? `<a href="${L.phone}">${L.phoneText}</a>` : ''}</p>
-              <p>${getLD('footerText') || ''}</p>
-            </div>
-          </div>
-        </section>`;
-
-      const container = $('sections-container');
-      let html = '';
-
-      const sections = (C.sections || [
-        { type: 'hero', visible: true }, { type: 'compare', visible: true }, { type: 'expert', visible: true },
-        { type: 'locations', visible: true }, { type: 'pricing', visible: true },
-        { type: 'gift', visible: true }, { type: 'news', visible: true }, { type: 'cases', visible: true }, { type: 'contacts', visible: true }
-      ]);
-
-      sections.forEach(sec => {
-        if (!sec.visible) return;
-        if (sec.type === 'gift' && !testEnabled) return;
-        if (sec.type === 'hero') html += renderHero();
-        else if (sec.type === 'compare') html += renderCompare();
-        else if (sec.type === 'expert') html += renderExpert();
-        else if (sec.type === 'locations') html += renderLocations();
-        else if (sec.type === 'pricing') html += renderPricing();
-        else if (sec.type === 'gift') html += renderGift();
-        else if (sec.type === 'news') html += renderNews();
-        else if (sec.type === 'cases') html += renderCases();
-        else if (sec.type === 'contacts') html += renderContacts();
-      });
-
-      const formHtml = renderForm();
-      if (formHtml) html += formHtml;
+      }
 
       container.innerHTML = html;
 
@@ -635,7 +754,6 @@
         const digits = phone.replace(/\D/g, '');
         if (digits.length < 10) { alert('Пожалуйста, укажите корректный телефон (минимум 10 цифр)'); return; }
         if (!consent) { alert('Пожалуйста, согласитесь на обработку данных'); return; }
-        const lf = S.leadForm || {};
         const text = encodeURIComponent(`Здравствуйте! Меня зовут ${name}. Мой телефон: ${phone}. Я оставил(а) заявку на сайте.`);
         let target = null;
         if (lf.method === 'max' && L.max) target = L.max;
