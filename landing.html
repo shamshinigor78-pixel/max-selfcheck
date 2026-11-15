@@ -18,6 +18,23 @@
       --tg: #229ED9; --wa: #25D366;
       --shadow: 0 8px 24px rgba(0,0,0,0.06);
     }
+    /* Тёмная тема (принудительно) */
+    body.theme-dark {
+      --bg-main: #1c1e1b; --bg-alt: #24262a; --fg: #e8e6e2; --muted: #9a9890;
+      --accent-soft: #253028; --card-bg: #2a2c2a; --border: #33342f;
+      --shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+    body.theme-dark p { color: #c8c5c0; }
+    /* Авто-тема (по системе) */
+    @media (prefers-color-scheme: dark) {
+      body.theme-auto {
+        --bg-main: #1c1e1b; --bg-alt: #24262a; --fg: #e8e6e2; --muted: #9a9890;
+        --accent-soft: #253028; --card-bg: #2a2c2a; --border: #33342f;
+        --shadow: 0 8px 24px rgba(0,0,0,0.3);
+      }
+      body.theme-auto p { color: #c8c5c0; }
+    }
+
     body.preset-premium { --bg-main: #f5f5f7; --bg-alt: #ebebeb; --card-bg: rgba(255, 255, 255, 0.6); --radius: 24px; --border: rgba(255,255,255,0.4); }
     body.preset-premium .card, body.preset-premium .loc-card, body.preset-premium .loc-item { backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%); box-shadow: 0 8px 32px rgba(0,0,0,0.05); }
     body.preset-premium .btn { box-shadow: none; transform: none; }
@@ -293,6 +310,21 @@
       const A = C.analytics || {};
       const testEnabled = S.testEnabled !== false;
 
+      // Применяем тему
+      if (C.theme && C.theme.darkMode) {
+        if (C.theme.darkMode === 'on') document.body.classList.add('theme-dark');
+        else if (C.theme.darkMode === 'auto') document.body.classList.add('theme-auto');
+      }
+      if (C.theme) {
+        document.documentElement.style.setProperty('--accent', C.theme.primary || '#4a8f6f');
+        document.documentElement.style.setProperty('--tg', C.theme.tg || '#229ED9');
+        document.documentElement.style.setProperty('--wa', C.theme.wa || '#25D366');
+        if (C.theme.preset) document.body.classList.add('preset-' + C.theme.preset);
+        document.body.classList.add('btn-style-' + (C.theme.btnStyle || 'classic'));
+      } else {
+        document.body.classList.add('btn-style-classic');
+      }
+
       const getLD = (key) => {
         const v = LD[key];
         if (v === undefined || v === null || v === '' || (Array.isArray(v) && v.length === 0)) return DEFAULTS.landing[key];
@@ -308,16 +340,6 @@
           const ld = { "@context": "https://schema.org", "@type": "MedicalBusiness", "name": C.seo.title || "Самодиагностика", "telephone": L.phoneText, "url": L.landing, "image": C.seo.ogImage || (L.landing || '') + "igor.jpg" };
           const script = document.createElement('script'); script.type = 'application/ld+json'; script.textContent = JSON.stringify(ld); document.head.appendChild(script);
         }
-      }
-
-      if (C.theme) {
-        document.documentElement.style.setProperty('--accent', C.theme.primary || '#4a8f6f');
-        document.documentElement.style.setProperty('--tg', C.theme.tg || '#229ED9');
-        document.documentElement.style.setProperty('--wa', C.theme.wa || '#25D366');
-        if (C.theme.preset) document.body.classList.add('preset-' + C.theme.preset);
-        document.body.classList.add('btn-style-' + (C.theme.btnStyle || 'classic'));
-      } else {
-        document.body.classList.add('btn-style-classic');
       }
 
       const $ = id => document.getElementById(id);
@@ -649,6 +671,8 @@
         const consent = document.getElementById('lead-consent')?.checked;
         if (!name) { alert('Пожалуйста, укажите ваше имя'); return; }
         if (!phone) { alert('Пожалуйста, укажите телефон'); return; }
+        const digits = phone.replace(/\D/g, '');
+        if (digits.length < 10) { alert('Пожалуйста, укажите корректный телефон (минимум 10 цифр)'); return; }
         if (!consent) { alert('Пожалуйста, согласитесь на обработку данных'); return; }
         const lf = S.leadForm || {};
         const text = encodeURIComponent(`Здравствуйте! Меня зовут ${name}. Мой телефон: ${phone}. Я оставил(а) заявку на сайте.`);
