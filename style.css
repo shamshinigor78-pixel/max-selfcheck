@@ -8,8 +8,25 @@ html, body { overscroll-behavior: none; min-height: 100%; }
   --tg: #229ED9; --wa: #25D366;
   --border: #ebe6df; --card-bg: #f5f2ec; --card-radius: 16px; --btn-radius: 12px;
 }
+
+/* Тёмная тема (включается классом .theme-dark на body) */
+body.theme-dark {
+  --bg: #1c1e1b; --fg: #e8e6e2; --muted: #9a9890;
+  --accent: #7ab88f; --accent-soft: #253028;
+  --border: #33342f; --card-bg: #24262a;
+}
+body.theme-dark .privacy-note,
+body.theme-dark .action-block { background: var(--card-bg); border-color: var(--border); }
+
+/* Авто-тема (по системе) */
 @media (prefers-color-scheme: dark) {
-  :root { --bg: #1c1e1b; --fg: #e8e6e2; --muted: #9a9890; --accent: #7ab88f; --accent-soft: #253028; --border: #33342f; --card-bg: #24262a; }
+  body.theme-auto {
+    --bg: #1c1e1b; --fg: #e8e6e2; --muted: #9a9890;
+    --accent: #7ab88f; --accent-soft: #253028;
+    --border: #33342f; --card-bg: #24262a;
+  }
+  body.theme-auto .privacy-note,
+  body.theme-auto .action-block { background: var(--card-bg); border-color: var(--border); }
 }
 
 /* Пресеты дизайна */
