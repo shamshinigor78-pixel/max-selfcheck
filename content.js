@@ -1,12 +1,13 @@
 window.CONTENT = {
-  "version": "19.1",
+  "version": "19.4",
   "schema": "v19",
   "theme": {
     "primary": "#4a8f6f",
     "tg": "#229ED9",
     "wa": "#25D366",
     "preset": "classic",
-    "btnStyle": "classic"
+    "btnStyle": "classic",
+    "darkMode": "off"
   },
   "settings": {
     "osteoThreshold": 30,
