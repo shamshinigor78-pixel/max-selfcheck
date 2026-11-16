@@ -1,5 +1,5 @@
 window.CONTENT = {
-  "version": "19.5",
+  "version": "19.6",
   "schema": "v19",
   "theme": {
     "primary": "#4a8f6f",
