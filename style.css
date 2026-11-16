@@ -9,7 +9,6 @@ html, body { overscroll-behavior: none; min-height: 100%; }
   --border: #ebe6df; --card-bg: #f5f2ec; --card-radius: 16px; --btn-radius: 12px;
 }
 
-/* Тёмная тема (включается классом .theme-dark на body) */
 body.theme-dark {
   --bg: #1c1e1b; --fg: #e8e6e2; --muted: #9a9890;
   --accent: #7ab88f; --accent-soft: #253028;
@@ -18,7 +17,6 @@ body.theme-dark {
 body.theme-dark .privacy-note,
 body.theme-dark .action-block { background: var(--card-bg); border-color: var(--border); }
 
-/* Авто-тема (по системе) */
 @media (prefers-color-scheme: dark) {
   body.theme-auto {
     --bg: #1c1e1b; --fg: #e8e6e2; --muted: #9a9890;
@@ -29,7 +27,6 @@ body.theme-dark .action-block { background: var(--card-bg); border-color: var(--
   body.theme-auto .action-block { background: var(--card-bg); border-color: var(--border); }
 }
 
-/* Пресеты дизайна */
 body.preset-premium { --bg: #f5f5f7; --card-bg: rgba(255, 255, 255, 0.6); --card-radius: 24px; --btn-radius: 16px; --border: rgba(255,255,255,0.4); }
 body.preset-premium .card, body.preset-premium .action-block, body.preset-premium .privacy-note { backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%); border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 8px 32px rgba(0,0,0,0.05); }
 body.preset-premium .btn { box-shadow: none !important; transform: none !important; }
