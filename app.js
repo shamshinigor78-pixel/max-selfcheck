@@ -1,216 +1,40 @@
-"use strict";
-(function () {
-  const C = window.CONTENT;
-  if (!C) { document.body.innerHTML = '<p style="padding:24px;text-align:center;">Ошибка: content.js не загрузился.</p>'; return; }
-
-  const webApp = window.WebApp || null;
-  const canUseOpenLink = !!(webApp && typeof webApp.openLink === "function" && typeof webApp.initData === "string" && webApp.initData.length > 0);
-  if (canUseOpenLink && typeof webApp.ready === "function") { try { webApp.ready(); } catch (_) {} }
-
-  let userName = "";
-  if (canUseOpenLink && webApp.initDataUnsafe && webApp.initDataUnsafe.user) {
-    const raw = webApp.initDataUnsafe.user.first_name;
-    if (typeof raw === "string" && raw.length <= 64) userName = raw;
-  }
-
-  const LINKS = C.links || {}, TEXT = C.app || {}, SETTINGS = C.settings || {};
-  const QUESTIONS = (Array.isArray(C.questions) ? C.questions : []).map(normalizeQuestion);
-  const TOTAL = QUESTIONS.length;
-  const THRESHOLD = typeof SETTINGS.osteoThreshold === "number" ? SETTINGS.osteoThreshold : 30;
-
-  if (!TOTAL) { document.body.innerHTML = '<p style="padding:24px;text-align:center;">Тест не настроен.</p>'; return; }
-
-  let currentIndex = 0, answers = new Array(TOTAL).fill(null), locked = false, chosenProfile = "general", forceOsteo = false;
-
-  function normalizeQuestion(q) {
-    const opts = Array.isArray(q.options) ? q.options : [];
-    return {
-      type: q.type || "osteo", includeInScore: q.includeInScore !== false, text: q.text || "",
-      options: opts.map(function (o) {
-        if (typeof o === "string") return { text: o, weight: 3, profile: null, redflag: false, forceOutcome: null };
-        return { text: o.text || "", weight: typeof o.weight === "number" ? o.weight : 3, profile: o.profile || null, redflag: !!o.redflag, forceOutcome: o.forceOutcome || null };
-      })
-    };
-  }
-
-  function $(s) { return document.querySelector(s); }
-  function el(tag, cls, txt) { const n = document.createElement(tag); if (cls) n.className = cls; if (txt !== undefined) n.textContent = String(txt); return n; }
-
-  function applyTheme() {
-    const theme = C.theme || {};
-    document.documentElement.style.setProperty('--accent', theme.primary || '#4a8f6f');
-    document.documentElement.style.setProperty('--tg', theme.tg || '#229ED9');
-    document.documentElement.style.setProperty('--wa', theme.wa || '#25D366');
-    if (theme.preset) document.body.classList.add('preset-' + theme.preset);
-    if (theme.btnStyle) document.body.classList.add('btn-style-' + theme.btnStyle);
-  }
-
-  function openExternal(url) {
-    if (!url) return;
-    if (canUseOpenLink) { try { webApp.openLink(url); return; } catch (_) {} }
-    if (/^tel:|^mailto:/.test(url)) { window.location.href = url; return; }
-    window.open(url, "_blank", "noopener,noreferrer");
-  }
-
-  const screens = { start: $("#screen-start"), question: $("#screen-question"), result: $("#screen-result") };
-  const qCurrent = $("#q-current"), qTotal = $("#q-total"), qText = $("#q-text"), answersBox = $("#answers");
-  const resultIcon = $("#result-icon"), resultTitle = $("#result-title"), verdictEl = $("#verdict"), resultActions = $("#result-actions"), resultHint = $("#result-hint");
-  const btnBack = $("#btn-back"), progressBar = $("#progress-bar"), progressWrap = $("#progress-wrap");
-
-  qTotal.textContent = String(TOTAL);
-  $("#ui-start-title").textContent = TEXT.title || "";
-  $("#ui-start-subtitle").textContent = (userName ? ("Привет, " + userName + "! ") : "") + (TEXT.subtitle || "");
-  $("#ui-start-hint").textContent = TEXT.hint || "";
-  $("#btn-start").textContent = TEXT.btnStart || "Начать";
-  $("#btn-restart").textContent = TEXT.btnRestart || "Пройти заново";
-  $("#btn-close").textContent = TEXT.btnClose || "Закрыть";
-
-  if (TEXT.privacyList && Array.isArray(TEXT.privacyList)) {
-    const ul = document.querySelector(".privacy-note ul");
-    if (ul) { ul.innerHTML = ""; TEXT.privacyList.forEach(t => { const li = document.createElement("li"); li.textContent = t; ul.appendChild(li); }); }
-  }
-
-  const browserNote = $("#ui-browser-note");
-  if (browserNote && TEXT.browserNote && !canUseOpenLink) { browserNote.textContent = TEXT.browserNote; browserNote.hidden = false; }
-
-  function showScreen(name) {
-    Object.keys(screens).forEach(k => { if (screens[k]) screens[k].classList.remove("active"); });
-    if (screens[name]) screens[name].classList.add("active");
-    try { window.scrollTo(0, 0); } catch (_) {}
-  }
-
-  function renderQuestion() {
-    const q = QUESTIONS[currentIndex];
-    qCurrent.textContent = String(currentIndex + 1);
-    qText.textContent = q.text;
-    progressBar.style.width = Math.round((currentIndex / TOTAL) * 100) + "%";
-    if (progressWrap) progressWrap.setAttribute("aria-valuenow", String(Math.round((currentIndex / TOTAL) * 100)));
-    if (btnBack) { btnBack.textContent = TEXT.btnBack || "← Назад"; btnBack.hidden = false; }
-
-    answersBox.textContent = "";
-    q.options.forEach((opt, i) => {
-      const btn = el("button", "btn answer", opt.text);
-      btn.type = "button";
-      if (answers[currentIndex] === i) btn.classList.add("selected");
-      btn.addEventListener("click", () => {
-        if (locked) return;
-        locked = true;
-        btn.classList.add("pressed", "selected");
-        setTimeout(() => {
-          answers[currentIndex] = i;
-          if (opt.profile) chosenProfile = opt.profile;
-          if (opt.forceOutcome === "osteo") forceOsteo = true;
-          setTimeout(() => {
-            if (currentIndex < TOTAL - 1) { currentIndex++; renderQuestion(); }
-            else { showResult(); }
-            locked = false;
-          }, 50);
-        }, 150);
-      });
-      answersBox.appendChild(btn);
-    });
-  }
-
-  function goBack() { if (currentIndex > 0) { currentIndex--; renderQuestion(); } else { showScreen("start"); } }
-  if (btnBack) btnBack.addEventListener("click", goBack);
-
-  function evaluate() {
-    let redFlagCount = 0, sum = 0, max = 0, hasPain = false;
-    QUESTIONS.forEach((q, i) => {
-      const idx = answers[i]; if (idx === null) return;
-      const opt = q.options[idx]; if (!opt) return;
-      if (q.type === "redflag") { if (opt.redflag) redFlagCount++; return; }
-      if (!q.includeInScore) return;
-      sum += opt.weight;
-      max += Math.max(...q.options.map(o => o.weight));
-      if (opt.weight > 1) hasPain = true;
-    });
-    const percent = max > 0 ? Math.round((sum / max) * 100) : 0;
-    if (redFlagCount >= 1) return { outcome: "doctor" };
-    if (forceOsteo || percent >= THRESHOLD || hasPain) return { outcome: "osteo", warning: false, percent: percent };
-    return { outcome: "normal", percent: percent };
-  }
-
-  // ФИКС: открытие ссылки сразу, без setTimeout
-  function makeBtn(label, href, style, bg, shadow) {
-    const a = el("a", "btn " + (style || "secondary"), label);
-    a.href = href || "#";
-    a.rel = "noopener noreferrer";
-    if (!/^tel:|^mailto:/.test(a.href)) a.target = "_blank";
-    if (bg) { a.style.background = bg; a.style.color = "#fff"; }
-    a.addEventListener("click", (e) => {
-      if (canUseOpenLink && href) { e.preventDefault(); openExternal(href); }
-      a.classList.add("pressed");
-    });
-    return a;
-  }
-
-  function messengerList() {
-    const list = [];
-    if (LINKS.max) list.push({ label: TEXT.btnWriteMax || "MAX", href: LINKS.max, style: "primary" });
-    if (LINKS.tg) list.push({ label: TEXT.btnWriteTg || "Telegram", href: LINKS.tg, style: "tg" });
-    if (LINKS.wa) list.push({ label: TEXT.btnWriteWa || "WhatsApp", href: LINKS.wa, style: "wa" });
-    return list;
-  }
-
-  function showResult() {
-    const r = evaluate();
-    resultActions.textContent = ""; resultIcon.textContent = ""; resultTitle.textContent = ""; verdictEl.textContent = ""; resultHint.textContent = "";
-
-    if (r.outcome === "normal") {
-      resultIcon.textContent = "✅"; resultTitle.textContent = TEXT.normalTitle || "Лёгкий дисбаланс"; verdictEl.textContent = TEXT.normalVerdict || "";
-      resultActions.appendChild(el("div", "result-body", TEXT.normalBody || ""));
-    } else if (r.outcome === "osteo") {
-      resultIcon.textContent = "🌿"; resultTitle.textContent = TEXT.osteoTitle || "Есть зоны напряжения"; verdictEl.textContent = TEXT.osteoVerdict || "";
-      resultActions.appendChild(el("div", "result-body", TEXT.osteoBody || ""));
-
-      const prize = el("div", "result-body");
-      prize.style.cssText = "background:var(--accent-soft);padding:20px;border-radius:12px;margin-bottom:20px;border-left:4px solid var(--accent)";
-      const pt = el("div", "action-title", "🎁 " + (TEXT.prizeTitle || "Твой персональный разбор")); pt.style.color = "var(--accent)"; pt.style.marginBottom = "10px";
-      prize.appendChild(pt);
-      const map = TEXT.profiles || {};
-      const pb = el("div", "", map[chosenProfile] || map.general || ""); pb.style.fontSize = "1rem";
-      prize.appendChild(pb); resultActions.appendChild(prize);
-
-      if (TEXT.guideBox) {
-        const gb = el("div", "result-body", TEXT.guideBox);
-        gb.style.cssText = "background:var(--guide-bg);color:var(--guide-fg);padding:15px;border-radius:12px;margin-bottom:20px;border-left:4px solid var(--guide-border);font-size:1rem";
-        resultActions.appendChild(gb);
-      }
-
-      const list = messengerList();
-      if (list.length || LINKS.phone) {
-        const block = el("div", "action-block");
-        block.appendChild(el("div", "action-title", TEXT.btnWriteTitle || "Написать мне"));
-        if (TEXT.btnWriteHint) block.appendChild(el("div", "action-hint", TEXT.btnWriteHint));
-        list.forEach(b => block.appendChild(makeBtn(b.label, b.href, b.style, b.bg, b.shadow)));
-        if (LINKS.phone) {
-          block.appendChild(makeBtn(TEXT.btnCall || "Позвонить", LINKS.phone, "secondary"));
-          if (TEXT.callNote) { const cn = el("div", "action-hint", TEXT.callNote); cn.style.cssText = "margin-top:10px;margin-bottom:0;font-size:0.85rem"; block.appendChild(cn); }
-        }
-        resultActions.appendChild(block);
-      }
-    } else {
-      resultIcon.textContent = "⚠️"; resultTitle.textContent = TEXT.doctorTitle || "Нужен врач"; verdictEl.textContent = TEXT.doctorVerdict || "";
-      resultActions.appendChild(el("div", "result-body", TEXT.doctorBody || ""));
-    }
-
-    if (LINKS.landing) {
-      const m = el("div", "action-block");
-      m.appendChild(el("div", "action-title", TEXT.methodTitle || "Узнать о методике"));
-      m.appendChild(makeBtn(TEXT.methodBtn || "Подробнее", LINKS.landing, "secondary"));
-      resultActions.appendChild(m);
-    }
-    resultHint.textContent = TEXT.hint || "";
-    showScreen("result");
-  }
-
-  $("#btn-start").addEventListener("click", () => { currentIndex = 0; answers.fill(null); chosenProfile = "general"; forceOsteo = false; renderQuestion(); showScreen("question"); });
-  $("#btn-restart").addEventListener("click", () => { currentIndex = 0; answers.fill(null); chosenProfile = "general"; forceOsteo = false; showScreen("start"); });
-
-  const closeBtn = $("#btn-close");
-  if (closeBtn) closeBtn.addEventListener("click", () => { answers.fill(null); showScreen("start"); if (canUseOpenLink && webApp.close) webApp.close(); else $("#app").hidden = true; });
-
-  applyTheme();
-  const appRoot = $("#app"); if (appRoot) appRoot.hidden = false;
+"use strict";(function(){const C=window.CONTENT;if(!C)return;
+const wa=window.WebApp||null,canWa=!!(wa&&typeof wa.openLink==="function"&&typeof wa.initData==="string"&&wa.initData.length>0);
+if(canWa&&typeof wa.ready==="function"){try{wa.ready();}catch(_){}}
+let uName="";if(canWa&&wa.initDataUnsafe?.user?.first_name)uName=String(wa.initDataUnsafe.user.first_name).slice(0,64);
+const utm=new URLSearchParams(window.location.search).get("utm_source");if(utm)sessionStorage.setItem("site_utm",utm);
+const TEXT=C.app||{},LINKS=C.links||{};
+const QUESTIONS=(Array.isArray(C.questions)?C.questions:[]).map(q=>({type:q.type||"osteo",includeInScore:q.includeInScore!==false,text:q.text||"",options:(Array.isArray(q.options)?q.options:[]).map(o=>typeof o==="string"?{text:o,weight:3,profile:null,redflag:false,forceOutcome:null}:{text:o.text||"",weight:typeof o.weight==="number"?o.weight:3,profile:o.profile||null,redflag:!!o.redflag,forceOutcome:o.forceOutcome||null})}));
+const TOTAL=QUESTIONS.length,THRESHOLD=typeof C.settings?.osteoThreshold==="number"?C.settings.osteoThreshold:30;
+if(!TOTAL){document.body.innerHTML="<p style='padding:24px;text-align:center;'>В тесте 0 вопросов.</p>";return;}
+let currentIndex=0,answers=new Array(TOTAL).fill(null),locked=false;
+const $=s=>document.querySelector(s),el=(t,c,x)=>{const n=document.createElement(t);if(c)n.className=c;if(x!==undefined)n.textContent=String(x);return n;};
+const screens={start:$("#screen-start"),question:$("#screen-question"),result:$("#screen-result")};
+if(C.theme?.darkMode==="on")document.body.classList.add("theme-dark");else if(C.theme?.darkMode==="auto")document.body.classList.add("theme-auto");
+if(C.theme?.primary)document.documentElement.style.setProperty("--accent",C.theme.primary);
+$("#q-total").textContent=String(TOTAL);$("#ui-start-title").textContent=TEXT.title||"Самодиагностика";
+$("#ui-start-subtitle").textContent=(uName?"Привет, "+uName+"! ":"")+(TEXT.subtitle||"");
+const mins=Math.max(1,Math.round(TOTAL*0.15));if($("#ui-start-badge"))$("#ui-start-badge").textContent="⏱ ~"+mins+" мин • "+TOTAL+" вопросов";
+if(Array.isArray(TEXT.privacyList)&&TEXT.privacyList.length&&$("#ui-privacy-box")){const pb=$("#ui-privacy-box");pb.hidden=false;const ul=pb.querySelector("ul");ul.innerHTML="";TEXT.privacyList.forEach(t=>{const li=document.createElement("li");li.textContent=t;ul.appendChild(li);});}
+$("#btn-start").textContent=TEXT.btnStart||"Начать";$("#btn-back").textContent=TEXT.btnBack||"← Назад";$("#btn-restart").textContent=TEXT.btnRestart||"Пройти заново";
+if($("#ui-start-hint"))$("#ui-start-hint").textContent=TEXT.hint||"";
+function showScreen(n){Object.keys(screens).forEach(k=>{if(screens[k])screens[k].classList.remove("active");});if(screens[n])screens[n].classList.add("active");window.scrollTo(0,0);}
+function renderQuestion(){const q=QUESTIONS[currentIndex];$("#q-current").textContent=String(currentIndex+1);$("#q-text").textContent=q.text;$("#progress-bar").style.width=Math.round((currentIndex/TOTAL)*100)+"%";const box=$("#answers");box.textContent="";q.options.forEach((opt,i)=>{const b=el("button","btn answer"+(answers[currentIndex]===i?" selected":""),opt.text);b.type="button";b.onclick=()=>{if(locked)return;locked=true;answers[currentIndex]=i;setTimeout(()=>{if(currentIndex<TOTAL-1){currentIndex++;renderQuestion();}else{showResult();}locked=false;},150);};box.appendChild(b);});}
+function evaluate(){let rf=0,sum=0,max=0,fo=false,ps={},primaryProf=null;QUESTIONS.forEach((q,i)=>{const idx=answers[i];if(idx===null)return;const opt=q.options[idx];if(!opt)return;if(q.type==="redflag"){if(opt.redflag)rf++;return;}if(opt.forceOutcome==="osteo")fo=true;if(!q.includeInScore){if(opt.profile)primaryProf=opt.profile;return;}sum+=opt.weight;max+=Math.max(...q.options.map(o=>o.weight));if(opt.profile)ps[opt.profile]=(ps[opt.profile]||0)+opt.weight;});let tp=primaryProf||"general",ms=0;Object.keys(ps).forEach(k=>{if(ps[k]>ms){ms=ps[k];tp=k;}});const pct=max>0?Math.round((sum/max)*100):0;if(rf>=1)return{outcome:"doctor",profile:tp,pct:100};if(fo||pct>=THRESHOLD)return{outcome:"osteo",profile:tp,pct};return{outcome:"normal",profile:tp,pct};}
+function addLinkBtn(p,lbl,href,bg){if(!href)return;const a=el("a","btn primary",lbl);a.href=href;a.target="_blank";a.rel="noopener";a.style.marginBottom="10px";if(bg)a.style.background=bg;a.onclick=(e)=>{if(canWa){e.preventDefault();try{wa.openLink(href);}catch(_){window.open(href,"_blank");}}};p.appendChild(a);}
+function showResult(){const r=evaluate(),ra=$("#result-actions"),isCheckup=TEXT.resultStyle==="checkup";ra.textContent="";let bodyTxt="";if(r.outcome==="normal"){$("#result-icon").textContent="✅";$("#result-title").textContent=TEXT.normalTitle||"Отличный баланс!";$("#verdict").textContent=TEXT.normalVerdict||"Серьёзных сигналов нет";bodyTxt=TEXT.normalBody||"";}else if(r.outcome==="osteo"){$("#result-icon").textContent="🌿";$("#result-title").textContent=TEXT.osteoTitle||"Есть зоны напряжения";$("#verdict").textContent=TEXT.osteoVerdict||"Фасциальная система просит внимания";bodyTxt=TEXT.osteoBody||"";}else{$("#result-icon").textContent="⚠️";$("#result-title").textContent=TEXT.doctorTitle||"Сначала лучше показаться врачу";$("#verdict").textContent=TEXT.doctorVerdict||"Отмечены острые симптомы";bodyTxt=TEXT.doctorBody||"";}
+if(isCheckup&&r.outcome!=="doctor"){const sc=el("div","action-block");const lvl=r.outcome==="osteo"?"Умеренное / выраженное напряжение":"Лёгкий фоновый тонус";sc.appendChild(el("div","action-title","📊 Уровень фасциальной нагрузки: "+lvl));const bar=el("div","progress");bar.style.height="10px";const fill=el("div","progress-bar");fill.style.width=Math.max(18,r.pct)+"%";fill.style.background=r.outcome==="osteo"?"#e6a23c":"var(--accent)";bar.appendChild(fill);sc.appendChild(bar);ra.appendChild(sc);}
+if(isCheckup){const c1=el("div","action-block");c1.appendChild(el("div","action-title","🔍 Что показывают ответы"));c1.appendChild(el("p","",bodyTxt));ra.appendChild(c1);}else{ra.appendChild(el("div","result-body",bodyTxt));}
+const pt=TEXT.profiles&&TEXT.profiles[r.profile];if(pt&&r.outcome!=="doctor"){const b=el("div","action-block");b.style.borderLeft="4px solid var(--accent)";b.appendChild(el("div","action-title",isCheckup?"🎯 Главная зона внимания":("🎁 "+(TEXT.prizeTitle||"Твой персональный разбор"))));b.appendChild(el("p","",pt));ra.appendChild(b);}
+const pKeys=Object.keys(TEXT.profiles||{}),pIdx=pKeys.indexOf(r.profile);
+const gTag="#"+(pIdx>=0?pIdx+1:pKeys.length+1)+"-"+String(r.profile||"GEN").toUpperCase();
+const sid=gTag+"-"+Math.floor(10+Math.random()*89);
+if(TEXT.guideBox&&r.outcome!=="doctor"){const gb=el("div","action-block",TEXT.guideBox);gb.style.borderStyle="dashed";if(isCheckup)gb.prepend(el("div","action-title","💡 Персональная рекомендация"));const bdg=el("div","","Код гайда: "+sid);bdg.style.cssText="margin-top:10px;padding:6px 12px;background:var(--accent-soft);color:var(--accent);border-radius:8px;font-weight:700;font-size:0.9rem;display:inline-block;";gb.appendChild(bdg);ra.appendChild(gb);}
+const cb=el("div","action-block");cb.appendChild(el("div","action-title",TEXT.btnWriteTitle||"Написать мне"));
+const src=sessionStorage.getItem("site_utm"),sh=encodeURIComponent("Здравствуйте! Я прошёл(а) тест. Мой код гайда: "+sid+" ("+$("#result-title").textContent+(src?", источник: "+src:"")+"). Прикрепляю скриншот!");
+let tg=LINKS.tg||"";if(C.settings?.tgBotUsername)tg="https://t"+".me/"+C.settings.tgBotUsername.replace(/^@/,"")+"?start="+encodeURIComponent(sid);
+let waUrl=LINKS.wa||"";if(waUrl&&waUrl.includes("wa.me"))waUrl+=(waUrl.includes("?")?"&":"?")+"text="+sh;
+addLinkBtn(cb,TEXT.btnWriteMax||"Написать в MAX",LINKS.max,C.theme?.primary);addLinkBtn(cb,TEXT.btnWriteTg||"Написать в Telegram",tg,C.theme?.tg||"#229ED9");addLinkBtn(cb,TEXT.btnWriteWa||"Написать в WhatsApp",waUrl,C.theme?.wa||"#25D366");if(LINKS.phone)addLinkBtn(cb,TEXT.btnCall||"Позвонить",LINKS.phone.startsWith("tel:")?LINKS.phone:"tel:"+LINKS.phone,"#555");if(TEXT.callNote){const nt=el("p","hint",TEXT.callNote);nt.style.marginTop="8px";cb.appendChild(nt);}ra.appendChild(cb);
+if(LINKS.landing){const mb=el("div","action-block");mb.appendChild(el("div","action-title",TEXT.methodTitle||"Узнать о методике"));addLinkBtn(mb,TEXT.methodBtn||"Подробнее на сайте",LINKS.landing,C.theme?.primary);ra.appendChild(mb);}showScreen("result");}
+$("#btn-start").onclick=()=>{currentIndex=0;answers.fill(null);renderQuestion();showScreen("question");};$("#btn-back").onclick=()=>{if(currentIndex>0){currentIndex--;renderQuestion();}else showScreen("start");};$("#btn-restart").onclick=()=>{currentIndex=0;answers.fill(null);showScreen("start");};const ar=$("#app");if(ar)ar.hidden=false;
 })();
