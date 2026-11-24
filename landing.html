@@ -1,606 +1,77 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Мио-фасциальная практика</title>
-  <meta name="description" content="Авторская мио-фасциальная остеокоррекция. 20+ лет опыта.">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Мио-фасциальная практика">
-  <meta property="og:image" content="igor.jpg">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%234a8f6f'/%3E%3Ctext x='96' y='130' font-size='110' text-anchor='middle'%3E🌿%3C/text%3E%3C/svg%3E">
-
-  <style>
-    :root {
-      --bg-main: #fbf9f6; --bg-alt: #f2efe9; --fg: #2b2a28; --muted: #8a8580;
-      --accent: #4a8f6f; --accent-hover: #3b755a; --accent-soft: #e8f0ea;
-      --card-bg: #ffffff; --border: #ebe6df; --radius: 16px;
-      --tg: #229ED9; --wa: #25D366;
-      --shadow: 0 8px 24px rgba(0,0,0,0.06);
-    }
-    body.theme-dark { --bg-main: #1c1e1b; --bg-alt: #24262a; --fg: #e8e6e2; --muted: #9a9890; --accent-soft: #253028; --card-bg: #2a2c2a; --border: #33342f; --shadow: 0 8px 24px rgba(0,0,0,0.3); }
-    body.theme-dark p { color: #c8c5c0; }
-    @media (prefers-color-scheme: dark) {
-      body.theme-auto { --bg-main: #1c1e1b; --bg-alt: #24262a; --fg: #e8e6e2; --muted: #9a9890; --accent-soft: #253028; --card-bg: #2a2c2a; --border: #33342f; --shadow: 0 8px 24px rgba(0,0,0,0.3); }
-      body.theme-auto p { color: #c8c5c0; }
-    }
-    body.preset-premium { --bg-main: #f5f5f7; --bg-alt: #ebebeb; --card-bg: rgba(255, 255, 255, 0.6); --radius: 24px; --border: rgba(255,255,255,0.4); }
-    body.preset-premium .card, body.preset-premium .loc-card, body.preset-premium .loc-item { backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%); box-shadow: 0 8px 32px rgba(0,0,0,0.05); }
-    body.preset-premium .btn { box-shadow: none; transform: none; }
-    body.preset-strict { --bg-main: #ffffff; --bg-alt: #fafafa; --fg: #1a1a1a; --border: #1a1a1a; --accent: #1a1a1a; --accent-soft: #f0f0f0; --radius: 0; }
-    body.preset-strict .btn, body.preset-strict .card, body.preset-strict .loc-card, body.preset-strict .loc-item { border: 2px solid #1a1a1a; box-shadow: none; }
-    html { scroll-behavior: smooth; }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg-main); color: var(--fg); line-height: 1.6; -webkit-font-smoothing: antialiased; padding-bottom: 80px; transition: background 0.3s; }
-    .section { padding: 60px 20px; width: 100%; display: flex; justify-content: center; }
-    .section-alt { background-color: var(--bg-alt); }
-    .container { width: 100%; max-width: 700px; }
-    h1 { font-size: 2.2rem; line-height: 1.2; margin-bottom: 20px; color: var(--fg); }
-    h2 { font-size: 1.8rem; margin-bottom: 20px; color: var(--fg); line-height: 1.3; }
-    h3 { font-size: 1.2rem; margin-bottom: 10px; color: var(--fg); }
-    p { font-size: 1.05rem; margin-bottom: 16px; color: #4a4845; }
-    .overline { text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; color: var(--accent); font-weight: 700; margin-bottom: 10px; display: block; }
-    .btn-group { display: flex; flex-direction: column; gap: 12px; margin: 30px 0 15px; }
-    .btn { display: flex; align-items: center; justify-content: center; width: 100%; padding: 18px 20px; border-radius: var(--radius); text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: all 0.2s ease; cursor: pointer; border: none; color: #fff; }
-    body.btn-style-classic .btn-max { background: var(--accent); box-shadow: 0 6px 0 var(--accent-hover); }
-    body.btn-style-classic .btn-max:active { transform: translateY(6px); box-shadow: 0 0 0 var(--accent-hover) !important; }
-    body.btn-style-classic .btn-tg { background: var(--tg); box-shadow: 0 6px 0 #1A7CA8; }
-    body.btn-style-classic .btn-tg:active { transform: translateY(6px); box-shadow: 0 0 0 #1A7CA8 !important; }
-    body.btn-style-classic .btn-wa { background: var(--wa); box-shadow: 0 6px 0 #128C7E; }
-    body.btn-style-classic .btn-wa:active { transform: translateY(6px); box-shadow: 0 0 0 #128C7E !important; }
-    body.btn-style-classic .btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
-    body.btn-style-classic .btn-outline:active { background: var(--accent-soft); transform: scale(0.98); }
-    body.btn-style-flat .btn-max { background: var(--accent); }
-    body.btn-style-flat .btn-tg { background: var(--tg); }
-    body.btn-style-flat .btn-wa { background: var(--wa); }
-    body.btn-style-flat .btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
-    body.btn-style-flat .btn:active { filter: brightness(0.9); }
-    body.btn-style-flat .btn { box-shadow: none !important; }
-    body.btn-style-flat .btn:active { transform: none !important; }
-    body.btn-style-gradient .btn-max { background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%); }
-    body.btn-style-gradient .btn-tg { background: linear-gradient(135deg, #229ED9 0%, #1A7CA8 100%); }
-    body.btn-style-gradient .btn-wa { background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); }
-    body.btn-style-gradient .btn-outline { background: linear-gradient(135deg, transparent 0%, var(--accent-soft) 100%); color: var(--accent); border: 2px solid var(--accent); }
-    body.btn-style-gradient .btn { box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-    body.btn-style-gradient .btn:active { transform: scale(0.98) !important; box-shadow: 0 2px 6px rgba(0,0,0,0.1) !important; }
-    body.btn-style-outline .btn-max, body.btn-style-outline .btn-tg, body.btn-style-outline .btn-wa, body.btn-style-outline .btn-outline {
-      background: transparent; color: var(--accent); border: 2px solid var(--accent);
-    }
-    body.btn-style-outline .btn-tg { color: var(--tg); border-color: var(--tg); }
-    body.btn-style-outline .btn-wa { color: var(--wa); border-color: var(--wa); }
-    body.btn-style-outline .btn:active { background: var(--accent-soft); transform: scale(0.98) !important; }
-    body.btn-style-outline .btn { box-shadow: none !important; }
-    body.btn-style-arrow .btn-max, body.btn-style-arrow .btn-tg, body.btn-style-arrow .btn-wa { position: relative; padding-right: 48px; }
-    body.btn-style-arrow .btn-max { background: var(--accent); }
-    body.btn-style-arrow .btn-tg { background: var(--tg); }
-    body.btn-style-arrow .btn-wa { background: var(--wa); }
-    body.btn-style-arrow .btn-max::after, body.btn-style-arrow .btn-tg::after, body.btn-style-arrow .btn-wa::after { content: "→"; position: absolute; right: 20px; font-size: 1.2rem; }
-    body.btn-style-arrow .btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); position: relative; padding-right: 48px; }
-    body.btn-style-arrow .btn-outline::after { content: "→"; position: absolute; right: 20px; font-size: 1.2rem; }
-    body.btn-style-arrow .btn:active { transform: scale(0.98) !important; }
-    body.btn-style-arrow .btn { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-    .hero-img-container { width: 100%; height: 300px; border-radius: var(--radius); background: linear-gradient(135deg, #e8f0ea 0%, #d4e4d9 100%); margin: 25px 0; box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; color: var(--accent); font-weight: 600; overflow: hidden; }
-    .hero-img-container img { width: 100%; height: 100%; object-fit: cover; }
-    .compare-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin: 25px 0; }
-    .compare-card { padding: 20px; border-radius: 12px; border: 1px solid var(--border); background: var(--card-bg); }
-    .compare-card h4 { margin-bottom: 15px; font-size: 1.1rem; }
-    .compare-card.bad h4 { color: #a86a5a; }
-    .compare-card.good h4 { color: var(--accent); }
-    .compare-list { list-style: none; padding: 0; }
-    .compare-list li { position: relative; padding-left: 24px; margin-bottom: 10px; font-size: 0.95rem; }
-    .compare-card.bad .compare-list li::before { content: "✕"; position: absolute; left: 0; color: #a86a5a; font-weight: bold; }
-    .compare-card.good .compare-list li::before { content: "✓"; position: absolute; left: 0; color: var(--accent); font-weight: bold; }
-    .grid-2 { display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 20px; }
-    .grid-3 { display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 20px; }
-    .grid-4 { display: grid; grid-template-columns: 1fr; gap: 15px; margin: 25px 0; }
-    .card { background: var(--card-bg); border-radius: var(--radius); padding: 24px; border: 1px solid var(--border); box-shadow: var(--shadow); }
-    .card-icon { font-size: 2rem; margin-bottom: 15px; display: block; }
-    .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; font-size: 0.9rem; color: var(--muted); }
-    .footer a { color: var(--accent); text-decoration: none; }
-    .loc-item { border-bottom: 1px solid var(--border); padding: 20px 0; }
-    .loc-item:last-child { border: none; }
-    .loc-head { font-size: 1.2rem; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--fg); transition: color 0.2s; }
-    .loc-head:hover { color: var(--accent); }
-    .loc-head::after { content: "▼"; font-size: 0.8rem; color: var(--accent); transition: transform 0.3s; }
-    .loc-item.open .loc-head::after { transform: rotate(180deg); }
-    .loc-body { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0, 1, 0, 1); }
-    .loc-item.open .loc-body { max-height: 1500px; transition: max-height 0.5s ease-in-out; padding-top: 20px; }
-    .loc-grid { display: grid; grid-template-columns: 1fr; gap: 20px; margin-top: 20px; }
-    .loc-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column; }
-    .loc-card-img { width: 100%; height: 200px; object-fit: cover; background: var(--bg-alt); }
-    .loc-card-content { padding: 20px; flex: 1; display: flex; flex-direction: column; }
-    .loc-card-content h3 { margin-bottom: 8px; }
-    .loc-card-content p { flex: 1; font-size: 0.95rem; }
-    .loc-tiles { display: grid; grid-template-columns: 1fr; gap: 0; margin-top: 20px; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--card-bg); }
-    .loc-tile { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; }
-    .loc-tile:last-child { border-bottom: none; }
-    .loc-tile-header { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .loc-tile-metro { font-size: 1.1rem; font-weight: 700; color: var(--fg); }
-    .loc-tile-price { font-size: 1rem; font-weight: 700; color: var(--accent); }
-    .loc-tile-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.4; margin: 0; }
-    .loc-tile-actions { display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
-    .loc-tile-actions .btn { padding: 10px 16px; font-size: 0.9rem; width: auto; }
-    .loc-hero { display: flex; flex-direction: column; border-radius: var(--radius); overflow: hidden; background: var(--card-bg); box-shadow: var(--shadow); border: 1px solid var(--border); margin-top: 20px; }
-    .loc-hero-img { width: 100%; height: 250px; object-fit: cover; background: var(--bg-alt); }
-    .loc-hero-content { padding: 24px; }
-    .loc-hero-content h3 { font-size: 1.5rem; margin-bottom: 8px; }
-    .loc-hero-content p { font-size: 1rem; margin-bottom: 16px; }
-    .loc-hero-meta { display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
-    .loc-hero-price { font-size: 1.4rem; font-weight: 700; color: var(--accent); }
-    .loc-hero-actions { display: flex; flex-direction: column; gap: 8px; }
-    .loc-hero-actions .btn { width: 100%; }
-    .form-card { background: var(--card-bg); border-radius: var(--radius); padding: 24px; border: 1px solid var(--border); box-shadow: var(--shadow); max-width: 500px; margin: 0 auto; }
-    .form-group { margin-bottom: 14px; }
-    .form-group label { display: block; font-size: 0.9rem; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
-    .form-group input[type="text"], .form-group input[type="tel"], .form-group textarea { width: 100%; padding: 12px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 1rem; font-family: inherit; background: var(--bg-main); color: var(--fg); }
-    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--accent); background: var(--card-bg); }
-    .form-checkbox { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 16px; font-size: 0.85rem; color: var(--muted); line-height: 1.4; }
-    .form-checkbox input[type="checkbox"] { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--accent); flex-shrink: 0; }
-    .form-checkbox a { color: var(--accent); text-decoration: underline; }
-    .form-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
-    .form-actions .btn { width: 100%; }
-    .cookie-banner { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid var(--border); padding: 16px 20px; z-index: 1100; box-shadow: 0 -4px 20px rgba(0,0,0,0.08); display: none; }
-    .cookie-banner.active { display: block; }
-    .cookie-inner { max-width: 900px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
-    .cookie-text { flex: 1 1 300px; font-size: 0.9rem; color: var(--fg); line-height: 1.5; }
-    .cookie-text a { color: var(--accent); }
-    .cookie-actions { display: flex; gap: 8px; flex-shrink: 0; }
-    .cookie-actions button { padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; font-size: 0.9rem; }
-    .cookie-accept { background: var(--accent); color: #fff; }
-    .cookie-decline { background: transparent; color: var(--muted); border: 1.5px solid var(--border) !important; }
-    .hidden { display: none !important; }
-    @media (min-width: 768px) {
-      .container { max-width: 900px; }
-      h1 { font-size: 2.8rem; }
-      h2 { font-size: 2rem; }
-      .grid-2 { grid-template-columns: 1fr 1fr; }
-      .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
-      .grid-4 { grid-template-columns: 1fr 1fr; }
-      .loc-grid { grid-template-columns: 1fr 1fr; }
-      .loc-tiles { grid-template-columns: 1fr 1fr; }
-      .loc-hero { flex-direction: row; }
-      .loc-hero-img { width: 50%; height: auto; min-height: 350px; }
-      .loc-hero-content { width: 50%; padding: 40px; display: flex; flex-direction: column; justify-content: center; }
-      .loc-hero-actions { flex-direction: row; flex-wrap: wrap; }
-      .loc-hero-actions .btn { width: auto; }
-      .compare-grid { grid-template-columns: 1fr 1fr; }
-      .btn-group { flex-direction: row; justify-content: center; flex-wrap: wrap; }
-      .btn { width: auto; min-width: 200px; }
-      .form-actions { flex-direction: row; }
-      .form-actions .btn { width: auto; flex: 1; }
-      .float-btn { bottom: 30px; right: 30px; }
-    }
-  </style>
-</head>
-<body>
-
-  <div id="sections-container"></div>
-
-  <button class="float-btn" id="float-btn">💬</button>
-
-  <div class="cookie-banner" id="cookie-banner">
-    <div class="cookie-inner">
-      <div class="cookie-text" id="cookie-text"></div>
-      <div class="cookie-actions">
-        <button class="cookie-decline" id="btn-decline"></button>
-        <button class="cookie-accept" id="btn-accept"></button>
-      </div>
-    </div>
-  </div>
-
-  <script src="content.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      let C = window.CONTENT;
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('preview') === 'true') {
-        const pd = localStorage.getItem('previewData');
-        if (pd) { try { C = JSON.parse(pd); } catch(e) {} }
-      }
-      if (typeof C === "undefined") C = {};
-
-      const DEFAULTS = {
-        landing: {
-          heroOverline: "Тест пройден",
-          heroTitle: "Верните телу природную легкость и свободу движений за 2–3 сеанса",
-          heroText: "Авторская мио-фасциальная практика от Игоря Шамшина. 20+ лет опыта в восстановительной медицине. Бережное освобождение от зажимов, отеков и хронической усталости.",
-          heroImage: "igor.jpg",
-          btnWriteMax: "Написать в MAX",
-          btnWriteTg: "Написать в Telegram",
-          btnWriteWa: "Написать в WhatsApp",
-          btnCall: "Позвонить мне",
-          compareTitle: "Почему 1 сеанс эффективнее, чем целый курс массажа?",
-          compareText: "Классический массаж работает с верхушкой айсберга — мышцами. Поэтому после курса из 10 сеансов дискомфорт часто возвращается. Игорь Шамшин работает с первопричиной.",
-          compareBadTitle: "Обычный массаж",
-          compareBadList: ["Поверхностное разминание мышц", "Болит шея — массируют шею (симптом, а не причина)", "Облегчение на 2–3 дня", "Нужен курс 10 сеансов (до 48 000 ₽ + время)"],
-          compareGoodTitle: "У Игоря Шамшина",
-          compareGoodList: ["Глубокая работа с фасциями и связками", "Ищет первопричину (шея может болеть из-за перекоса таза)", "Накопительный эффект на месяцы", "Всего 2–3 сеанса по 8 000 ₽ (экономия до 50%)"],
-          expertTitle: "Мой путь и экспертность",
-          expertText: "Более 20 лет в медицине: от реабилитации в нейрохирургии до работы со спортсменами и клиниками пластической хирургии. Теперь — авторская мио-фасциальная практика.",
-          expertCards: [
-            { icon: "🏥", title: "Нейрохирургия и реабилитация", text: "Начинал с реабилитации в нейрохирургическом отделении. Знаю изнутри, как восстанавливается тело после травм, операций и длительного напряжения." },
-            { icon: "🏆", title: "Спорт высоких достижений", text: "Работал с пауэрлифтерами и баскетболистами. Понимаю механику мощных нагрузок, восстановления и перегрузок." },
-            { icon: "✨", title: "Пластическая хирургия", text: "Большой опыт реабилитации после пластических операций: работа с рубцами, лимфотоком и восстановлением мягких тканей." },
-            { icon: "📜", title: "Остеокоррекция", text: "Медицинское образование, 20+ лет практики. Обучался остеопластике у Виталия Кима. Знаком с биодинамикой и методом Олега Агапе." }
-          ],
-          locationsTitle: "География приема",
-          locationsCards: [
-            { city: "Москва", title: "м. Китай-город", text: "Идеально для перезагрузки в разгар рабочего дня. Уютный кабинет в тихом центре.", price: "8 000 ₽", img: "loc-center.jpg", mapLink: "https://yandex.ru/maps/?text=Москва, метро Китай-город" },
-            { city: "Москва", title: "м. Сокольники", text: "Удобная локация для спокойного визита в выходные. Зеленая зона, парковка рядом.", price: "8 000 ₽", img: "loc-sokolniki.jpg", mapLink: "https://yandex.ru/maps/?text=Москва, метро Сокольники" },
-            { city: "Волгоград", title: "Гастроли (Центр)", text: "Принимаю в уютном кабинете в центре города. Даты приезда смотрите в новостях.", price: "6 000 ₽", img: "loc-volgograd.jpg", mapLink: "https://yandex.ru/maps/?text=Волгоград, центр" }
-          ],
-          pricingTitle: "Стоимость и формат",
-          pricingName: "Сеанс мио-фасциальной остеокоррекции",
-          pricingPrice: "от 6 000 ₽ / час",
-          pricingDesc: "Стоимость фиксирована за час работы и может отличаться в зависимости от города.",
-          giftTitle: "Подарок для тех, кто прошел тест",
-          giftText: "Мы выявили зоны вашего напряжения. Чтобы вы могли начать помогать себе уже сегодня, я дарю вам персональный гайд по экспресс-разгрузке именно для вашей зоны.",
-          giftBtnMax: "Получить гайд в MAX",
-          giftBtnTg: "Получить гайд в Telegram",
-          giftBtnWa: "Получить гайд в WhatsApp",
-          newsTitle: "Что происходит в практике",
-          newsCards: [
-            { date: "15 мая 2026", title: "Гастроли в Волгоград", text: "Буду вести прием в Волгограде с 20 по 25 мая. Запись уже открыта." },
-            { date: "1 мая 2026", title: "Новая локация на Патриарших", text: "Скоро открою двери новый уютный кабинет в центре." }
-          ],
-          casesTitle: "Реальные истории клиентов",
-          casesCards: [
-            { title: "Екатерина, 37 лет", complaints: "«Компьютерная шея», сутулость, отеки.", result: "После 2 сеансов ушла привычка горбиться, визуально удлинилась шея." },
-            { title: "Мария, 32 года", complaints: "Тяжесть в ногах, деликатная проблема.", result: "После 3 сеансов ушла тяжесть. Деликатная проблема ушла полностью." },
-            { title: "Василий", complaints: "Сильное напряжение в спине, шее, плохой сон.", result: "После курса появилась легкость в теле, нормализовался сон." }
-          ],
-          footerText: "Мио-фасциальная практика — это оздоровительный метод. Не заменяет медицинскую диагностику. При острых состояниях рекомендуется консультация врача.",
-          contactsTitle: "Связаться со мной",
-          cookieBanner: { text: "Мы используем cookie для аналитики.", accept: "Принять", decline: "Отклонить" },
-          floatingButton: { title: "Связаться со мной", subtitle: "Выберите удобный способ:" }
-        }
-      };
-
-      const L = C.links || {};
-      const S = C.settings || {};
-      const LD = C.landing || {};
-      const A = C.analytics || {};
-      const testEnabled = S.testEnabled !== false;
-
-      if (C.theme && C.theme.darkMode) {
-        if (C.theme.darkMode === 'on') document.body.classList.add('theme-dark');
-        else if (C.theme.darkMode === 'auto') document.body.classList.add('theme-auto');
-      }
-      if (C.theme) {
-        document.documentElement.style.setProperty('--accent', C.theme.primary || '#4a8f6f');
-        document.documentElement.style.setProperty('--tg', C.theme.tg || '#229ED9');
-        document.documentElement.style.setProperty('--wa', C.theme.wa || '#25D366');
-        if (C.theme.preset) document.body.classList.add('preset-' + C.theme.preset);
-        document.body.classList.add('btn-style-' + (C.theme.btnStyle || 'classic'));
-      } else {
-        document.body.classList.add('btn-style-classic');
-      }
-
-      const getLD = (key) => {
-        const v = LD[key];
-        if (v === undefined || v === null || v === '' || (Array.isArray(v) && v.length === 0)) return DEFAULTS.landing[key];
-        return v;
-      };
-
-      const $ = id => document.getElementById(id);
-      const getImg = (src) => {
-        if (!src) return "";
-        if (src.startsWith('http') || src.startsWith('data:') || src.startsWith('/')) return src;
-        return (L.imgBase || '') + src;
-      };
-      const createBtn = (txt, href, cls) => {
-        if (!href) return '';
-        return `<a href="${href}" target="_blank" rel="noopener" class="btn ${cls}">${txt}</a>`;
-      };
-
-      function renderHero(data) {
-        return `<section class="section"><div class="container">
-          ${data.overline ? `<span class="overline">${data.overline}</span>` : ''}
-          <h1>${data.title || ''}</h1><p>${data.text || ''}</p>
-          <div class="hero-img-container"><img src="${getImg(data.image || 'igor.jpg')}" onerror="this.style.display='none';this.parentElement.innerHTML='<span>Фото</span>';"></div>
-          <div class="btn-group">
-            ${testEnabled && L.test ? `<a href="${L.test}" class="btn btn-outline">Пройти тест</a>` : ''}
-            ${createBtn(data.btnMax || 'Написать в MAX', L.max, 'btn-max')}
-            ${createBtn(data.btnTg || 'Написать в Telegram', L.tg, 'btn-tg')}
-            ${createBtn(data.btnWa || 'Написать в WhatsApp', L.wa, 'btn-wa')}
-            ${createBtn(data.btnCall || 'Позвонить', L.phone, 'btn-outline')}
-          </div></div></section>`;
-      }
-
-      function renderCompare(data) {
-        const badList = data.badList || [], goodList = data.goodList || [];
-        if (!badList.length && !goodList.length) return '';
-        return `<section class="section section-alt"><div class="container">
-          <h2>${data.title || ''}</h2><p>${data.text || ''}</p>
-          <div class="compare-grid">
-            <div class="compare-card bad"><h4>${data.badTitle || ''}</h4><ul class="compare-list">${badList.map(t => `<li>${t}</li>`).join('')}</ul></div>
-            <div class="compare-card good"><h4>${data.goodTitle || ''}</h4><ul class="compare-list">${goodList.map(t => `<li>${t}</li>`).join('')}</ul></div>
-          </div></div></section>`;
-      }
-
-      function renderExpert(data) {
-        const cards = data.cards || [];
-        if (!cards.length) return '';
-        return `<section class="section"><div class="container">
-          <h2>${data.title || ''}</h2><p>${data.text || ''}</p>
-          <div class="grid-3">${cards.map(c => `<div class="card"><span class="card-icon">${c.icon || '✨'}</span><h3>${c.title}</h3><p style="font-size:0.95rem;">${c.text}</p></div>`).join('')}</div>
-        </div></section>`;
-      }
-
-      function renderLocations(data) {
-        const cards = data.cards || [];
-        if (!cards.length) return '';
-        const v = data.variant || 'accordion';
-        if (v === 'accordion') {
-          return `<section class="section section-alt"><div class="container"><h2>${data.title || ''}</h2>
-            <div class="card">${cards.map(loc => `<div class="loc-item">
-              <div class="loc-head">${loc.city} — ${loc.title}</div>
-              <div class="loc-body">${loc.img ? `<img src="${getImg(loc.img)}" style="width:100%; border-radius:12px; margin-bottom:16px;" loading="lazy">` : ''}
-                <p>${loc.text}</p><p style="color:var(--accent); font-weight:700; font-size:1.2rem;">${loc.price}</p>
-                <div class="btn-group" style="justify-content: flex-start; margin-top: 15px;">
-                  <button class="btn btn-max" style="width:auto; padding:12px 24px;" onclick="scrollToForm()">Записаться</button>
-                  ${loc.mapLink ? `<a href="${loc.mapLink}" target="_blank" class="btn btn-outline" style="width:auto; padding:12px 24px;">Маршрут</a>` : ''}
-                </div></div></div>`).join('')}</div></div></section>`;
-        }
-        if (v === 'cards') {
-          return `<section class="section section-alt"><div class="container"><h2>${data.title || ''}</h2>
-            <div class="loc-grid">${cards.map(loc => `<div class="loc-card">
-              ${loc.img ? `<img src="${getImg(loc.img)}" class="loc-card-img" loading="lazy">` : ''}
-              <div class="loc-card-content"><h3>${loc.city} — ${loc.title}</h3><p>${loc.text}</p>
-                <p style="color:var(--accent); font-weight:700; font-size:1.2rem;">${loc.price}</p>
-                <div class="btn-group" style="justify-content: flex-start; margin-top: 10px;">
-                  <button class="btn btn-max" style="width:auto; padding:10px 20px;" onclick="scrollToForm()">Записаться</button>
-                  ${loc.mapLink ? `<a href="${loc.mapLink}" target="_blank" class="btn btn-outline" style="width:auto; padding:10px 20px;">Маршрут</a>` : ''}
-                </div></div></div>`).join('')}</div></div></section>`;
-        }
-        if (v === 'tiles') {
-          return `<section class="section section-alt"><div class="container"><h2>${data.title || ''}</h2>
-            <div class="loc-tiles">${cards.map(loc => `<div class="loc-tile">
-              <div class="loc-tile-header"><span class="loc-tile-metro">${loc.title || loc.city}</span><span class="loc-tile-price">${loc.price}</span></div>
-              <p class="loc-tile-desc">${loc.text}</p>
-              <div class="loc-tile-actions">
-                <button class="btn btn-max" onclick="scrollToForm()">Записаться</button>
-                ${loc.mapLink ? `<a href="${loc.mapLink}" target="_blank" class="btn btn-outline">Маршрут</a>` : ''}
-              </div></div>`).join('')}</div></div></section>`;
-        }
-        if (v === 'hero') {
-          const first = cards[0], rest = cards.slice(1);
-          return `<section class="section section-alt"><div class="container"><h2>${data.title || ''}</h2>
-            <div class="loc-hero">${first.img ? `<img src="${getImg(first.img)}" class="loc-hero-img" loading="lazy">` : ''}
-              <div class="loc-hero-content"><h3>${first.city} — ${first.title}</h3><p>${first.text}</p>
-                <div class="loc-hero-meta"><span class="loc-hero-price">${first.price}</span></div>
-                <div class="loc-hero-actions">
-                  <button class="btn btn-max" onclick="scrollToForm()">Записаться</button>
-                  ${first.mapLink ? `<a href="${first.mapLink}" target="_blank" class="btn btn-outline">Маршрут</a>` : ''}
-                </div></div></div>
-            ${rest.length ? `<div class="loc-tiles" style="margin-top:20px;">${rest.map(loc => `<div class="loc-tile">
-              <div class="loc-tile-header"><span class="loc-tile-metro">${loc.title || loc.city}</span><span class="loc-tile-price">${loc.price}</span></div>
-              <p class="loc-tile-desc">${loc.text}</p>
-              <div class="loc-tile-actions"><button class="btn btn-max" onclick="scrollToForm()">Записаться</button>
-                ${loc.mapLink ? `<a href="${loc.mapLink}" target="_blank" class="btn btn-outline">Маршрут</a>` : ''}</div>
-            </div>`).join('')}</div>` : ''}</div></section>`;
-        }
-        return '';
-      }
-
-      function renderPricing(data) {
-        if (!data.name) return '';
-        return `<section class="section"><div class="container"><h2>${data.title || ''}</h2>
-          <div class="card" style="text-align: center;"><h3>${data.name}</h3>
-            <p style="font-size: 2rem; font-weight: 700; color: var(--accent); margin: 10px 0;">${data.price || ''}</p>
-            <p>${data.desc || ''}</p></div></div></section>`;
-      }
-
-      function renderGift(data) {
-        if (!testEnabled || !data.title) return '';
-        return `<section class="section section-alt"><div class="container"><h2 style="text-align: center;">${data.title}</h2>
-          <div class="card" style="border: 2px dashed var(--accent); background: var(--accent-soft); text-align: center;">
-            <span class="card-icon">🎁</span><p style="font-size: 1.1rem; font-weight: 500;">${data.text || ''}</p>
-            <div class="btn-group" style="justify-content: center;">
-              ${createBtn(data.btnMax || 'Получить в MAX', L.max, 'btn-max')}
-              ${createBtn(data.btnTg || 'В Telegram', L.tg, 'btn-tg')}
-              ${createBtn(data.btnWa || 'В WhatsApp', L.wa, 'btn-wa')}
-            </div></div></div></section>`;
-      }
-
-      function renderNews(data) {
-        const cards = data.cards || [];
-        if (!cards.length) return '';
-        return `<section class="section"><div class="container"><h2>${data.title || ''}</h2>
-          <div class="grid-3">${cards.map(n => `<div class="card"><small style="color:var(--muted); font-weight:600;">${n.date}</small><h3 style="margin:8px 0;">${n.title}</h3><p style="margin:0; font-size:0.95rem;">${n.text}</p></div>`).join('')}</div>
-        </div></section>`;
-      }
-
-      function renderCases(data) {
-        const cards = data.cards || [];
-        if (!cards.length) return '';
-        return `<section class="section section-alt"><div class="container"><h2>${data.title || ''}</h2>
-          <div class="grid-3">${cards.map(c => `<div class="card"><h3>${c.title}</h3><p style="font-size:0.95rem;"><b>Жалобы:</b> ${c.complaints}</p><p style="font-size:0.95rem; margin:0;"><b>Результат:</b> ${c.result}</p></div>`).join('')}</div>
-        </div></section>`;
-      }
-
-      function renderContacts(data) {
-        return `<section class="section section-alt"><div class="container" style="text-align: center;">
-          <h2 style="margin-bottom: 30px;">${data.title || 'Связаться со мной'}</h2>
-          <div class="btn-group">
-            ${createBtn(data.btnMax || 'Написать в MAX', L.max, 'btn-max')}
-            ${createBtn(data.btnTg || 'Написать в Telegram', L.tg, 'btn-tg')}
-            ${createBtn(data.btnWa || 'Написать в WhatsApp', L.wa, 'btn-wa')}
-            ${createBtn(data.btnCall || 'Позвонить', L.phone, 'btn-outline')}
-          </div>
-          <div class="footer"><p>${L.phoneText ? `<a href="${L.phone}">${L.phoneText}</a>` : ''}</p><p>${data.footerText || ''}</p></div>
-        </div></section>`;
-      }
-
-      function renderCustom(data) {
-        if (!data.title && !data.text && !data.image) return '';
-        return `<section class="section ${data.alt ? 'section-alt' : ''}"><div class="container">
-          ${data.overline ? `<span class="overline">${data.overline}</span>` : ''}
-          ${data.title ? `<h2>${data.title}</h2>` : ''}
-          ${data.text ? `<p>${data.text}</p>` : ''}
-          ${data.image ? `<div class="hero-img-container"><img src="${getImg(data.image)}" onerror="this.style.display='none';"></div>` : ''}
-          ${data.link ? `<div class="btn-group"><a href="${data.link}" target="_blank" class="btn btn-outline">${data.linkText || 'Подробнее'}</a></div>` : ''}
-        </div></section>`;
-      }
-
-      function renderFaq(data) {
-        const items = data.items || [];
-        if (!items.length) return '';
-        return `<section class="section ${data.alt ? 'section-alt' : ''}"><div class="container"><h2>${data.title || 'Частые вопросы'}</h2>
-          <div class="card" style="padding: 10px 0;">${items.map(item => `<div class="loc-item" style="border-bottom: 1px solid var(--border);">
-            <div class="loc-head" style="padding: 10px 20px;">${item.q}</div>
-            <div class="loc-body" style="padding: 0 20px;"><p style="margin-top:10px;">${item.a}</p></div>
-          </div>`).join('')}</div></div></section>`;
-      }
-
-      function renderBeforeAfter(data) {
-        const items = data.items || [];
-        if (!items.length) return '';
-        return `<section class="section ${data.alt ? 'section-alt' : ''}"><div class="container"><h2>${data.title || 'До / После'}</h2>
-          ${data.text ? `<p>${data.text}</p>` : ''}
-          <div class="grid-2">${items.map(item => `<div class="card"><h3>${item.title || ''}</h3>
-            <div style="display:flex; gap:10px; margin-top:10px;">
-              <div style="flex:1; text-align:center;"><small style="color:var(--muted); font-weight:600;">До</small><img src="${getImg(item.before)}" style="width:100%; border-radius:8px; margin-top:5px;" loading="lazy"></div>
-              <div style="flex:1; text-align:center;"><small style="color:var(--muted); font-weight:600;">После</small><img src="${getImg(item.after)}" style="width:100%; border-radius:8px; margin-top:5px;" loading="lazy"></div>
-            </div>${item.text ? `<p style="margin-top:10px; font-size:0.95rem;">${item.text}</p>` : ''}</div>`).join('')}</div>
-        </div></section>`;
-      }
-
-      function renderGallery(data) {
-        const images = data.images || [];
-        if (!images.length) return '';
-        return `<section class="section ${data.alt ? 'section-alt' : ''}"><div class="container"><h2>${data.title || 'Галерея'}</h2>
-          ${data.text ? `<p>${data.text}</p>` : ''}
-          <div class="grid-3">${images.map(img => `<div class="card" style="padding:0; overflow:hidden;"><img src="${getImg(img)}" style="width:100%; height:200px; object-fit:cover;" loading="lazy"></div>`).join('')}</div>
-        </div></section>`;
-      }
-
-      let html = '';
-      let blocks = C.blocks;
-      if (!blocks || !Array.isArray(blocks) || blocks.length === 0) {
-        blocks = [
-          { id: 'b1', type: 'hero', visible: true, data: { overline: getLD('heroOverline'), title: getLD('heroTitle'), text: getLD('heroText'), image: getLD('heroImage'), btnMax: getLD('btnWriteMax'), btnTg: getLD('btnWriteTg'), btnWa: getLD('btnWriteWa'), btnCall: getLD('btnCall') } },
-          { id: 'b2', type: 'compare', visible: true, data: { title: getLD('compareTitle'), text: getLD('compareText'), badTitle: getLD('compareBadTitle'), badList: getLD('compareBadList'), goodTitle: getLD('compareGoodTitle'), goodList: getLD('compareGoodList') } },
-          { id: 'b3', type: 'expert', visible: true, data: { title: getLD('expertTitle'), text: getLD('expertText'), cards: getLD('expertCards') } },
-          { id: 'b4', type: 'locations', visible: true, data: { title: getLD('locationsTitle'), variant: LD.locationsVariant || 'accordion', cards: getLD('locationsCards') } },
-          { id: 'b5', type: 'pricing', visible: true, data: { title: getLD('pricingTitle'), name: getLD('pricingName'), price: getLD('pricingPrice'), desc: getLD('pricingDesc') } },
-          { id: 'b6', type: 'gift', visible: true, data: { title: getLD('giftTitle'), text: getLD('giftText'), btnMax: getLD('giftBtnMax'), btnTg: getLD('giftBtnTg'), btnWa: getLD('giftBtnWa') } },
-          { id: 'b7', type: 'news', visible: true, data: { title: getLD('newsTitle'), cards: getLD('newsCards') } },
-          { id: 'b8', type: 'cases', visible: true, data: { title: getLD('casesTitle'), cards: getLD('casesCards') } },
-          { id: 'b9', type: 'contacts', visible: true, data: { title: getLD('contactsTitle'), footerText: getLD('footerText'), btnMax: getLD('btnWriteMax'), btnTg: getLD('btnWriteTg'), btnWa: getLD('btnWriteWa'), btnCall: getLD('btnCall') } }
-        ];
-      }
-
-      blocks.forEach(block => {
-        if (block.visible === false) return;
-        if (block.type === 'gift' && !testEnabled) return;
-        const d = block.data || {};
-        if (block.type === 'hero') html += renderHero(d);
-        else if (block.type === 'compare') html += renderCompare(d);
-        else if (block.type === 'expert') html += renderExpert(d);
-        else if (block.type === 'locations') html += renderLocations(d);
-        else if (block.type === 'pricing') html += renderPricing(d);
-        else if (block.type === 'gift') html += renderGift(d);
-        else if (block.type === 'news') html += renderNews(d);
-        else if (block.type === 'cases') html += renderCases(d);
-        else if (block.type === 'contacts') html += renderContacts(d);
-        else if (block.type === 'custom') html += renderCustom(d);
-        else if (block.type === 'faq') html += renderFaq(d);
-        else if (block.type === 'beforeAfter') html += renderBeforeAfter(d);
-        else if (block.type === 'gallery') html += renderGallery(d);
-      });
-
-      const lf = S.leadForm || {};
-      if (lf.enabled) {
-        const privacyUrl = L.privacy || '#';
-        html += `<section class="section" id="sec-form"><div class="container">
-          <h2 style="text-align:center;">${lf.title || 'Связаться со мной'}</h2>
-          ${lf.subtitle ? `<p style="text-align:center; color:var(--muted); margin-bottom:24px;">${lf.subtitle}</p>` : ''}
-          <div class="form-card">
-            <div class="form-group"><label>Ваше имя</label><input type="text" id="lead-name" placeholder="Как к вам обращаться?" autocomplete="name"></div>
-            <div class="form-group"><label>Телефон</label><input type="tel" id="lead-phone" placeholder="+7 (___) ___-__-__" autocomplete="tel"></div>
-            <div class="form-checkbox"><input type="checkbox" id="lead-consent">
-              <label for="lead-consent" style="margin:0; font-weight:normal; cursor:pointer;">
-                ${lf.privacyText || 'Я согласен на обработку персональных данных'} <a href="${privacyUrl}" target="_blank">(политика)</a>
-              </label>
-            </div>
-            <div class="form-actions"><button class="btn btn-max" onclick="submitLead()">${lf.btnText || 'Связаться'}</button></div>
-          </div></div></section>`;
-      }
-
-      document.getElementById('sections-container').innerHTML = html;
-
-      document.querySelectorAll('.loc-head').forEach(head => {
-        head.addEventListener('click', () => head.parentElement.classList.toggle('open'));
-      });
-
-      window.scrollToForm = function() {
-        const target = document.getElementById('sec-form') || document.getElementById('sec-contacts');
-        if (target) target.scrollIntoView({behavior: 'smooth'});
-      };
-
-      if (S.showFloatingButton !== false) {
-        const fb = $('float-btn');
-        fb.classList.add('active');
-        fb.addEventListener('click', scrollToForm);
-      }
-
-      window.submitLead = function() {
-        const name = document.getElementById('lead-name')?.value.trim();
-        const phone = document.getElementById('lead-phone')?.value.trim();
-        const consent = document.getElementById('lead-consent')?.checked;
-        if (!name) { alert('Пожалуйста, укажите ваше имя'); return; }
-        if (!phone) { alert('Пожалуйста, укажите телефон'); return; }
-        const digits = phone.replace(/\D/g, '');
-        if (digits.length < 10) { alert('Пожалуйста, укажите корректный телефон (минимум 10 цифр)'); return; }
-        if (!consent) { alert('Пожалуйста, согласитесь на обработку данных'); return; }
-        const text = encodeURIComponent(`Здравствуйте! Меня зовут ${name}. Мой телефон: ${phone}. Я оставил(а) заявку на сайте.`);
-        let target = null;
-        if (lf.method === 'max' && L.max) target = L.max;
-        else if (lf.method === 'tg' && L.tg) target = L.tg;
-        else if (lf.method === 'wa' && L.wa) target = L.wa;
-        else if (lf.method === 'phone' && L.phone) target = L.phone;
-        else { if (L.max) target = L.max; else if (L.tg) target = L.tg; else if (L.wa) target = L.wa; else if (L.phone) target = L.phone; }
-        if (!target) { alert('К сожалению, не настроены способы связи.'); return; }
-        if (target.indexOf('wa.me') !== -1 && target.indexOf('?') === -1) target += '?text=' + text;
-        else if (target.indexOf('wa.me') !== -1) target += '&text=' + text;
-        else if (target.indexOf('api.whatsapp.com') !== -1 && target.indexOf('?') === -1) target += '?text=' + text;
-        else if (target.indexOf('api.whatsapp.com') !== -1) target += '&text=' + text;
-        window.open(target, '_blank', 'noopener');
-      };
-
-      function loadAnalytics() {
-        if (!S.dataCollectionEnabled) return;
-        if (A.yandexMetrika && !document.getElementById("ym-script")) {
-          (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
-          try { window.ym(parseInt(A.yandexMetrika, 10), "init", { clickmap: true, trackLinks: true, accurateTrackBounce: true }); } catch (_) {}
-        }
-        if (A.googleAnalytics && !document.getElementById("ga-script")) {
-          const s = document.createElement("script");
-          s.id = "ga-script"; s.async = true;
-          s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(A.googleAnalytics);
-          document.head.appendChild(s);
-          window.dataLayer = window.dataLayer || [];
-          function gtag() { window.dataLayer.push(arguments); }
-          window.gtag = gtag;
-          gtag("js", new Date());
-          gtag("config", A.googleAnalytics);
-        }
-      }
-
-      if (S.dataCollectionEnabled && !localStorage.getItem('cookieChoice')) {
-        const cb = LD.cookieBanner || DEFAULTS.landing.cookieBanner;
-        const banner = $('cookie-banner');
-        banner.classList.add('active');
-        $('cookie-text').textContent = cb.text;
-        $('btn-accept').textContent = cb.accept || 'Принять';
-        $('btn-decline').textContent = cb.decline || 'Отклонить';
-        $('btn-accept').onclick = () => { localStorage.setItem('cookieChoice', 'accept'); banner.classList.remove('active'); loadAnalytics(); };
-        $('btn-decline').onclick = () => { localStorage.setItem('cookieChoice', 'decline'); banner.classList.remove('active'); };
-      } else if (localStorage.getItem('cookieChoice') === 'accept') {
-        loadAnalytics();
-      }
-    });
-  </script>
-</body>
-</html>
+<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Мио-фасциальная практика Игоря Шамшина | Москва</title>
+  <meta name="description" content="Авторская мио-фасциальная остеокоррекция и остеопластика. 20+ лет опыта. Возвращаем легкость движений за 2–3 сеанса.">
+  <link rel="canonical" href="https://github.iolanding.html">
+  <meta property="og:title" content="Мио-фасциальная практика Игоря Шамшина">
+  <meta property="og:description" content="20+ лет в восстановительной медицине. Мягкая остеокоррекция в Москве и Волгограде.">
+  <meta property="og:image" content="https://github.ioigor.jpg"><style>:root { --bg-main:#fbf9f6; --bg-alt:#f3efe8; --fg:#2b2a28; --muted:#7a756f; --accent:#4a7c59; --accent-soft:#e8f0ea; --border:#e6e0d6; --card-bg:#ffffff; --radius:18px; --bg-main:#F7F9F7;--bg-alt:#EBF0EC;--fg:#1F2B24;--muted:#65756B;--accent:#4A7C59;--accent-soft:#DFECE3;--border:#D5E0D8;--card-bg:#FFFFFF; }
+body.theme-dark { --bg-main:#161817; --bg-alt:#1e201f; --fg:#eceae4; --muted:#9a978e; --accent:#7ab88f; --accent-soft:#233027; --border:#2f322e; --card-bg:#222523; }
+@media (prefers-color-scheme: dark) { body.theme-auto { --bg-main:#161817; --bg-alt:#1e201f; --fg:#eceae4; --muted:#9a978e; --accent:#7ab88f; --accent-soft:#233027; --border:#2f322e; --card-bg:#222523; } }
+* { box-sizing:border-box; margin:0; padding:0; } html { scroll-behavior:smooth; font-size:17px; }
+body { background:var(--bg-main); color:var(--fg); line-height:1.6; padding-bottom:84px; -webkit-font-smoothing:antialiased; }
+body{font-family:-apple-system,sans-serif;} h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:600;letter-spacing:-0.01em;}
+img { max-width:100%; height:auto; }
+.container { width:100%; max-width:860px; margin:0 auto; padding:0 20px; }
+.section { padding:56px 0; } .section-alt { background:var(--bg-alt); }
+.section-accent { background:var(--accent-soft); } .section-dark { background:#181a19; color:#f3efeA; --fg:#f3efea; --muted:#a5a198; --card-bg:#232624; --border:#333734; }
+.sec-pad-sm { padding:32px 0; } .sec-pad-lg { padding:80px 0; }
+.overline { display:inline-block; font-size:0.85rem; font-weight:700; letter-spacing:0.03em; color:var(--accent); background:var(--accent-soft); padding:6px 14px; border-radius:999px; margin-bottom:14px; }
+.text-accent { color:var(--accent); font-weight:600; }
+h1,h2,h3 { color:var(--h-color, var(--fg)); } p,li { color:var(--p-color, var(--fg)); }
+.sec-txt-dark { --h-color:#1a1a1a; --p-color:#2b2a28; } .sec-txt-muted { --p-color:var(--muted); } .sec-txt-light { --h-color:#ffffff; --p-color:rgba(255,255,255,0.88); }
+h1 { font-size:clamp(1.85rem, 4vw, 2.7rem); line-height:1.18; margin-bottom:16px; }
+h2 { font-size:clamp(1.5rem, 3.2vw, 2.1rem); line-height:1.25; margin-bottom:16px; }
+h3 { font-size:1.2rem; line-height:1.35; margin-bottom:8px; } p { margin-bottom:16px; }
+.hero-img-container { width:100%; max-width:540px; border-radius:var(--radius); background:var(--accent-soft); margin:24px auto; display:flex; align-items:center; justify-content:center; color:var(--accent); font-weight:600; overflow:hidden; box-shadow:0 12px 32px rgba(0,0,0,0.08); }
+.hero-img-container img { width:100%; height:auto; max-height:72vh; object-fit:cover; object-position:center 15%; display:block; }
+.btn-group { display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; }
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:14px 24px; border-radius:var(--radius); font-size:1rem; font-weight:600; text-decoration:none; border:none; cursor:pointer; transition:0.2s; }
+.btn-max { background:var(--accent);color:#fff; }
+.btn-tg { background:#229ed9; color:#fff; } .btn-wa { background:#25d366; color:#fff; }
+.btn-outline { background:transparent; color:var(--fg); border:1.5px solid var(--border); }
+.card,.loc-card,.loc-tile,.compare-card,.form-card{background:var(--card-bg);border:1px solid var(--border);box-shadow:0 6px 24px rgba(0,0,0,0.04);}
+.card { border-radius:var(--radius); padding:22px; } .card-icon { font-size:1.8rem; display:block; margin-bottom:10px; }
+.grid-2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:18px; margin-top:20px; }
+.grid-3 { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px; margin-top:20px; }
+.site-nav { position:sticky; top:0; z-index:9900; background:rgba(255,255,255,0.85); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-bottom:1px solid var(--border); padding:12px 0; }
+body.theme-dark .site-nav { background:rgba(22,24,23,0.85); }
+.site-nav-inner { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+.site-nav-brand { font-weight:700; font-size:1.05rem; color:var(--fg); text-decoration:none; }
+.site-nav-links { display:flex; gap:14px; flex-wrap:wrap; align-items:center; }
+.site-nav-links a { text-decoration:none; color:var(--muted); font-size:0.9rem; font-weight:600; transition:0.2s; } .site-nav-links a:hover { color:var(--accent); }
+.compare-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:18px; margin-top:24px; }
+.compare-card { border-radius:var(--radius); padding:24px; }
+.compare-card.good { border:2px solid var(--accent); background:var(--accent-soft); }
+.compare-card h4 { font-size:1.15rem; margin-bottom:14px; }
+.compare-list { list-style:none; display:flex; flex-direction:column; gap:10px; font-size:0.96rem; }
+.compare-card.bad .compare-list li::before { content:"✕ "; color:#c95a5a; font-weight:700; }
+.compare-card.good .compare-list li::before { content:"✓ "; color:var(--accent); font-weight:700; }
+.loc-accordion { display:flex; flex-direction:column; gap:12px; margin-top:20px; }
+.loc-item { background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; }
+.loc-head { padding:18px 20px; font-weight:700; cursor:pointer; display:flex; justify-content:space-between; align-items:center; }
+.loc-body { display:none; padding:0 20px 20px; border-top:1px solid var(--border); } .loc-item.open .loc-body { display:block; }
+.loc-tabs-nav { display:flex; gap:8px; flex-wrap:wrap; margin:18px 0; }
+.loc-tab-btn { padding:10px 18px; border-radius:999px; border:1px solid var(--border); background:var(--card-bg); color:var(--fg); font-weight:600; cursor:pointer; }
+.loc-tab-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+.loc-tab-panel { display:none; } .loc-tab-panel.active { display:block; }
+.loc-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; margin-top:20px; }
+.loc-card { border-radius:var(--radius); overflow:hidden; } .loc-card-img { width:100%; height:auto; max-height:360px; object-fit:cover; object-position:center 20%; display:block; }
+.loc-card-content { padding:20px; } .loc-tiles { display:flex; flex-direction:column; gap:12px; margin-top:20px; }
+.loc-tile { border-radius:var(--radius); padding:18px 20px; }
+.form-card { max-width:500px; margin:20px auto 0; padding:26px; border-radius:var(--radius); }
+.form-group { margin-bottom:14px; text-align:left; } .form-group label { display:block; font-size:0.9rem; font-weight:600; margin-bottom:6px; }
+.form-group input { width:100%; padding:13px; border-radius:12px; border:1px solid var(--border); background:var(--bg-main); color:var(--fg); font-size:1rem; }
+.form-checkbox { display:flex; align-items:flex-start; gap:10px; margin:14px 0 18px; font-size:0.85rem; color:var(--muted); text-align:left; }
+.footer { margin-top:36px; padding-top:20px; border-top:1px solid var(--border); font-size:0.88rem; color:var(--muted); } .footer a { color:var(--accent); }
+.s-modal-bg { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); backdrop-filter:blur(5px); -webkit-backdrop-filter:blur(5px); z-index:10000; align-items:center; justify-content:center; padding:16px; }
+.s-modal-bg.open { display:flex; }
+.s-modal-box { background:var(--card-bg,#fff); color:var(--fg,#2b2a28); width:100%; max-width:500px; max-height:88vh; overflow-y:auto; padding:24px; border-radius:var(--radius,20px); position:relative; box-shadow:0 20px 50px rgba(0,0,0,0.25); }
+.s-modal-bg.style-sheet { align-items:flex-end; padding:0; } .s-modal-bg.style-sheet .s-modal-box { max-width:600px; border-radius:24px 24px 0 0; animation:sheetUp 0.35s ease; }
+.s-modal-bg.style-zoom .s-modal-box { animation:zoomIn 0.28s ease; }
+.s-modal-bg.style-drawer { justify-content:flex-end; padding:0; } .s-modal-bg.style-drawer .s-modal-box { max-width:380px; height:100vh; max-height:100vh; border-radius:0; animation:drawerIn 0.32s ease; }
+.s-modal-bg.style-fade .s-modal-box { animation:fadeInUp 0.25s ease; }
+.s-modal-close { position:absolute; top:14px; right:14px; width:34px; height:34px; border-radius:50%; border:none; background:var(--bg-alt,#eee); color:var(--fg); font-size:1.2rem; cursor:pointer; }
+@keyframes sheetUp { from{transform:translateY(100%);} to{transform:translateY(0);} }
+@keyframes zoomIn { from{opacity:0;transform:scale(0.92);} to{opacity:1;transform:scale(1);} }
+@keyframes drawerIn { from{transform:translateX(100%);} to{transform:translateX(0);} }
+@keyframes fadeInUp { from{opacity:0;transform:translateY(14px);} to{opacity:1;transform:translateY(0);} }
+</style></head><body class=""><div id="sections-container"><header class="site-nav"><div class="container"><div style="display:flex;align-items:center;justify-content:space-between;gap:8px;"><a href="#" class="site-nav-brand">Игорь Шамшин</a><div style="display:flex;gap:8px;align-items:center;"><button type="button" onclick="const m=this.closest('header').querySelector('.nav-drop');m.style.display=m.style.display==='flex'?'none':'flex'" style="background:var(--bg-alt);border:1px solid var(--border);color:var(--fg);padding:7px 12px;border-radius:999px;font-size:0.85rem;font-weight:600;cursor:pointer;">☰ Разделы</button><a href="#sec-contacts" class="btn btn-max" style="padding:7px 14px;font-size:0.85rem;color:#fff;">Записаться</a></div></div><div class="nav-drop" style="display:none;flex-direction:column;gap:8px;padding-top:12px;margin-top:10px;border-top:1px solid var(--border);"><a href="#sec-compare" onclick="this.parentElement.style.display='none'" style="text-decoration:none;color:var(--fg);font-weight:600;padding:6px 4px;">Методика</a><a href="#sec-expert" onclick="this.parentElement.style.display='none'" style="text-decoration:none;color:var(--fg);font-weight:600;padding:6px 4px;">Опыт</a><a href="#sec-pricing" onclick="this.parentElement.style.display='none'" style="text-decoration:none;color:var(--fg);font-weight:600;padding:6px 4px;">Стоимость</a><a href="#sec-cases" onclick="this.parentElement.style.display='none'" style="text-decoration:none;color:var(--fg);font-weight:600;padding:6px 4px;">Истории</a><a href="#sec-locations" onclick="this.parentElement.style.display='none'" style="text-decoration:none;color:var(--fg);font-weight:600;padding:6px 4px;">Адреса</a></div></div></header><section id="sec-hero" data-anchor="block-2" class="section"><div class="container"><span class="overline">Мио-фасциальная практика Игоря Шамшина</span><h1>Бережная работа с телом как с единой системой</h1><p>Помогает увидеть связи между зонами напряжения и вернуть естественную лёгкость и подвижность тела. Более 20 лет практики в восстановительной медицине.</p><div class="hero-img-container"><img src="igor.jpg" onerror="this.style.display='none';this.parentElement.innerHTML='<span>Фото</span>';"></div><div class="btn-group"><a href="https://max.ru/u/f9LHodD0cOKURlHDRtUfjZup0IItlxso6uYJw2xxB5VAO50X9VtVScPTXkc" target="_blank" class="btn btn-max">Написать в MAX</a><a href="https://t.me/+79951149954" target="_blank" class="btn btn-tg">Написать в Telegram</a><a href="https://wa.me/79951149954" target="_blank" class="btn btn-wa">Написать в WhatsApp</a><a href="tel:+79951149954" target="_blank" class="btn btn-outline">Позвонить</a></div></div></section><section id="sec-compare" data-anchor="block-3" class="section section-alt"><div class="container"><h2>В чём суть методики и почему она работает иначе, чем обычный массаж</h2><p>Мио-фасциальная практика основана на остеопатических техниках, отточенных в восстановительной медицине, спортивной практике и послеоперационной реабилитации (в том числе в пластической хирургии). Это работа с телом не по шаблону, а через глубокие телесные связи и поиск первопричин напряжения.</p><div class="compare-grid"><div class="compare-card bad"><h4>Обычный массаж</h4><ul class="compare-list"><li>Идёт по стандартной схеме — во многом одинаковой для всех</li><li>Работает на поверхностном уровне: кожа, подкожные ткани, крупные мышцы</li><li>Снимает симптом там, где тянет или болит, но не убирает исходную причину</li><li>Эффект часто кратковременный — приходится регулярно возвращаться к сеансам</li></ul></div><div class="compare-card good"><h4>Мио-фасциальная практика</h4><ul class="compare-list"><li>Индивидуальный разбор под конкретное тело и его компенсации</li><li>Глубокий уровень: фасции, глубокие мышцы, диафрагмы, положение костных структур</li><li>Поиск и снятие первопричины, из-за которой закрепляется напряжение и боли в теле</li><li>Устойчивый результат за счёт восстановления баланса тканей и движений тела. Достаточно одного курса, чтобы не только снять напряжение, но и почувствовать совсем иное качество своего движения.</li></ul></div></div></div></section><section id="sec-expert" data-anchor="block-4" class="section"><div class="container"><h2>Опыт и путь в практике</h2><p>Медицинское образование и более 20 лет работы с телом. Начинал с реабилитации в нейрохирургии, постепенно пришёл к собственной практике, где соединил остеопатические подходы и накопленный опыт.</p><div class="grid-2"><div class="card"><span class="card-icon">🧠</span><h3>Нейрохирургия и реабилитация</h3><p style="font-size:0.95rem;margin:0;">Начинал в нейрохирургическом отделении. Хорошо знаю изнутри, как восстанавливается тело после травм, операций и длительного напряжения.</p></div><div class="card"><span class="card-icon">🏆</span><h3>Спорт высоких достижений</h3><p style="font-size:0.95rem;margin:0;">Работал с пауэрлифтерами и баскетболистами. Понимаю, как тело переносит серьёзные нагрузки, перегрузки и восстановление.</p></div><div class="card"><span class="card-icon">✨</span><h3>Пластическая хирургия</h3><p style="font-size:0.95rem;margin:0;">Большой опыт работы с пациентами после пластических операций: восстановление мягких тканей, отёки, лимфоток и рубцы.</p></div><div class="card"><span class="card-icon">🌿</span><h3>Остеокоррекция и обучение</h3><p style="font-size:0.95rem;margin:0;">Осваивал остеопластику у Виталия Ким, в работе опираюсь на принципы биодинамики.</p></div></div></div></section><section id="sec-pricing" data-anchor="block-5" class="section"><div class="container"><h2>Стоимость, как проходит встреча, что важно знать</h2><div class="card" style="text-align:center;border:1.5px solid var(--accent);background:var(--accent-soft);"><h3>Индивидуальный сеанс мио-фасциальной практики</h3><p style="font-size:2.1rem;font-weight:700;color:var(--accent);margin:6px 0;">8 000 ₽ / час</p><p style="margin:0;">Первая встреча включает диагностику всего тела и составление персонального плана курса</p></div><div class="grid-2"><div class="card"><h3>Как проходит встреча</h3><ul class="compare-list" style="margin-top:12px;"><li style="padding-left:2px;">✓ Первая встреча — это диагностика, выстраивание индивидуального курса и персональные рекомендации.</li><li style="padding-left:2px;">✓ Приём проходит в уютном кабинете на массажном столе.</li><li style="padding-left:2px;">✓ Во время сеанса специалист может попросить вас встать или подвигаться — это нормально и помогает увидеть, как тело откликается в движении.</li></ul></div><div class="card"><h3>Что важно знать</h3><ul class="compare-list" style="margin-top:12px;"><li style="padding-left:2px;">• Лучше прийти чуть заранее, чтобы спокойно настроиться и войти в сеанс без спешки.</li><li style="padding-left:2px;">• Специалист работает со структурами тела во всём объёме, а не только поверхностно.</li><li style="padding-left:2px;">• После сеанса тело продолжает выравниваться — внутренние процессы восстановления идут и дальше, поэтому важно проходить курс без пропусков и полностью.</li><li style="padding-left:2px;">• Каждый сеанс даже внутри одного курса уникален и строится индивидуально под текущее состояние тела.</li><li style="padding-left:2px;">• Результат курса — лёгкость и баланс в теле.</li></ul></div></div></div></section><section id="sec-cases" data-anchor="block-6" class="section section-alt"><div class="container"><h2>Истории клиентов</h2><div class="grid-3"><div class="card"><h3>Екатерина, 37 лет</h3><p style="font-size:0.93rem;"><b>Беспокоило:</b> Чувство скованности, тяжести в плечах и шее, сутулость.</p><p style="font-size:0.93rem;"><b>Диагностика:</b> Выявили паттерн «компьютерной шеи» — голова ушла вперёд, плечи завернулись вперёд и вверх, грудные мышцы спазмировались, а перегруженные мышцы шеи и плеч сформировали так называемый «вдовий горбик».</p><p style="font-size:0.93rem;margin:0;"><b>Результат после курса:</b> Тело выровнялось, плечи развернулись, горбика как не бывало и шея встала на место. За счёт того, что встали на место мышцы (в том числе лица и платизма) и наладился лимфоток, лицо подтянулось и ушли отёки.</p></div><div class="card"><h3>Мария, 32 года</h3><p style="font-size:0.93rem;"><b>Беспокоило:</b> Слабость мышц тазового дна, подтекание мочи при кашле и чихании (упражнения Кегеля не улучшали ситуацию), тяжесть в ногах и отёки.</p><p style="font-size:0.93rem;"><b>Диагностика:</b> Перекос костей таза, из-за чего возросло давление внутренних органов на переднюю стенку живота и мочевой пузырь, отёки в ногах были связаны с перегрузкой передней поверхности бедра, где напряжённые мышцы пережимали лимфоток.</p><p style="font-size:0.93rem;margin:0;"><b>Результат после курса:</b> Вернули таз в правильное положение и постепенно вывели миофасциальную систему в норму. Внутренние органы заняли своё место, живот подтянулся, давление на мочевой пузырь ушло, мышцы тазового дна пришли в тонус, а подтекание прекратилось. По словам самой Марии, она снова почувствовала радость в жизни и удовольствие от движения.</p></div><div class="card"><h3>Василий, 40 лет</h3><p style="font-size:0.93rem;"><b>Беспокоило:</b> Сильное напряжение в спине и шее, которое не уходило даже к вечеру, и плохой сон — не получалось нормально расслабиться и восстановить силы за ночь.</p><p style="font-size:0.93rem;"><b>Диагностика:</b> Накопленные напряжения в мышцах и фасциях из-за стресса удерживали спину и шейно-грудной отдел в постоянном защитном тонусе, поэтому тело не могло спокойно «выдохнуть» и перейти в глубокий отдых.</p><p style="font-size:0.93rem;margin:0;"><b>Результат после курса:</b> Поэтапно сняли напряжения в тканях и выровняли телесные зажимы. Ушла скованность в спине и шее, в теле появилась лёгкость, а сон нормализовался — по словам Василия, он наконец стал по-настоящему высыпаться и почувствовал себя намного бодрее.</p></div></div></div></section><section id="sec-locations" data-anchor="block-7" class="section section-alt"><div class="container"><h2>География приема</h2><div class="loc-tiles"><button type="button" class="loc-tile" onclick="openLocModal(0)" style="width:100%;text-align:left;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;transition:0.2s;"><span><b style="font-size:1.05rem;display:block;color:var(--fg);">📍 Москва — м. Китай-город</b><small style="color:var(--muted);">Нажмите, чтобы открыть фото, адрес и запись</small></span><span style="color:var(--accent);font-weight:700;white-space:nowrap;">8 000 ₽</span></button><button type="button" class="loc-tile" onclick="openLocModal(1)" style="width:100%;text-align:left;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;transition:0.2s;"><span><b style="font-size:1.05rem;display:block;color:var(--fg);">📍 Москва — м. Сокольники</b><small style="color:var(--muted);">Нажмите, чтобы открыть фото, адрес и запись</small></span><span style="color:var(--accent);font-weight:700;white-space:nowrap;">8 000 ₽</span></button></div></div></section><section id="sec-contacts" data-anchor="block-9" class="section section-alt" id="sec-contacts"><div class="container" style="text-align:center;"><h2 style="margin-bottom:24px;">Связаться со мной</h2><div class="btn-group"><a href="https://max.ru/u/f9LHodD0cOKURlHDRtUfjZup0IItlxso6uYJw2xxB5VAO50X9VtVScPTXkc" target="_blank" class="btn btn-max">Написать в MAX</a><a href="https://t.me/+79951149954" target="_blank" class="btn btn-tg">Написать в Telegram</a><a href="https://wa.me/79951149954" target="_blank" class="btn btn-wa">Написать в WhatsApp</a><a href="tel:+79951149954" target="_blank" class="btn btn-outline">Позвонить</a></div><div class="footer"><p><a href="tel:+79951149954">+7 (995) 114-99-54</a></p><p>Мио-фасциальная практика — это оздоровительный метод. Не заменяет экстренную медицинскую помощь. При острых травмах рекомендуется консультация врача.</p></div></div></section></div><script>document.addEventListener("click",e=>{const a=e.target.closest("a[href^='#']");if(!a)return;e.preventDefault();const h=a.getAttribute("href");if(h==="#modal")return openContactModal();if(h==="#")return window.scrollTo({top:0,behavior:"smooth"});const el=document.querySelector(h);if(el)el.scrollIntoView({behavior:"smooth"});});const utm=new URLSearchParams(window.location.search).get("utm_source");if(utm)sessionStorage.setItem("site_utm",utm);const LOC_DATA=[{"city":"Москва","title":"м. Китай-город","text":"Уютный кабинет в тихом центре.","price":"8 000 ₽","img":"loc-center.jpg","mapLink":"https://yandex.ru, метро Китай-город","fullImg":"loc-center.jpg"},{"city":"Москва","title":"м. Сокольники","text":"Удобная локация. Зеленая зона, парковка рядом.","price":"8 000 ₽","img":"loc-sokolniki.jpg","mapLink":"https://yandex.ru, метро Сокольники","fullImg":"loc-sokolniki.jpg"}],L_DATA={"site":"https://shamshinigor78-pixel.github.io/max-selfcheck","images":"","landing":"landing.html","privacy":"privacy.html","max":"https://max.ru/u/f9LHodD0cOKURlHDRtUfjZup0IItlxso6uYJw2xxB5VAO50X9VtVScPTXkc","tg":"https://t.me/+79951149954","wa":"https://wa.me/79951149954","phone":"tel:+79951149954","phoneText":"+7 (995) 114-99-54"},lf={"enabled":false,"title":"Записаться на приём","subtitle":"Оставьте имя и телефон — я напишу или перезвоню, чтобы подобрать удобное время.","btnText":"Связаться со мной","method":"wa","privacyText":"Я согласен на обработку персональных данных"};document.querySelectorAll(".loc-head").forEach(h=>h.addEventListener("click",()=>{const i=h.closest(".loc-item");if(i)i.classList.toggle("open");}));function switchLocTab(b,idx){const w=b.closest(".loc-tabs");w.querySelectorAll(".loc-tab-btn").forEach(x=>x.classList.remove("active"));w.querySelectorAll(".loc-tab-panel").forEach((p,i)=>p.classList.toggle("active",i===idx));b.classList.add("active");}function openSiteModal(h){document.getElementById("s-modal-body").innerHTML=h;document.getElementById("s-modal").classList.add("open");}function closeSiteModal(){document.getElementById("s-modal").classList.remove("open");}function openContactModal(){openSiteModal("<h3>Связаться и записаться</h3><p>Выберите удобный способ:</p><div class='btn-group'>"+(L_DATA.max?"<a href='"+L_DATA.max+"' target='_blank' class='btn btn-max'>Написать в MAX</a>":"")+(L_DATA.tg?"<a href='"+L_DATA.tg+"' target='_blank' class='btn btn-tg'>Написать в Telegram</a>":"")+(L_DATA.wa?"<a href='"+L_DATA.wa+"' target='_blank' class='btn btn-wa'>Написать в WhatsApp</a>":"")+(L_DATA.phone?"<a href='"+L_DATA.phone+"' class='btn btn-outline'>Позвонить</a>":"")+"</div>");}function openLocModal(i){const c=LOC_DATA[i];if(!c)return;openSiteModal((c.fullImg?"<img src='"+c.fullImg+"' style='width:100%;max-height:240px;object-fit:cover;border-radius:12px;margin-bottom:14px;'>":"")+"<h3>📍 "+c.city+(c.title?" — "+c.title:"")+"</h3><p>"+c.text+"</p>"+(c.price?"<p style='color:var(--accent);font-weight:700;font-size:1.25rem;'>"+c.price+"</p>":"")+"<div class='btn-group'>"+(c.mapLink?"<a href='"+c.mapLink+"' target='_blank' class='btn btn-outline'>Открыть на карте</a>":"")+"<button type='button' class='btn btn-max' onclick='closeSiteModal();scrollToForm()'>Записаться сюда</button></div>");}function scrollToForm(){const t=document.getElementById("sec-form")||document.getElementById("sec-contacts");if(t)t.scrollIntoView({behavior:"smooth"});}function submitLead(){const n=document.getElementById("lead-name")?.value.trim(),p=document.getElementById("lead-phone")?.value.trim(),c=document.getElementById("lead-consent")?.checked;if(!n||!p||p.replace(/\D/g,"").length<10)return alert("Укажите корректные имя и телефон");if(!c)return alert("Подтвердите согласие");const txt=encodeURIComponent("Здравствуйте! Меня зовут "+n+". Телефон: "+p);let url=(lf.method==="max"?L_DATA.max:lf.method==="tg"?L_DATA.tg:lf.method==="wa"?L_DATA.wa:lf.method==="phone"?L_DATA.phone:(L_DATA.max||L_DATA.tg||L_DATA.wa||L_DATA.phone));if(!url)return alert("Контакты не настроены");if(url.includes("wa.me"))url+=(url.includes("?")?"&":"?")+"text="+txt;window.open(url,"_blank","noopener");}</script><div id="s-modal" class="s-modal-bg style-sheet" onclick="if(event.target===this)closeSiteModal()"><div class="s-modal-box"><button type="button" class="s-modal-close" onclick="closeSiteModal()">✕</button><div id="s-modal-body"></div></div></div><button type="button" onclick="openContactModal()" style="position:fixed;right:16px;bottom:20px;background:var(--accent,#4a8f6f);color:#fff;border:none;border-radius:50px;padding:12px 18px;box-shadow:0 6px 20px rgba(0,0,0,0.2);cursor:pointer;z-index:9990;text-align:left;display:flex;align-items:center;gap:10px;"><span style="font-size:1.4rem;">💬</span><span><b style="display:block;font-size:0.9rem;">Записаться на сеанс</b></span></button></body></html>
