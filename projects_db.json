@@ -1,6 +1,6 @@
 {
   "version": "20.0",
-  "updatedAt": "2026-11-24T19:39:11.969Z",
+  "updatedAt": "2026-11-24T19:39:59.519Z",
   "projects": [
     {
       "id": "proj_1794304312085",
@@ -831,8 +831,7 @@
               "_pad": "",
               "_anchor": "",
               "_extraBtns": ""
-            },
-            "name": "🧬 Пройти тест;index.html"
+            }
           },
           {
             "type": "compare",
