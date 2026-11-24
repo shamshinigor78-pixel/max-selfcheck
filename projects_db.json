@@ -1,6 +1,6 @@
 {
   "version": "20.0",
-  "updatedAt": "2026-11-24T19:15:55.455Z",
+  "updatedAt": "2026-11-24T19:39:09.353Z",
   "projects": [
     {
       "id": "proj_1794304312085",
@@ -827,10 +827,12 @@
               "btnWa": "Написать в WhatsApp",
               "btnCall": "Позвонить",
               "_bg": "",
+              "_txtColor": "",
               "_pad": "",
               "_anchor": "",
               "_extraBtns": ""
-            }
+            },
+            "name": "🧬 Пройти тест;index.html"
           },
           {
             "type": "compare",
