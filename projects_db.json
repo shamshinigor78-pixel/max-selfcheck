@@ -1,6 +1,6 @@
 {
   "version": "20.0",
-  "updatedAt": "2026-11-24T19:15:45.798Z",
+  "updatedAt": "2026-11-24T19:15:55.455Z",
   "projects": [
     {
       "id": "proj_1794304312085",
@@ -1002,11 +1002,6 @@
               "btnWa": "Написать в WhatsApp",
               "btnCall": "Позвонить"
             }
-          },
-          {
-            "type": "beforeAfter",
-            "visible": true,
-            "data": {}
           }
         ],
         "app": {
@@ -1452,7 +1447,16 @@
           }
         ],
         "trash": {
-          "blocks": [],
+          "blocks": [
+            {
+              "item": {
+                "type": "beforeAfter",
+                "visible": true,
+                "data": {}
+              },
+              "deletedAt": "22:15:54"
+            }
+          ],
           "questions": []
         }
       }
