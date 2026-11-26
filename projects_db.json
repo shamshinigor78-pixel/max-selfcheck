@@ -1,6 +1,6 @@
 {
   "version": "20.0",
-  "updatedAt": "2026-11-26T10:48:41.618Z",
+  "updatedAt": "2026-11-26T10:49:29.475Z",
   "projects": [
     {
       "id": "proj_1794304312085",
@@ -806,7 +806,7 @@
         "blocks": [
           {
             "type": "navbar",
-            "visible": true,
+            "visible": false,
             "data": {
               "brand": "Игорь Шамшин",
               "links": "Методика;#sec-compare\nОпыт;#sec-expert\nСтоимость;#sec-pricing\nИстории;#sec-cases\nАдреса;#sec-locations",
