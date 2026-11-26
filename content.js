@@ -8,7 +8,7 @@ window.CONTENT = {
     "fontFamily": "",
     "modalStyle": "sheet",
     "appStyle": "apple_glass",
-    "darkMode": "auto",
+    "darkMode": "off",
     "primary": "#74a88e",
     "tg": "#229ed9",
     "wa": "#25d366",
@@ -36,7 +36,7 @@ window.CONTENT = {
   },
   "links": {
     "site": "https://shamshinigor78-pixel.github.io/max-selfcheck",
-    "images": "",
+    "images": "https://github.com/shamshinigor78-pixel/max-selfcheck/tree/main/images",
     "landing": "landing.html",
     "privacy": "privacy.html",
     "max": "https://max.ru/u/f9LHodD0cOKURlHDRtUfjZup0IItlxso6uYJw2xxB5VAO50X9VtVScPTXkc",
