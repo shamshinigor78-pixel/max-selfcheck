@@ -1,6 +1,6 @@
 {
   "version": "20.0",
-  "updatedAt": "2026-11-26T10:44:28.211Z",
+  "updatedAt": "2026-11-26T10:44:42.030Z",
   "projects": [
     {
       "id": "proj_1794304312085",
@@ -742,7 +742,7 @@
           "cardStyle": "",
           "fontFamily": "",
           "modalStyle": "",
-          "appStyle": "bento_glow",
+          "appStyle": "apple_glass",
           "darkMode": "auto",
           "primary": "#3f6e52",
           "tg": "#229ed9",
