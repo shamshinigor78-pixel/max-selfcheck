@@ -57,10 +57,13 @@
       if (fo || pct >= THRESHOLD) return { outcome: "osteo", profile: tp, pct };
       return { outcome: "normal", profile: tp, pct };
     }
-    function addLinkBtn(p, lbl, href, bg) {
+        function sendGoal(name) {
+      try { if (typeof ym === "function" && C.analytics?.yandexMetrika) ym(Number(C.analytics.yandexMetrika), "reachGoal", name); } catch (_) {}
+    }
+    function addLinkBtn(p, lbl, href, bg, goal) {
       if (!href) return; const a = el("a", "btn primary", lbl); a.href = href; a.target = "_blank"; a.rel = "noopener"; a.style.marginBottom = "10px";
       if (bg) a.style.background = bg;
-      a.onclick = (e) => { if (canWa) { e.preventDefault(); try { wa.openLink(href); } catch (_) { window.open(href, "_blank"); } } };
+      a.onclick = (e) => { if (goal) sendGoal(goal); if (canWa) { e.preventDefault(); try { wa.openLink(href); } catch (_) { window.open(href, "_blank"); } } };
       p.appendChild(a);
     }
     function showResult() {
@@ -121,7 +124,20 @@
       if (LINKS.phone) addLinkBtn(cb, TEXT.btnCall || "Позвонить", LINKS.phone.startsWith("tel:") ? LINKS.phone : "tel:" + LINKS.phone, "#555");
       if (TEXT.callNote) { const nt = el("p", "hint", TEXT.callNote); nt.style.marginTop = "8px"; cb.appendChild(nt); }
       ra.appendChild(cb);
-      if (LINKS.landing) { const mb = el("div", "action-block"); mb.appendChild(el("div", "action-title", TEXT.methodTitle || "Узнать о методике")); addLinkBtn(mb, TEXT.methodBtn || "Подробнее на сайте", LINKS.landing, C.theme?.primary); ra.appendChild(mb); }
+            if (LINKS.landing) { const mb = el("div", "action-block"); mb.appendChild(el("div", "action-title", TEXT.methodTitle || "Узнать о методике")); addLinkBtn(mb, TEXT.methodBtn || "Подробнее на сайте", LINKS.landing, C.theme?.primary); ra.appendChild(mb); }
+      sendGoal("test_finish");
+      const saveBtn = el("button", "btn secondary", "📥 Сохранить карточку результата");
+      saveBtn.type = "button";
+      saveBtn.onclick = () => {
+        const cardTxt = "ПЕРСОНАЛЬНАЯ КАРТА № " + sid + "\nРезультат: " + $("#result-title").textContent + "\n" + bodyTxt + (pt ? "\n\nЗона внимания:\n" + pt : "") + "\n\nКонтакты специалиста:\n" + [LINKS.phoneText, LINKS.max, LINKS.tg, LINKS.site].filter(Boolean).join("\n");
+        try { navigator.clipboard.writeText(cardTxt); } catch (_) {}
+        const a = document.createElement("a");
+        a.href = "data:text/plain;charset=utf-8," + encodeURIComponent(cardTxt);
+        a.download = "karta_" + sid + ".txt";
+        document.body.appendChild(a); a.click(); a.remove();
+        saveBtn.textContent = "✅ Карточка сохранена и скопирована";
+      };
+      ra.appendChild(saveBtn);
       showScreen("result");
     }
     $("#btn-start").onclick = () => { currentIndex = 0; answers.fill(null); renderQuestion(); showScreen("question"); };
