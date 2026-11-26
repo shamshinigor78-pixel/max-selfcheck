@@ -1,6 +1,6 @@
 {
   "version": "20.0",
-  "updatedAt": "2026-11-26T10:44:59.532Z",
+  "updatedAt": "2026-11-26T10:45:05.778Z",
   "projects": [
     {
       "id": "proj_1794304312085",
@@ -740,11 +740,11 @@
           "preset": "warm_sand",
           "btnStyle": "",
           "cardStyle": "",
-          "fontFamily": "editorial",
-          "modalStyle": "sheet",
-          "appStyle": "apple_glass",
+          "fontFamily": "",
+          "modalStyle": "",
+          "appStyle": "",
           "darkMode": "auto",
-          "primary": "#b8654b",
+          "primary": "#4a525a",
           "tg": "#229ed9",
           "wa": "#25d366"
         },
