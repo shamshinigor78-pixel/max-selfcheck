@@ -1,6 +1,6 @@
 {
   "version": "20.0",
-  "updatedAt": "2026-11-26T10:46:33.554Z",
+  "updatedAt": "2026-11-26T10:48:00.169Z",
   "projects": [
     {
       "id": "proj_1794304312085",
@@ -775,7 +775,7 @@
           "privacy": "privacy.html",
           "max": "https://max.ru/u/f9LHodD0cOKURlHDRtUfjZup0IItlxso6uYJw2xxB5VAO50X9VtVScPTXkc",
           "tg": "https://t.me/+79951149954",
-          "wa": "https://wa.me/79951149954",
+          "wa": "",
           "phone": "tel:+79951149954",
           "phoneText": "+7 (995) 114-99-54"
         },
