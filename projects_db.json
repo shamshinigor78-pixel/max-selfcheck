@@ -1,6 +1,6 @@
 {
   "version": "20.0",
-  "updatedAt": "2026-11-26T10:45:23.897Z",
+  "updatedAt": "2026-11-26T10:45:29.881Z",
   "projects": [
     {
       "id": "proj_1794304312085",
@@ -737,14 +737,14 @@
         "version": "20.0",
         "schema": "v20",
         "theme": {
-          "preset": "warm_sand",
+          "preset": "nordic_sage",
           "btnStyle": "",
           "cardStyle": "",
-          "fontFamily": "editorial",
+          "fontFamily": "",
           "modalStyle": "sheet",
           "appStyle": "apple_glass",
-          "darkMode": "auto",
-          "primary": "#8c6d46",
+          "darkMode": "",
+          "primary": "#74a88e",
           "tg": "#229ed9",
           "wa": "#25d366"
         },
