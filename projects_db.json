@@ -1,6 +1,6 @@
 {
   "version": "20.0",
-  "updatedAt": "2026-11-24T19:50:46.757Z",
+  "updatedAt": "2026-11-26T10:43:30.423Z",
   "projects": [
     {
       "id": "proj_1794304312085",
@@ -740,11 +740,11 @@
           "preset": "nordic_sage",
           "btnStyle": "",
           "cardStyle": "",
-          "fontFamily": "editorial",
-          "modalStyle": "sheet",
-          "appStyle": "apple_glass",
-          "darkMode": "off",
-          "primary": "#4a7c59",
+          "fontFamily": "",
+          "modalStyle": "",
+          "appStyle": "",
+          "darkMode": "auto",
+          "primary": "#3f6e52",
           "tg": "#229ed9",
           "wa": "#25d366"
         },
