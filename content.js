@@ -36,7 +36,7 @@ window.CONTENT = {
   },
   "links": {
     "site": "https://shamshinigor78-pixel.github.io/max-selfcheck",
-    "images": "https://github.com/shamshinigor78-pixel/max-selfcheck/tree/main/images",
+    "images": "images/",
     "landing": "landing.html",
     "privacy": "privacy.html",
     "max": "https://max.ru/u/f9LHodD0cOKURlHDRtUfjZup0IItlxso6uYJw2xxB5VAO50X9VtVScPTXkc",
