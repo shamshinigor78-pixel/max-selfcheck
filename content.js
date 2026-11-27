@@ -36,7 +36,7 @@ window.CONTENT = {
   },
   "links": {
     "site": "https://shamshinigor78-pixel.github.io/max-selfcheck",
-    "images": "images/",
+    "images": "https://shamshinigor78-pixel.github.io/max-selfcheck/images/",
     "landing": "landing.html",
     "privacy": "privacy.html",
     "max": "https://max.ru/u/f9LHodD0cOKURlHDRtUfjZup0IItlxso6uYJw2xxB5VAO50X9VtVScPTXkc",
@@ -96,7 +96,7 @@ window.CONTENT = {
         "_txtColor": "",
         "_pad": "",
         "_anchor": "",
-        "_extraBtns": "🧬 Пройти тест;index.html\n"
+        "_extraBtns": "\n"
       }
     },
     {
@@ -228,19 +228,20 @@ window.CONTENT = {
             "title": "м. Китай-город",
             "text": "Уютный кабинет в тихом центре.",
             "price": "8 000 ₽",
-            "img": "loc-center.jpg",
-            "mapLink": "https://yandex.ru, метро Китай-город"
+            "img": "loc_1.jpg",
+            "mapLink": "https://yandex.ru/maps/?text=Москва%2C%20Старосадский%20переулок%2C%206%2F12с1"
           },
           {
             "city": "Москва",
             "title": "м. Сокольники",
             "text": "Удобная локация. Зеленая зона, парковка рядом.",
             "price": "8 000 ₽",
-            "img": "loc-sokolniki.jpg",
-            "mapLink": "https://yandex.ru, метро Сокольники"
+            "img": "loc_2.jpg",
+            "mapLink": "https://yandex.ru/maps/?text=Москва%2C%20улица%20Егерская%2C%203"
           }
         ],
         "_bg": "",
+        "_txtColor": "",
         "_pad": "",
         "_anchor": "",
         "_extraBtns": ""
@@ -726,5 +727,10 @@ window.CONTENT = {
       }
     ],
     "questions": []
+  },
+  "customLibrary": {
+    "presets": {},
+    "buttons": {},
+    "cardStyles": {}
   }
 };
